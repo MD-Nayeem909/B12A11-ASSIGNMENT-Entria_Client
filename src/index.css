@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+@plugin "daisyui"{
+  themes: light --default, dark --prefersdark;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-base-100: #f9fafb;
+  --color-base-200: #f5f5f5;
+  --color-base-300: #001931;
+
+  --color-primary: #2563eb;
+  --color-primary-gradient: linear-gradient(to right, #632ee3, #9f62f2);
+  --color-secondary: #7c3aed;
+  --color-accent: #627382;
+  --color-neutral: #6b7280;
+
+  --color-info: #3b82f6;
+  --color-success: #22c55e;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
+}
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+
+  /* SmartDeals Custom Dark Theme Colors */
+  --color-base-100: #0f172a; /* Main dark background */
+  --color-base-200: #1e293b; /* Slightly lighter */
+  --color-base-300: #334155; /* Card / elevated surfaces */
+
+  --color-primary: #3b82f6; /* Bright blue for contrast */
+  --color-primary-gradient: linear-gradient(to right, #9f62f2, #632ee3);
+  --color-secondary: #a78bfa; /* Softer purple (good contrast) */
+  --color-accent: #94a3b8; /* Muted accent for dark mode */
+  --color-neutral: #cbd5e1; /* Neutral gray for text */
+
+  --color-info: #60a5fa;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-error: #f87171;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  [data-theme="dark"] body {
+    @apply text-[#e2e8f0] bg-base-200;
+  }
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
