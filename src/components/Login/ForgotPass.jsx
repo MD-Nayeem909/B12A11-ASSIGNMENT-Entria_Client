@@ -7,7 +7,7 @@ const ForgotPass = () => {
     <div className="flex h-screen">
       <div className="flex items-center gap-8">
         <div className="flex items-center justify-center p-4 font-sans relative overflow-hidden">
-          <div className="p-8 rounded-xl border max-w-md w-full relative z-10 transform transition-all duration-300 hover:border-primary/50">
+          <div className=" max-w-md w-full">
             <h1 className="text-foreground text-3xl md:text-4xl font-light mb-3 text-center tracking-tight">
               Recover Password
             </h1>
@@ -50,7 +50,7 @@ const ForgotPass = () => {
 
             <button
               type="submit"
-              className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-bold text-lg shadow-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-75 transition-all duration-200 active:scale-95 transform hover:scale-105"
+              className="w-full bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 text-white font-semibold py-3 px-4 rounded-lg hover:from-indigo-700 hover:to-purple-700 dark:hover:from-indigo-600 dark:hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transform transition-all duration-200 hover:scale-[1.01] shadow-lg"
               aria-label="Send password reset link"
             >
               Send Reset Link
@@ -60,22 +60,22 @@ const ForgotPass = () => {
               We&apos;ll send you a secure link to reset your password.
             </p>
 
-            <div className="border-t border-border pt-6 text-center">
+            <div className="border-t border-t-gray-400 pt-6 text-center">
               <p className="text-muted-foreground text-sm">
                 Remembered your password?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/auth/login"
                   className="text-primary hover:underline hover:text-primary/80 focus:outline-none focus:ring-2 focus:ring-primary rounded-md transition-colors duration-200"
                   aria-label="Log in to your account"
                 >
                   Log in
-                </a>
+                </Link>
               </p>
             </div>
           </div>
         </div>
         <div className="lg:flex justify-center items-center mx-auto w-1/2 hidden">
-          <ForgotPassAnimat />
+            <ForgotPassAnimat />
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { MdOutlineAddAPhoto } from "react-icons/md";
 import { Link } from "react-router";
 const UserIcon = () => (
   <svg
@@ -136,12 +138,13 @@ const ShieldIcon = () => (
 );
 
 const RegisterCard = () => {
+  const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const handleRegister = (data) => {
+    console.log("Registration data:", data);
   };
   return (
     <div className="flex items-center justify-center">
@@ -167,10 +170,10 @@ const RegisterCard = () => {
           </div>
         </div>
         {}
-        <div className="flex justify-center items-center lg:w-1/2">
-          <div className="bg-white dark:bg-black w-full p-8">
+        <div className="flex justify-center items-center lg:w-1/2 mx-auto">
+          <div className="bg-white dark:bg-black w-full max-w-md">
             {}
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
               {}
               <div className="space-y-2">
                 <label
@@ -186,9 +189,30 @@ const RegisterCard = () => {
                   <input
                     id="fullName"
                     type="text"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    {...register("fullName")}
                     placeholder="Enter your full name"
+                    className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+              </div>
+
+              {}
+              <div className="space-y-2">
+                <label
+                  htmlFor="photoUrl"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >
+                  Photo URL
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+                    <MdOutlineAddAPhoto />
+                  </div>
+                  <input
+                    id="photoUrl"
+                    type="text"
+                    {...register("photoUrl")}
+                    placeholder="Enter your Photo URL"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
                 </div>
@@ -209,8 +233,7 @@ const RegisterCard = () => {
                   <input
                     id="email"
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email")}
                     placeholder="name@example.com"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
@@ -232,8 +255,7 @@ const RegisterCard = () => {
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password")}
                     placeholder="Enter your password"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
@@ -252,6 +274,7 @@ const RegisterCard = () => {
                 <input
                   id="terms"
                   type="checkbox"
+                  {...register("terms", { required: true })}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-400 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900"
                 />
                 <label

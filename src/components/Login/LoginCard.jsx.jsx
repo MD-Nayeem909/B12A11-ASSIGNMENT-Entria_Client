@@ -107,7 +107,7 @@ const GoogleIcon = () => (
     />
   </svg>
 );
-const LoginCard2 = () => {
+const LoginCard = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -135,7 +135,7 @@ const LoginCard2 = () => {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <div className="w-12 h-12 bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -273,4 +273,4 @@ const LoginCard2 = () => {
     </div>
   );
 };
-export default LoginCard2;
+export default LoginCard;
