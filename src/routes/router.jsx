@@ -9,12 +9,13 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import DashboardLayout from "../layout/DashboardLayout";
 import Sidebar from "../components/Dashboard/Sidebar";
+import Error404 from "../components/ui/Error404";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
-    errorElement: <div>Oops! An error occurred.</div>,
+    errorElement: <Error404 />,
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthLayout />,
-    errorElement: <div>Oops! An error occurred.</div>,
+    errorElement: <Error404 />,
     hydrateFallbackElement: <div>Loading...</div>,
     children: [
       {
@@ -46,19 +47,27 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
-    errorElement: <div>Oops! An error occurred.</div>,
+    errorElement: <Error404 />,
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
-        path: "/dashboard",
+        index: true,
         element: <Dashboard />,
       },
+      {
+        path: "/dashboard/manage-users",
+        element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/all-contests",
+        element: <div>All Contest</div>,
+      },
     ],
-    },
+  },
   {
     path: "/sidebar",
     element: <DashboardLayout />,
-    errorElement: <div>Oops! An error occurred.</div>,
+    errorElement: <Error404 />,
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
@@ -66,7 +75,7 @@ const router = createBrowserRouter([
         element: <Sidebar />,
       },
     ],
-    },
+  },
 ]);
 
 export default router;
