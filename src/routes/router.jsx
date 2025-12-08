@@ -6,10 +6,10 @@ import Register from "../pages/Register/Register";
 import ForgotPass from "../components/Login/ForgotPass";
 import Home from "../pages/Home/Home";
 import LoadingSpinner from "../components/common/LoadingSpinner";
-import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import DashboardLayout from "../layout/DashboardLayout";
-import Sidebar from "../components/Dashboard/Sidebar";
 import Error404 from "../components/ui/Error404";
+import Dashboard from "../pages/Dashboard/Common/Dashboard";
+import CreateContestForm from "../components/ui/CreateContestForm";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,18 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/contests",
+        element: <div>Contests</div>,
+      },
+      {
+        path: "/my_contests",
+        element: <div>My Contests</div>,
+      },
+      {
+        path: "/create-contest-form",
+        element: <CreateContestForm />,
       },
     ],
   },
@@ -51,28 +63,12 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
-        index: true,
+        path: "/dashboard",
         element: <Dashboard />,
       },
       {
         path: "/dashboard/manage-users",
-        element: <Dashboard />,
-      },
-      {
-        path: "/dashboard/all-contests",
-        element: <div>All Contest</div>,
-      },
-    ],
-  },
-  {
-    path: "/sidebar",
-    element: <DashboardLayout />,
-    errorElement: <Error404 />,
-    hydrateFallbackElement: <LoadingSpinner />,
-    children: [
-      {
-        path: "/sidebar",
-        element: <Sidebar />,
+        element: <div>Manage Users</div>,
       },
     ],
   },
