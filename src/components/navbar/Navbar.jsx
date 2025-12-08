@@ -1,12 +1,15 @@
 import React from "react";
 import Button from "../common/Button";
 import { NavLink } from "react-router";
+import Logo from "../common/logo";
 
 const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "All Contests", path: "/contests" },
     { name: "My Contests", path: "/my_contests" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Sidebar", path: "/sidebar" },
   ];
   const link = links.map((link) => (
     <li key={link.name}>
@@ -42,7 +45,7 @@ const Navbar = () => {
               {link}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">ENTRIA</a>
+          <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{link}</ul>

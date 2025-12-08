@@ -19,7 +19,7 @@
   --color-info: #3b82f6;
   --color-success: #22c55e;
   --color-warning: #facc15;
-  --color-error: #ef4444;
+  --color-error: #ef444420;
 }
 @plugin "daisyui/theme" {
   name: "dark";

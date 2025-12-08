@@ -1,7 +1,7 @@
 import React from "react";
-import Hero from "../components/ui/Hero";
-import FeaturedContests from "../components/ui/FeaturedContests";
-import ReadyToGet from "../components/ui/ReadyToGet";
+import ReadyToGet from "../../components/ui/ReadyToGet";
+import Hero from "../../components/ui/Hero";
+import FeaturedContests from "../../components/ui/FeaturedContests";
 
 const Home = () => {
   return (
