@@ -7,11 +7,11 @@ const ContestCard = ({ contest, handleDetails }) => {
       key={contest._id}
       className="card bg-white shadow-md hover:shadow-lg transition rounded-xl overflow-hidden"
     >
-      <figure className="h-36 w-full overflow-hidden">
+      <figure className="h-56 overflow-hidden">
         <img
           src={contest.image}
           alt={contest.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover hover:scale-110 transition duration-500"
         />
       </figure>
 

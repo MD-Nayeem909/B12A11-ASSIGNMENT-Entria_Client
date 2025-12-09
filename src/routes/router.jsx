@@ -10,6 +10,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Error404 from "../components/ui/Error404";
 import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import CreateContestForm from "../components/ui/CreateContestForm";
+import AllContests from "../pages/AllContests/AllContests";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/contests",
-        element: <div>Contests</div>,
+        element: <AllContests />,
       },
       {
         path: "/my_contests",
