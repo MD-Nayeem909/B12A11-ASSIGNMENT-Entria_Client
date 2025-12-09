@@ -55,4 +55,72 @@
   font-family: "Montserrat", sans-serif;
 }
 
+/* @keyframes gradient-animation {
+  0% { background: linear-gradient(0deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
+  25% { background: linear-gradient(90deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
+  50% { background: linear-gradient(180deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
+  75% { background: linear-gradient(270deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
+  100% { background: linear-gradient(360deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
+}
+
+.animated-gradient {
+  animation: gradient-animation 9s linear infinite;
+} */
+
+.sunset-animated-gradient {
+  background: linear-gradient(90deg,
+    #ff7e5f,
+    #ff8563,
+    #ff8c66,
+    #ff926a,
+    #ff996d,
+    #fea071,
+    #fea774,
+    #fead78,
+    #feb47b
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.ocean-animated-gradient {
+  background: linear-gradient(90deg,
+    #4e54c8,
+    #565cce,
+    #5e64d5,
+    #666cdb,
+    #6f74e2,
+    #777ce8,
+    #7f84ee,
+    #878cf5,
+    #8f94fb
+  );
+  background-size: 400% 400%;
+  animation: smoothGradient 10s ease-in-out infinite;
+}
+
+@keyframes smoothGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
