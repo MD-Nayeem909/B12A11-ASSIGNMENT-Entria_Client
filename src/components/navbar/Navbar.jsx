@@ -2,20 +2,26 @@ import React from "react";
 import Button from "../common/Button";
 import { NavLink } from "react-router";
 import Logo from "../common/logo";
+import { useTheme } from "../../Providers/ThemeProvider";
+import useAuth from "../../hooks/useAuth";
+import { LogIn, UserRoundPlus } from "lucide-react";
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+
   const links = [
     { name: "Home", path: "/" },
     { name: "All Contests", path: "/contests" },
     { name: "My Contests", path: "/my_contests" },
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Sidebar", path: "/sidebar" },
   ];
   const link = links.map((link) => (
     <li key={link.name}>
       <a href={link.path}>{link.name}</a>
     </li>
   ));
+
   return (
     <div>
       <div className="navbar bg-base-100 shadow-sm">
