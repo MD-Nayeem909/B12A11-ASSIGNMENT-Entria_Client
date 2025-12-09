@@ -11,6 +11,7 @@ import Error404 from "../components/ui/Error404";
 import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import CreateContestForm from "../components/ui/CreateContestForm";
 import AllContests from "../pages/AllContests/AllContests";
+import ContestDetails from "../components/ui/ContestDetails";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/create-contest-form",
         element: <CreateContestForm />,
+      },
+      {
+        path: "/contest-details/:id",
+        element: <ContestDetails />,
       },
     ],
   },
