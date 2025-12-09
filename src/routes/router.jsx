@@ -70,6 +70,14 @@ const router = createBrowserRouter([
         path: "/dashboard/manage-users",
         element: <div>Manage Users</div>,
       },
+      {
+        path: "/dashboard/manage-contests",
+        element: <div>Manage Contests</div>,
+      },
+      {
+        path: "/dashboard/settings",
+        element: <div>Settings</div>,
+      },
     ],
   },
 ]);

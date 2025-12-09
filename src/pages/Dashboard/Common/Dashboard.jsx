@@ -2,8 +2,6 @@ import { AiOutlinePieChart } from "react-icons/ai";
 import StatsCard from "../../../components/ui/StatsCard";
 import { useEffect, useState } from "react";
 import ContestTableCard from "../../../components/ui/ContestTableCard";
-import Sidebar from "../../../components/Dashboard/Sidebar";
-import DashNav from "../../../components/Dashboard/DashNav";
 import { Link } from "react-router";
 
 const Dashboard = () => {
@@ -71,7 +69,6 @@ const Dashboard = () => {
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
-
         {/* Page content here */}
         <div className="px-4">
           {/* Main content */}
@@ -79,7 +76,8 @@ const Dashboard = () => {
             {/* Toolbar */}
             <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <Link to="/create-contest-form"
+                <Link
+                  to="/create-contest-form"
                   className="btn btn-primary"
                   onClick={handleCreateContest}
                 >
