@@ -12,6 +12,8 @@ import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import CreateContestForm from "../components/ui/CreateContestForm";
 import AllContests from "../pages/AllContests/AllContests";
 import ContestDetails from "../components/ui/ContestDetails";
+import ManageContests from "../pages/Dashboard/Admin/ManageContests";
+import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
         path: "/contest-details/:id",
         element: <ContestDetails />,
       },
+      {
+        path: "/leaderboard",
+        element: <LeaderboardPage />,
+      },
     ],
   },
   {
@@ -49,15 +55,15 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <div>Loading...</div>,
     children: [
       {
-        path: "/auth/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/auth/forgot-password",
+        path: "forgot-password",
         element: <ForgotPass />,
       },
       {
-        path: "/auth/register",
+        path: "register",
         element: <Register />,
       },
     ],
@@ -69,19 +75,23 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
-        path: "/dashboard",
+        index: true,
         element: <Dashboard />,
       },
       {
-        path: "/dashboard/manage-users",
+        path: "manage_users",
         element: <div>Manage Users</div>,
       },
       {
-        path: "/dashboard/manage-contests",
-        element: <div>Manage Contests</div>,
+        path: "manage_contests",
+        element: <ManageContests />,
       },
       {
-        path: "/dashboard/settings",
+        path: "participants",
+        element: <div>Participants</div>,
+      },
+      {
+        path: "settings",
         element: <div>Settings</div>,
       },
     ],
