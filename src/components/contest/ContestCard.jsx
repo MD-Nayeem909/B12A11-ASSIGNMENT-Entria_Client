@@ -1,7 +1,12 @@
 import React from "react";
 import { FiUsers } from "react-icons/fi";
+import { useNavigate } from "react-router";
 
-const ContestCard = ({ contest, handleDetails }) => {
+const ContestCard = ({ contest }) => {
+  const navigate = useNavigate();
+  function handleDetails(id) {
+    navigate(`/contest-details/${id}`, { state: { contest: contest } });
+  }
   return (
     <div
       key={contest._id}
@@ -19,7 +24,7 @@ const ContestCard = ({ contest, handleDetails }) => {
         <h3 className="text-lg font-semibold line-clamp-1">{contest.name}</h3>
 
         <p className="text-sm text-gray-600 line-clamp-2">
-          {contest.description?.slice(0, 70)}...
+          {contest.description?.slice(0, 80)}...
         </p>
 
         <div className="flex justify-between items-center text-sm text-gray-500">
