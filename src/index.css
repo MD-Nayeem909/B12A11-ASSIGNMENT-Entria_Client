@@ -96,7 +96,7 @@
 }
 
 
-.ocean-animated-gradient {
+.berry-animated-gradient {
   background: linear-gradient(90deg,
     #4e54c8,
     #565cce,
@@ -123,4 +123,33 @@
     background-position: 0% 50%;
   }
 }
+
+.animated-gradient {
+  background: linear-gradient(90deg,
+    #8e2de2,
+    #8627e2,
+    #7d22e2,
+    #751ce1,
+    #6c17e1,
+    #6411e1,
+    #5b0be1,
+    #5306e0,
+    #4a00e0
+  );
+  background-size: 400% 400%;
+  animation: smoothGradient 12s ease-in-out infinite;
+}
+
+@keyframes smoothGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 

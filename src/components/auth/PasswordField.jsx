@@ -15,7 +15,7 @@ const PasswordField = ({ register }) => {
         <input
           {...register("password", { required: true })}
           type={show ? "text" : "password"}
-          className="w-full pl-10 pr-12 py-3 border rounded-lg bg-white dark:bg-black"
+          className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
           placeholder="********"
         />
 
