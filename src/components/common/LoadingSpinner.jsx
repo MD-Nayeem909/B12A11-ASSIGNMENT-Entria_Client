@@ -3,7 +3,7 @@ import React from "react";
 const LoadingSpinner = () => {
   return (
     <div>
-      <div class="w-12 text-orange-600">
+      <div className="w-40 text-orange-600">
         <svg
           fill="currentColor"
           viewBox="0 0 24 24"
