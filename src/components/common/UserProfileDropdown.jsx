@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 const User = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +140,17 @@ const DropdownMenuItem = ({ children, onClick }) => (
 const DropdownMenuSeparator = () => (
   <div className="my-2 h-px bg-zinc-200 dark:bg-zinc-700" />
 );
-export default function UserProfileDropdown({ user, handleLogout }) {
+
+export default function UserProfileDropdown() {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = async () => {
+    await logOut();
+    localStorage.removeItem("token");
+    toast.success("Logout successful!");
+    window.location.href = "/";
+  };
+
   return (
     <div className="flex items-center justify-center font-sans">
       <DropdownMenu
@@ -164,10 +176,10 @@ export default function UserProfileDropdown({ user, handleLogout }) {
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
               <div className="avatar">
-              <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
-                <img src={user?.image || user?.photoURL || user?.photoUrl} />
+                <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
+                  <img src={user?.image || user?.photoURL || user?.photoUrl} />
+                </div>
               </div>
-            </div>
             </div>
             <div>
               <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">

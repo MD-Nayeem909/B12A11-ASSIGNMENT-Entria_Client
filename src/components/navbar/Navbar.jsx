@@ -1,19 +1,29 @@
 import React from "react";
 import Button from "../common/Button";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import Logo from "../common/logo";
 import { useTheme } from "../../Providers/ThemeProvider";
 import useAuth from "../../hooks/useAuth";
-import { LogIn, UserRoundPlus } from "lucide-react";
+import UserProfileDropdown from "../common/UserProfileDropdown";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
+
   const { theme, toggleTheme } = useTheme();
+
+  const handleLogout = async () => {
+    await logOut();
+    localStorage.removeItem("token");
+    toast.success("Logout successful!");
+    window.location.href = "/";
+  };
 
   const links = [
     { name: "Home", path: "/" },
     { name: "All Contests", path: "/contests" },
     { name: "My Contests", path: "/my_contests" },
+    { name: "Leaderboard", path: "/leaderboard" },
     { name: "Dashboard", path: "/dashboard" },
   ];
   const link = links.map((link) => (
@@ -56,14 +66,20 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{link}</ul>
         </div>
-        <div className="navbar-end flex gap-4 items-center">
-          <NavLink to="/auth/login" className="btn btn-ghost">
-            Sign In
-          </NavLink>
-          <NavLink to="/auth/register">
-            <Button className="btn btn-primary">Get Started</Button>
-          </NavLink>
-        </div>
+        {user ? (
+          <div className="navbar-end flex items-center dropdown-end">
+            <UserProfileDropdown user={user} handleLogout={handleLogout} />
+          </div>
+        ) : (
+          <div className="navbar-end flex gap-4 items-center">
+            <NavLink to="/auth/login" className="btn btn-ghost">
+              Sign In
+            </NavLink>
+            <NavLink to="/auth/register">
+              <Button className="btn btn-primary">Get Started</Button>
+            </NavLink>
+          </div>
+        )}
       </div>
     </div>
   );
