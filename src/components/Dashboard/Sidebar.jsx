@@ -4,7 +4,7 @@ import { FaUsersCog } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineEditNote } from "react-icons/md";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 
 const Sidebar = () => {
   const links = [
@@ -17,12 +17,12 @@ const Sidebar = () => {
     {
       name: "Manage Contests",
       icon: <MdOutlineEditNote size={20} />,
-      path: "contests",
+      path: "manage_contests",
     },
     {
       name: "Manage Users",
       icon: <FaUsersCog size={20} />,
-      path: "contests",
+      path: "manage_users",
     },
     {
       name: "Participants",
@@ -54,7 +54,7 @@ const Sidebar = () => {
               }
             >
               {link.icon}
-              <span className="is-drawer-close:hidden font-bold text-2xl">
+              <span className="is-drawer-close:hidden font-medium text-sm">
                 {link.name}
               </span>
             </NavLink>
