@@ -1,9 +1,10 @@
-import React from "react";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineAddAPhoto } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import logoIcon from "../../assets/logo.png";
 const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -85,17 +86,6 @@ const EyeOffIcon = () => (
     <line x1="1" y1="1" x2="23" y2="23"></line>
   </svg>
 );
-const GitHubIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-  </svg>
-);
 const GoogleIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -138,29 +128,67 @@ const ShieldIcon = () => (
 );
 
 const RegisterCard = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    signInWithGoogle,
+    updateUserProfile,
+    setLoading,
+    loading,
+    createUser,
+  } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const { name, image, email, password } = data;
+    setLoading(true);
+    try {
+      await createUser(email, password);
+      await updateUserProfile(name, image);
+      navigate(from, { replace: true });
+      toast.success("Registration successful!");
+    } catch (error) {
+      toast.error(error.message || error.code || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+      navigate(from, { replace: true });
+      toast.success("Registration successful!");
+    } catch (error) {
+      toast.error(error.message || error.code || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const handleRegister = (data) => {
-    console.log("Registration data:", data);
-  };
   return (
     <div className="flex items-center justify-center">
       <div className="min-h-screen bg-white dark:bg-black w-full flex">
-        <div className="hidden lg:flex items-center justify-center lg:w-1/2 bg-linear-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500 relative overflow-hidden">
+        <div className="hidden lg:flex items-center justify-center lg:w-1/2 animated-gradient relative overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative z-10 flex flex-col justify-center items-center text-white p-12">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8">
-              <ShieldIcon />
+            <div className="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-2xl p-2 flex items-center justify-center mb-8">
+              <img src={logoIcon} alt="" className="" />
             </div>
-            <h1 className="text-4xl font-bold mb-4 text-center">
-              Secure Access
-            </h1>
+            <h1 className="text-4xl font-bold mb-4 text-center">Entria</h1>
             <p className="text-xl text-center text-white/90 max-w-md">
-              Your trusted platform for secure authentication and seamless user
-              experience.
+              Entries made easy.
             </p>
             <div className="mt-12 grid grid-cols-3 gap-4 opacity-60">
               {[...Array(9)].map((_, i) => (
@@ -172,34 +200,47 @@ const RegisterCard = () => {
         {}
         <div className="flex justify-center items-center lg:w-1/2 mx-auto">
           <div className="bg-white dark:bg-black w-full max-w-md">
+            <h2 className="text-3xl font-bold text-center mb-6">Register</h2>
+            
             {}
-            <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {}
               <div className="space-y-2">
                 <label
-                  htmlFor="fullName"
+                  htmlFor="name"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
-                  Full Name
+                  Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
                     <UserIcon />
                   </div>
                   <input
-                    id="fullName"
+                    id="name"
                     type="text"
-                    {...register("fullName")}
+                    {...register("name", {
+                      required: "Name is required",
+                      maxLength: {
+                        value: 20,
+                        message: "Name cannot be too long",
+                      },
+                    })}
                     placeholder="Enter your full name"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               {}
               <div className="space-y-2">
                 <label
-                  htmlFor="photoUrl"
+                  htmlFor="image"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
                   Photo URL
@@ -209,9 +250,16 @@ const RegisterCard = () => {
                     <MdOutlineAddAPhoto />
                   </div>
                   <input
-                    id="photoUrl"
+                    name="image"
+                    id="image"
                     type="text"
-                    {...register("photoUrl")}
+                    {...register("image", {
+                      pattern: {
+                        value: /^https?:\/\/.+/,
+                        message: "Enter a valid image URL",
+                      },
+                    })}
+                    required
                     placeholder="Enter your Photo URL"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
@@ -233,10 +281,23 @@ const RegisterCard = () => {
                   <input
                     id="email"
                     type="email"
-                    {...register("email")}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: "Please enter a valid email address.",
+                      },
+                    })}
+                    required
                     placeholder="name@example.com"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -254,11 +315,25 @@ const RegisterCard = () => {
                   </div>
                   <input
                     id="password"
+                    name="password"
+                    autoComplete="new-password"
                     type={showPassword ? "text" : "password"}
-                    {...register("password")}
-                    placeholder="Enter your password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    })}
+                    required
+                    placeholder="*********"
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                   />
+                  {errors.password && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.password.message}
+                    </p>
+                  )}
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
@@ -276,6 +351,7 @@ const RegisterCard = () => {
                   type="checkbox"
                   {...register("terms", { required: true })}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-400 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900"
+                  required
                 />
                 <label
                   htmlFor="terms"
@@ -301,7 +377,7 @@ const RegisterCard = () => {
               {}
               <button
                 type="submit"
-                className="w-full bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 text-white font-semibold py-3 px-4 rounded-lg hover:from-indigo-700 hover:to-purple-700 dark:hover:from-indigo-600 dark:hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transform transition-all duration-200 hover:scale-[1.01] shadow-lg"
+                className="w-full animated-gradient text-white font-semibold py-3 px-4 rounded-lg hover:from-indigo-700 hover:to-purple-700 dark:hover:from-indigo-600 dark:hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transform transition-all duration-200 hover:scale-[1.01] shadow-lg"
               >
                 Create account
               </button>
@@ -314,16 +390,19 @@ const RegisterCard = () => {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-white dark:bg-black px-2 text-gray-500 dark:text-gray-400">
-                  Or continue with
+                  Or
                 </span>
               </div>
             </div>
 
             {}
             <div className="">
-              <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white dark:ring-offset-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:focus-visible:ring-gray-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-200 dark:border-gray-800 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-950 hover:text-gray-900 dark:hover:text-gray-50 h-10 px-4 py-2 w-full">
+              <button
+                onClick={handleGoogleSignIn}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white dark:ring-offset-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:focus-visible:ring-gray-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-200 dark:border-gray-800 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-950 hover:text-gray-900 dark:hover:text-gray-50 h-10 px-4 py-2 w-full"
+              >
                 <GoogleIcon />
-                <span className="ml-2">Google</span>
+                <span className="ml-2">Continue with Google</span>
               </button>
             </div>
 
