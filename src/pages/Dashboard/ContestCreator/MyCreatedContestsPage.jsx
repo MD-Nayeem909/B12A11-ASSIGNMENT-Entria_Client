@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { Edit, Trash2, Users } from "lucide-react";
+import { Edit, Search, Trash2, Users } from "lucide-react";
 import StatusBadge from "../../../components/Dashboard/ContestCreator/MyCreatedContest/StatusBadge";
+import { useNavigate } from "react-router";
 const MyCreatedContestsPage = () => {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
-  const contests = [
+  const [contests, setContests] = useState([
     {
       id: 1,
       name: "Creative Agency Rebrand/Logo",
@@ -15,7 +17,7 @@ const MyCreatedContestsPage = () => {
       status: "Confirmed",
     },
     {
-      id: 1,
+      id: 2,
       name: "Creative Agency Rebrand/Logo",
       type: "@frigatemediaFL",
       winningEntry: "#989 – Rebrand Logo",
@@ -23,14 +25,24 @@ const MyCreatedContestsPage = () => {
       status: "Rejected",
     },
     {
-      id: 1,
+      id: 3,
       name: "Creative Agency Rebrand/Logo",
       type: "@frigatemediaFL",
       winningEntry: "#989 – Rebrand Logo",
       prize: "190 USD",
       status: "Pending",
     },
-  ];
+  ]);
+
+  const handleEdit = (id) => {
+    const matchingContest = contests.find((contest) => contest.id === id);
+    navigate(`/contest-creator/edit/${id}`, { state: { contest: matchingContest } });
+  };
+
+  const handleDelete = (id) => {
+    const filtered = contests.filter((c) => c.id !== id);
+    setContests(filtered);
+  };
 
   const filtered = contests.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
@@ -41,13 +53,16 @@ const MyCreatedContestsPage = () => {
 
       {/* SEARCH + SHOW COUNT */}
       <div className="flex items-center justify-between gap-4">
-        <input
-          type="text"
-          placeholder="Search Contests and Users"
-          className="input input-bordered w-full max-w-md"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="Search Contests and Users"
+            className="input input-bordered w-full px-10 rounded-full"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Search className="absolute -top-1 w-6 h-6 m-3 text-gray-400 z-10" />
+        </div>
 
         <select className="select select-bordered w-24">
           <option>10</option>
@@ -81,10 +96,16 @@ const MyCreatedContestsPage = () => {
                     {/* CONDITIONAL: Edit/Delete ONLY for pending */}
                     {c.status === "Pending" && (
                       <>
-                        <button className="btn btn-xs btn-outline flex gap-1">
+                        <button
+                          onClick={() => handleEdit(c.id)}
+                          className="btn btn-xs btn-outline flex gap-1"
+                        >
                           <Edit size={14} /> Edit
                         </button>
-                        <button className="btn btn-xs btn-error flex gap-1">
+                        <button
+                          onClick={() => handleDelete(c.id)}
+                          className="btn btn-xs btn-error flex gap-1"
+                        >
                           <Trash2 size={14} /> Delete
                         </button>
                       </>

@@ -14,7 +14,6 @@ import AllContests from "../pages/AllContests/AllContests";
 import ContestDetails from "../components/ui/ContestDetails";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
-import ContestDetailsPage from "../components/contest/ContestDetailsPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
 import MyCreatedContestsPage from "../pages/Dashboard/ContestCreator/MyCreatedContestsPage";
 
@@ -37,10 +36,7 @@ const router = createBrowserRouter([
         path: "/my_contests",
         element: <div>My Contests</div>,
       },
-      {
-        path: "/create-contest-form",
-        element: <CreateContestForm />,
-      },
+      
       {
         path: "/contest-details/:id",
         children: [
@@ -95,8 +91,12 @@ const router = createBrowserRouter([
         element: <MyCreatedContestsPage />,
       },
       {
+        path: "create-contest-form",
+        element: <CreateContestForm />,
+      },
+      {
         path: "manage_users",
-        element: <MyCreatedContestsPage />,
+        element: <div>Manage Users</div>,
       },
       {
         path: "manage_contests",

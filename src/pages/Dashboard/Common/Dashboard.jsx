@@ -23,10 +23,6 @@ const Dashboard = () => {
     // axios.get('/api/dashboard/stats').then(res => setStats(res.data))
   }, []);
 
-  function handleCreateContest() {
-    // navigate to contest creation page or open modal
-    alert("Open contest creation flow (replace with navigation)");
-  }
   // Sidebar Responsive Handler
 
   return (
@@ -41,9 +37,8 @@ const Dashboard = () => {
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
                 <Link
-                  to="/create-contest-form"
+                  to="/dashboard/create-contest-form"
                   className="btn btn-primary"
-                  onClick={handleCreateContest}
                 >
                   Create Contest
                 </Link>
