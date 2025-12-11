@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "../common/Button";
+import Search from "../common/Search";
+// import Searchbar from "../common/Searchbar";
 
 const Hero = () => {
   return (
@@ -13,8 +13,8 @@ const Hero = () => {
         creator, Entria has something for everyone.
       </p>
       <div className="flex gap-4 justify-center items-center">
-        <Button className="">Start Creating</Button>
-        <button className="btn">Browse Contests</button>
+        {/* <Searchbar/> */}
+        <Search />
       </div>
     </div>
   );

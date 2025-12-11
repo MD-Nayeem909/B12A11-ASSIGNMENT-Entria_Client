@@ -1,8 +1,14 @@
 import { AiOutlinePieChart } from "react-icons/ai";
 import StatsCard from "../../../components/ui/StatsCard";
 import { useEffect, useState } from "react";
-import ContestTableCard from "../../../components/ui/ContestTableCard";
 import { Link } from "react-router";
+import DashboardChart from "../../../components/ui/DashboardChart";
+import BestContests from "../../../components/Dashboard/BestContests";
+import ActiveUsersChart from "../../../components/Dashboard/ActiveUsersPie";
+import Transactions from "../../../components/Dashboard/Transactions";
+import ActiveUsersDonut from "../../../components/Dashboard/ActiveUsersDonut";
+import ContestStatusChart from "../../../components/Dashboard/ContestStatusChart";
+import AllContestReport from "../../../components/Dashboard/AllContestReport";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -11,35 +17,6 @@ const Dashboard = () => {
     totalParticipants: 1324,
     pendingSubmissions: 39,
   });
-
-  const [contests, setContests] = useState([
-    {
-      id: "c1",
-      title: "Logo Design - Startup X",
-      type: "Design",
-      status: "Active",
-      entries: 54,
-      prize: "$500",
-    },
-    {
-      id: "c2",
-      title: "Write: 1000-word Review",
-      type: "Writing",
-      status: "Closed",
-      entries: 120,
-      prize: "$300",
-    },
-    {
-      id: "c3",
-      title: "Mobile Game Concept",
-      type: "Ideas",
-      status: "Pending",
-      entries: 0,
-      prize: "$1,200",
-    },
-  ]);
-
-  const [selected, setSelected] = useState("dashboard");
 
   useEffect(() => {
     // Example: fetch stats from backend
@@ -50,19 +27,6 @@ const Dashboard = () => {
     // navigate to contest creation page or open modal
     alert("Open contest creation flow (replace with navigation)");
   }
-
-  function handleView(contestId) {
-    alert(`View contest ${contestId} (replace with navigation)`);
-  }
-
-  function handleClose(contestId) {
-    // call backend to close contest
-    alert(`Close contest ${contestId} (call API)`);
-  }
-  function handleDelete(contestId) {
-    // call backend to delete contest
-    alert(`Delete contest ${contestId} (call API)`);
-  }
   // Sidebar Responsive Handler
 
   return (
@@ -72,9 +36,9 @@ const Dashboard = () => {
         {/* Page content here */}
         <div className="px-4">
           {/* Main content */}
-          <div className="flex-1 pt-6">
+          <div className="flex flex-col gap-8 flex-1 py-20">
             {/* Toolbar */}
-            <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
                 <Link
                   to="/create-contest-form"
@@ -100,7 +64,7 @@ const Dashboard = () => {
               </div>
             </div>
             {/* Stats + Chart */}
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <StatsCard
                 totalCount={stats.totalContests}
                 icon={<AiOutlinePieChart />}
@@ -126,13 +90,16 @@ const Dashboard = () => {
                 tag="Submissions awaiting review"
               />
             </section>
+            <Transactions list={[]} />
+            <DashboardChart />
+            <AllContestReport />
             {/* Main grid: Table + Activity */}
-            <ContestTableCard
-              contests={contests}
-              handleView={handleView}
-              handleClose={handleClose}
-              handleDelete={handleDelete}
-            />
+            <BestContests contests={[]} />
+            <div className="flex flex-col md:flex-row gap-6">
+              <ActiveUsersChart />
+              <ActiveUsersDonut />
+            </div>
+            <ContestStatusChart />
           </div>
         </div>
       </div>
