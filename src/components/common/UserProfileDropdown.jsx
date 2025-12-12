@@ -161,14 +161,6 @@ export default function UserProfileDropdown() {
                 <img src={user?.image || user?.photoURL || user?.photoUrl} />
               </div>
             </div>
-            <div className="text-left hidden md:block">
-              <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                {user?.displayName}
-              </div>
-              <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                {user?.email}
-              </div>
-            </div>
           </button>
         }
       >
