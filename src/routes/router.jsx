@@ -16,6 +16,7 @@ import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
 import MyCreatedContestsPage from "../pages/Dashboard/ContestCreator/MyCreatedContestsPage";
+import LeaderboardPage2 from "../pages/Leaderboard/LeaderboardPage2";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/leaderboard",
-        element: <LeaderboardPage />,
+        element: <LeaderboardPage2 />,
       },
     ],
   },
