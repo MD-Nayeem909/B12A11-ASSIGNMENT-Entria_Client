@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import { LayoutDashboard } from "lucide-react";
 const User = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +153,7 @@ export default function UserProfileDropdown() {
   };
 
   return (
-    <div className="flex items-center justify-center font-sans">
+    <div className="flex items-center justify-center">
       <DropdownMenu
         trigger={
           <button className="flex items-center space-x-3 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
@@ -166,7 +167,7 @@ export default function UserProfileDropdown() {
       >
         <div className="px-3 py-3 border-b border-zinc-200 dark:border-zinc-700">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
               <div className="avatar">
                 <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
                   <img src={user?.image || user?.photoURL || user?.photoUrl} />
@@ -192,14 +193,15 @@ export default function UserProfileDropdown() {
             <User className="mr-3 h-4 w-4 text-zinc-500" />
             Your Profile
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => console.log("Profile")}>
+            <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-500" />
+            Dashboard
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => console.log("Settings")}>
             <Settings className="mr-3 h-4 w-4 text-zinc-500" />
             Settings
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log("Billing")}>
-            <CreditCard className="mr-3 h-4 w-4 text-zinc-500" />
-            Billing & Plans
-          </DropdownMenuItem>
+          
         </div>
 
         <DropdownMenuSeparator />

@@ -36,15 +36,6 @@ const Dashboard = () => {
             {/* Toolbar */}
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <Link
-                  to="/dashboard/create-contest-form"
-                  className="btn btn-primary"
-                >
-                  Create Contest
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-3">
                 <input
                   type="text"
                   placeholder="Search contests..."
