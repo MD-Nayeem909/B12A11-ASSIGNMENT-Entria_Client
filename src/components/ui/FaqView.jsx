@@ -29,23 +29,6 @@ const FaqView = () => {
       <div>
         <FAQ faqs={sampleFaqs} colorScheme="blue" searchable />
       </div>
-      {/* Grid View (custom) */}
-      <div>
-        <h3 className="text-2xl font-semibold mb-4 text-center">
-          Grid View (custom)
-        </h3>
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {sampleFaqs.map((faq, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-gradient-to-b from-blue-500 to-purple-600"
-            >
-              <h3 className="font-semibold text-lg mb-2">{faq.question}</h3>
-              <p className="text-gray-600">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

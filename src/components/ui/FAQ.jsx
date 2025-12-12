@@ -127,7 +127,7 @@ const FAQ = forwardRef(
           <div className="relative inline-block">
             <h2
               className={cn(
-                "text-4xl md:text-5xl font-bold bg-gradient-to-r",
+                "text-4xl md:text-5xl font-bold bg-linear-to-r",
                 colors.gradient,
                 "bg-clip-text text-transparent animate-pulse"
               )}
