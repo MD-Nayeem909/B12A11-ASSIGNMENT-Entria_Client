@@ -109,9 +109,10 @@ const DropdownMenu = ({ children, trigger }) => {
     </div>
   );
 };
-const DropdownMenuItem = ({ children, url }) => (
+const DropdownMenuItem = ({ children, url, handleClick }) => (
   <Link
     to={url}
+    onClick={handleClick}
     className="text-zinc-700 dark:text-zinc-300 group flex items-center px-3 py-2.5 text-sm rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-150"
     role="menuitem"
   >
@@ -190,7 +191,7 @@ export default function UserProfileDropdown() {
             <HelpCircle className="mr-3 h-4 w-4 text-zinc-500" />
             Help & Support
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem handleClick={handleLogout}>
             <LogOut className="mr-3 h-4 w-4 text-zinc-500" />
             Sign Out
           </DropdownMenuItem>
