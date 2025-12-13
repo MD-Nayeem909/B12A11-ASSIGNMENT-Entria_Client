@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  deleteUser,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -37,10 +38,16 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const updateUserProfile = (name, photo) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photo,
+  const deleteAccount = () => {
+    return deleteUser(auth.currentUser);
+  };
+
+  const updateUserProfile = async ({ displayName, photoURL }) => {
+    if (!auth.currentUser) return;
+
+    await updateProfile(auth.currentUser, {
+      displayName: displayName,
+      photoURL: photoURL,
     });
   };
 
@@ -65,6 +72,7 @@ const AuthProvider = ({ children }) => {
     signIn,
     signInWithGoogle,
     logOut,
+    deleteAccount,
     updateUserProfile,
   };
 
