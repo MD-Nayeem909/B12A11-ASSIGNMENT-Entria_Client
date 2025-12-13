@@ -55,6 +55,10 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.text-gradient {
+  @apply bg-linear-to-br from-primary to-secondary text-transparent bg-clip-text;
+}
+
 /* @keyframes gradient-animation {
   0% { background: linear-gradient(0deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
   25% { background: linear-gradient(90deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
@@ -62,7 +66,6 @@
   75% { background: linear-gradient(270deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
   100% { background: linear-gradient(360deg, #d299c2,#d8a5c5,#ddb1c7,#e3bdca,#e8c9cd,#eed5cf,#f3e1d2,#f9edd4,#fef9d7); }
 }
-
 .animated-gradient {
   animation: gradient-animation 9s linear infinite;
 } */
@@ -109,19 +112,7 @@
     #8f94fb
   );
   background-size: 400% 400%;
-  animation: smoothGradient 10s ease-in-out infinite;
-}
-
-@keyframes smoothGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  animation: smoothGradient 8s ease-in-out infinite;
 }
 
 .animated-gradient {
@@ -137,7 +128,7 @@
     #4a00e0
   );
   background-size: 400% 400%;
-  animation: smoothGradient 12s ease-in-out infinite;
+  animation: smoothGradient 8s ease-in-out infinite;
 }
 
 @keyframes smoothGradient {
@@ -151,5 +142,14 @@
     background-position: 0% 50%;
   }
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
 
 
