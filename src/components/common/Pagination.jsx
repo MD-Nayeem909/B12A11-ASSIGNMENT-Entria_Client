@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const Pagination = ({ currentPage, totalPages, goToPage }) => {
 //   const [currentPage, setCurrentPage] = useState(1);
@@ -12,14 +12,14 @@ const Pagination = ({ currentPage, totalPages, goToPage }) => {
           className="join-item btn"
           disabled={currentPage === 1}
         >
-          {"<<"}
+          <ArrowLeft />
         </button>
-        {Array.from({ length: totalPages }, (_, index) => (
+        {Array.from({ length: totalPages || 1 }, (_, index) => (
           <button
             key={index}
             onClick={() => goToPage(index + 1)}
             className={`join-item btn ${
-              currentPage === index + 1 ? "btn-active" : ""
+              currentPage === index + 1 ? "bg-primary text-white" : ""
             }`}
           >
             {index + 1}
@@ -31,7 +31,7 @@ const Pagination = ({ currentPage, totalPages, goToPage }) => {
           className="join-item btn"
           disabled={currentPage === totalPages}
         >
-          {">>"}
+          <ArrowRight />
         </button>
       </div>
     </div>

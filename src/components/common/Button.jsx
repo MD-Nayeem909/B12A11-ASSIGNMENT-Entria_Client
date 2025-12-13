@@ -5,7 +5,7 @@ const Button = ({ children, onClick }) => {
     <div>
       <button
         onClick={onClick}
-        className="group relative overflow-hidden overflow-x-hidden rounded-lg bg-neutral-950 px-4 py-2 text-neutral-50 font-medium"
+        className="group relative overflow-hidden overflow-x-hidden rounded-lg animated-gradient px-4 py-2 text-neutral-50 font-medium"
       >
         <span className="relative z-10">{children}</span>
         <span className="absolute inset-0 overflow-hidden rounded-md">

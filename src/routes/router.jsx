@@ -9,13 +9,15 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import DashboardLayout from "../layout/DashboardLayout";
 import Error404 from "../components/ui/Error404";
 import Dashboard from "../pages/Dashboard/Common/Dashboard";
-import CreateContestForm from "../components/ui/CreateContestForm";
+import CreateContestForm from "../components/contest/CreateContestForm/CreateContestForm";
 import AllContests from "../pages/AllContests/AllContests";
 import ContestDetails from "../components/ui/ContestDetails";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
 import MyCreatedContestsPage from "../pages/Dashboard/ContestCreator/MyCreatedContestsPage";
+import Profile from "../pages/ProfilePage/Profile";
+import ContestsPage from "../pages/AllContests/ContestsPage";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/contests",
-        element: <AllContests />,
+        element: <ContestsPage/>,
       },
       {
         path: "/my_contests",
@@ -87,12 +89,24 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "my_profile",
+        element: <Profile/>,
+      },
+      {
         path: "created_contests",
         element: <MyCreatedContestsPage />,
       },
       {
-        path: "create-contest-form",
+        path: "create_contest_form",
         element: <CreateContestForm />,
+      },
+      {
+        path: "my_winning_contests",
+        element: <div>My Winning Contests</div>,
+      },
+      {
+        path: "my_participated_contests",
+        element: <div>My Participated Contests</div>,
       },
       {
         path: "manage_users",
@@ -105,6 +119,14 @@ const router = createBrowserRouter([
       {
         path: "participants",
         element: <div>Participants</div>,
+      },
+      {
+        path: "submitted_tasks",
+        element: <div>Submitted Tasks Page</div>,
+      },
+      {
+        path: "edit_contest",
+        element: <div>Submitted Tasks Page</div>,
       },
       {
         path: "settings",
