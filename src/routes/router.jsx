@@ -20,6 +20,7 @@ import Profile from "../pages/ProfilePage/ProfilePage";
 import ContestsPage from "../pages/AllContests/ContestsPage";
 import MyParticipatedContestsPage from "../pages/Dashboard/Users/MyParticipatedContestsPage";
 import MyWinningContests from "../pages/Dashboard/Users/MyWinningContests";
+import Theme from "../components/common/Theme";
 
 const router = createBrowserRouter([
   {
