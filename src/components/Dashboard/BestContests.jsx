@@ -1,6 +1,6 @@
 export default function BestContests({ contests }) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow">
+    <div className="bg-base-100 p-6 rounded-xl shadow">
       <h3 className="text-xl font-semibold mb-4">Best Performing Contests</h3>
 
       <div className="space-y-4">

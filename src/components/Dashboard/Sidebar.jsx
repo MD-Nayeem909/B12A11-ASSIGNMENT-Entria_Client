@@ -1,4 +1,12 @@
-import { Users } from "lucide-react";
+import {
+  Contact,
+  Crown,
+  FilePlusCorner,
+  Pickaxe,
+  SquareCheckBig,
+  SquarePen,
+  Users,
+} from "lucide-react";
 import logo from "../../assets/logo.png";
 import { FaUsersCog } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
@@ -14,10 +22,31 @@ const Sidebar = () => {
       path: "/",
     },
     { name: "Overview", icon: <FiHome size={20} />, path: "/dashboard" },
+    { name: "My Profile", icon: <Contact size={20} />, path: "my_profile" },
     {
       name: "Manage Contests",
       icon: <MdOutlineEditNote size={20} />,
       path: "manage_contests",
+    },
+    {
+      name: "Create New Contests",
+      icon: <SquarePen size={20} />,
+      path: "create_contest_form",
+    },
+    {
+      name: "My Winning Contests",
+      icon: <Crown size={20} />,
+      path: "my_winning_contests",
+    },
+    {
+      name: "My Participated Contests",
+      icon: <Pickaxe size={20} />,
+      path: "my_participated_contests",
+    },
+    {
+      name: "My Created Contests",
+      icon: <FilePlusCorner size={20} />,
+      path: "created_contests",
     },
     {
       name: "Manage Users",
@@ -29,6 +58,11 @@ const Sidebar = () => {
       icon: <Users size={20} />,
       path: "participants",
     },
+    {
+      name: "Submitted Tasks",
+      icon: <SquareCheckBig size={20} />,
+      path: "submitted_tasks",
+    },
     { name: "Settings", icon: <LuSettings2 size={20} />, path: "settings" },
   ];
   return (
@@ -38,13 +72,14 @@ const Sidebar = () => {
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
-      <div className="flex h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+      <div className="flex h-full flex-col items-start bg-base-100 is-drawer-close:w-14 is-drawer-open:w-64">
         {/* Sidebar content here */}
         <nav className="menu w-full grow gap-4">
           {links.map((link) => (
             <NavLink
               key={link.name}
               to={link.path}
+              end
               data-tip={link.name}
               className={({ isActive }) =>
                 `${
