@@ -1,45 +1,71 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-@plugin "daisyui"{
+@plugin "daisyui" {
   themes: light --default, dark --prefersdark;
 }
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-base-100: #f9fafb;
+  --color-base-100: #fafafa;
   --color-base-200: #f5f5f5;
-  --color-base-300: #001931;
 
-  --color-primary: #2563eb;
-  --color-primary-gradient: linear-gradient(to right, #632ee3, #9f62f2);
-  --color-secondary: #7c3aed;
+  --color-primary: #7008e7;
+  --color-primary-content: #ede9fe;
+  --color-secondary: #8200db;
+  --color-secondary-content: #f3e8ff;
   --color-accent: #627382;
-  --color-neutral: #6b7280;
-
+  --color-accent-content: #ffffff;
+  --color-neutral: #e5e5e5;
+  --color-neutral-content: #0a0a0a;
   --color-info: #3b82f6;
-  --color-success: #22c55e;
-  --color-warning: #facc15;
-  --color-error: #ef444420;
+  --color-info-content: #ffffff;
+  --color-success: #b9f8cf;
+  --color-success-content: #032e15;
+  --color-warning: #ffd6a7;
+  --color-warning-content: #441306;
+  --color-error: #ffc9c9;
+  --color-error-content: #460809;
+
+  /* border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
 }
 @plugin "daisyui/theme" {
   name: "dark";
   default: false;
 
-  /* SmartDeals Custom Dark Theme Colors */
-  --color-base-100: #0f172a; /* Main dark background */
-  --color-base-200: #1e293b; /* Slightly lighter */
-  --color-base-300: #334155; /* Card / elevated surfaces */
+  --color-base-100: #0f0f12; /* Main dark background */
+  --color-base-200: #18181b; /* Slightly lighter */
+  --color-base-300: #0a0a0a; /* Card / elevated surfaces */
 
-  --color-primary: #3b82f6; /* Bright blue for contrast */
-  --color-primary-gradient: linear-gradient(to right, #9f62f2, #632ee3);
-  --color-secondary: #a78bfa; /* Softer purple (good contrast) */
-  --color-accent: #94a3b8; /* Muted accent for dark mode */
-  --color-neutral: #cbd5e1; /* Neutral gray for text */
-
+  --color-primary: #3b82f6; 
+  --color-primary-content: #3b82f6;
+ --color-secondary: #ad46ff;
+  --color-secondary-content: #f3e8ff;
+  --color-accent: #627382;
+  --color-accent-content: #ffffff;
+  --color-neutral: #e5e5e5;
+  --color-neutral-content: #0a0a0a;
   --color-info: #60a5fa;
-  --color-success: #4ade80;
-  --color-warning: #facc15;
-  --color-error: #f87171;
+  --color-info-content: #60a5fa;
+  --color-success: #b9f8cf;
+  --color-success-content: #032e15;
+  --color-warning: #ffd6a7;
+  --color-warning-content: #441306;
+  --color-error: #ffc9c9;
+  --color-error-content: #460809;
 }
 @tailwind base;
 @tailwind components;
@@ -71,7 +97,8 @@
 } */
 
 .sunset-animated-gradient {
-  background: linear-gradient(90deg,
+  background: linear-gradient(
+    90deg,
     #ff7e5f,
     #ff8563,
     #ff8c66,
@@ -98,9 +125,9 @@
   }
 }
 
-
 .berry-animated-gradient {
-  background: linear-gradient(90deg,
+  background: linear-gradient(
+    90deg,
     #4e54c8,
     #565cce,
     #5e64d5,
@@ -116,7 +143,8 @@
 }
 
 .animated-gradient {
-  background: linear-gradient(90deg,
+  background: linear-gradient(
+    90deg,
     #8e2de2,
     #8627e2,
     #7d22e2,
@@ -144,12 +172,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out;
 }
-
-
-

@@ -23,10 +23,10 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                 <span
                   className={`badge ${
                     c.status === "Active"
-                      ? "badge-success"
+                      ? "bg-green-100 text-green-600"
                       : c.status === "Closed"
-                      ? "badge-neutral"
-                      : "badge-info"
+                      ? "bg-orange-100 text-orange-600"
+                      : "bg-blue-100 text-blue-600"
                   }`}
                 >
                   {c.status}
