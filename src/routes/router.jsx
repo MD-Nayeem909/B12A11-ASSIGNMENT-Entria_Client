@@ -16,8 +16,10 @@ import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
 import MyCreatedContestsPage from "../pages/Dashboard/ContestCreator/MyCreatedContestsPage";
-import Profile from "../pages/ProfilePage/Profile";
+import Profile from "../pages/ProfilePage/ProfilePage";
 import ContestsPage from "../pages/AllContests/ContestsPage";
+import MyParticipatedContestsPage from "../pages/Dashboard/Users/MyParticipatedContestsPage";
+import MyWinningContests from "../pages/Dashboard/Users/MyWinningContests";
 
 const router = createBrowserRouter([
   {
@@ -32,13 +34,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/contests",
-        element: <ContestsPage/>,
+        element: <ContestsPage />,
       },
       {
         path: "/my_contests",
         element: <div>My Contests</div>,
       },
-      
+
       {
         path: "/contest-details/:id",
         children: [
@@ -90,7 +92,7 @@ const router = createBrowserRouter([
       },
       {
         path: "my_profile",
-        element: <Profile/>,
+        element: <Profile />,
       },
       {
         path: "created_contests",
@@ -102,11 +104,11 @@ const router = createBrowserRouter([
       },
       {
         path: "my_winning_contests",
-        element: <div>My Winning Contests</div>,
+        element: <MyWinningContests />,
       },
       {
         path: "my_participated_contests",
-        element: <div>My Participated Contests</div>,
+        element: <MyParticipatedContestsPage />,
       },
       {
         path: "manage_users",

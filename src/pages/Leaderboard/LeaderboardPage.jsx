@@ -10,14 +10,13 @@ const LeaderboardPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
-      {/* ... H1 এবং অন্যান্য অংশ একই থাকবে ... */}
 
       <div className="mx-auto">
         <h1 className="text-4xl md:text-5xl font-extrabold text-gradient mb-10 text-center">
           Official Contest Leaderboard
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col max-w-5xl mx-auto">
           {/* Left Side: Animated Top Winners Card */}
           <motion.div
             className="w-full"
