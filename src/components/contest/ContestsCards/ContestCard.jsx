@@ -15,7 +15,7 @@ const ContestCard = ({ handleDetails, contest }) => {
       </figure>
 
       <div className="card-body">
-        <span className="badge badge-primary w-fit">{contest.contestType}</span>
+        <span className="badge bg-[#ede9fe] text-[#2f0d68] border-[#a684ff] dark:bg-[#2f0d68] dark:text-[#ede9fe] dark:border-[#a684ff] px-4 w-fit">{contest.contestType}</span>
         <h2 className="card-title line-clamp-1">{contest.name}</h2>
         <p className="text-sm text-gray-500 line-clamp-2">
           {contest.description}

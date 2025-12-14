@@ -23,10 +23,10 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                 <span
                   className={`badge ${
                     c.status === "Active"
-                      ? "bg-green-100 text-green-600"
+                      ? "bg-success text-success-content"
                       : c.status === "Closed"
-                      ? "bg-orange-100 text-orange-600"
-                      : "bg-blue-100 text-blue-600"
+                      ? "bg-error text-error-content"
+                      : "bg-warning text-warning-content"
                   }`}
                 >
                   {c.status}
@@ -46,7 +46,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                   )}
                   {c.status !== "Closed" && (
                     <button
-                      className="btn btn-xs btn-warning"
+                      className="btn btn-xs"
                       onClick={() => handleClose(c.id)}
                     >
                       Reject

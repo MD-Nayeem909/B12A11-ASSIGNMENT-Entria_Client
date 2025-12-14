@@ -19,7 +19,7 @@ const ActiveUsersDonut = () => {
   const COLORS = ["url(#greenGradient)", "#C8F7B5", "#E8FFE0"];
 
   return (
-    <div className="w-full h-80 bg-white rounded-xl shadow-md p-6">
+    <div className="w-full h-80 bg-base-100 rounded-xl shadow-md p-6">
       <h2 className="text-xl font-semibold mb-4">Active Users Overview</h2>
 
       <ResponsiveContainer width="100%" height="100%">

@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { FiEdit2, FiMoreVertical, FiSearch } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
@@ -6,6 +7,7 @@ const AllContestReport = () => {
   // ------------------------
   // SAMPLE DATA (Replace with API data)
   // ------------------------
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialData = [
     {
       id: "#C1001",
@@ -60,7 +62,7 @@ const AllContestReport = () => {
     return initialData.filter((item) =>
       item.creator.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search]);
+  }, [initialData, search]);
 
   // ------------------------
   // Sorting
@@ -105,19 +107,22 @@ const AllContestReport = () => {
   };
 
   return (
-    <div className="bg-white p-6 shadow-lg rounded-2xl">
+    <div className="bg-base-100 p-6 shadow-lg rounded-2xl">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">All Contest Reports</h2>
 
         {/* Search */}
         <div className="relative">
-          <FiSearch className="absolute left-3 top-3 text-gray-400" size={18} />
+          <Search
+            className="absolute left-3 z-10 top-3 text-gray-400"
+            size={18}
+          />
           <input
             type="text"
             placeholder="Search creator..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input input-bordered pl-10 w-64 rounded-xl"
+            className="input input-bordered outline-none pl-10 w-64 rounded-xl bg-base-200"
           />
         </div>
       </div>
@@ -130,13 +135,19 @@ const AllContestReport = () => {
               <th onClick={() => toggleSort("id")} className="cursor-pointer">
                 ID
               </th>
-              <th onClick={() => toggleSort("creator")} className="cursor-pointer">
+              <th
+                onClick={() => toggleSort("creator")}
+                className="cursor-pointer"
+              >
                 Creator
               </th>
               <th onClick={() => toggleSort("date")} className="cursor-pointer">
                 Date
               </th>
-              <th onClick={() => toggleSort("price")} className="cursor-pointer">
+              <th
+                onClick={() => toggleSort("price")}
+                className="cursor-pointer"
+              >
                 Price
               </th>
               <th>Status</th>
@@ -146,21 +157,23 @@ const AllContestReport = () => {
 
           <tbody>
             {paginatedData.map((row, i) => (
-              <tr key={i} className="hover:bg-gray-50 transition">
+              <tr key={i} className="transition hover:bg-base-200">
                 <td>{row.id}</td>
                 <td>{row.creator}</td>
                 <td>{row.date}</td>
                 <td>${row.price.toFixed(2)}</td>
                 <td>
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[row.status]}`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      statusColors[row.status]
+                    }`}
                   >
                     {row.status}
                   </span>
                 </td>
                 <td>
                   <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-1 text-gray-600 hover:text-black">
+                    <button className="flex items-center gap-1 text-gray-400 cursor-pointer">
                       <FiEdit2 size={16} /> Edit
                     </button>
                     <FiMoreVertical size={18} className="cursor-pointer" />
@@ -189,7 +202,7 @@ const AllContestReport = () => {
               key={i}
               className={`w-8 h-8 rounded-full ${
                 currentPage === i + 1
-                  ? "bg-lime-300 font-bold"
+                  ? "bg-success text-success-content font-bold"
                   : "text-gray-600"
               }`}
               onClick={() => setCurrentPage(i + 1)}
