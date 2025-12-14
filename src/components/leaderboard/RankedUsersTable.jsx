@@ -10,7 +10,7 @@ const RankedUsersTable = ({ users }) => {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-xl shadow-xl">
+    <div className="bg-white p-6 md:p-8 rounded-b-2xl shadow-xl">
       <div className="flex items-center mb-6 border-b pb-3">
         <Award className="w-6 h-6 mr-2 text-cyan-600" />
         <h2 className="text-2xl font-bold text-gray-800">

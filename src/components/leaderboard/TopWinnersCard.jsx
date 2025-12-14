@@ -4,8 +4,8 @@ import { Trophy, Users } from "lucide-react";
 const WinnerCard = ({ user, rank }) => {
   const rankStyles = {
     1: "sunset-animated-gradient border-3 border-yellow-200 shadow-xl scale-110 -translate-y-8",
-    2: "bg-[#a684ff] border-3 border-gray-200 shadow-md",
-    3: "bg-[#a684ff] border-3 border-gray-200 shadow-md",
+    2: "bg-gradient-to-r from-purple-600 to-purple-500 text-purple-100 border-3 border-gray-200 shadow-md",
+    3: "bg-gradient-to-r from-purple-500 to-purple-600 text-purple-100 border-3 border-gray-200 shadow-md",
   };
 
   const rankTextStyles = {
@@ -17,7 +17,7 @@ const WinnerCard = ({ user, rank }) => {
   return (
     <div
       className={`
-      flex flex-col items-center p-4 rounded-xl w-[140px] transition-all duration-300
+      flex relative flex-col items-center p-4 rounded-xl w-[140px] transition-all duration-300
       ${rankStyles[rank]}
       ${rank === 1 ? "z-10" : ""}
     `}
@@ -25,13 +25,13 @@ const WinnerCard = ({ user, rank }) => {
       {/* Rank Badge */}
       <div
         className={`
-        absolute -top-4 w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg
+        absolute -top-4 w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg border-3
         ${
           rank === 1
             ? "bg-yellow-600 text-white shadow-lg"
             : rank === 2
-            ? "bg-gray-500 text-white"
-            : "bg-amber-900 text-white"
+            ? "bg-linear-to-r from-purple-500 to-purple-600 text-white"
+            : "bg-linear-to-r from-purple-500 to-purple-600 text-white"
         }
       `}
       >
@@ -62,7 +62,7 @@ const TopWinnersCard = ({ topUsers }) => {
   const [first, second, third] = topUsers;
 
   return (
-    <div className="animated-gradient text-white p-6 md:p-10 rounded-xl shadow-2xl h-full flex flex-col justify-between">
+    <div className="animated-gradient text-white p-6 md:p-10 rounded-t-2xl shadow-2xl h-full flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-center justify-center mb-20">
         <Users className="w-8 h-8 mr-2 text-yellow-300" />
@@ -80,7 +80,7 @@ const TopWinnersCard = ({ topUsers }) => {
 
       {/* Footer / CTA */}
       <div className="text-center mt-auto">
-        <h3 className="text-xl font-bold mb-2">
+        <h3 className="text-2xl font-bold mb-2">
           Congratulations to All Winners
         </h3>
         <p className="text-sm opacity-90 mb-6 max-w-sm mx-auto">

@@ -21,10 +21,12 @@ const DashNav = () => {
       </label>
       <header className="flex items-center justify-between w-full px-4">
         <div>
-          <h2 className="text-2xl font-semibold">
-            Welcome back,<span>{user?.displayName}</span>
-          </h2>
-          <p className="text-sm text-gray-500">
+          <div className="flex flex-col md:flex-row justify-center items-end gap-2">
+            <h2 className="text-2xl font-bold">Welcome back,</h2>
+            <span className="">{user?.displayName}</span>
+          </div>
+
+          <p className="text-sm hidden md:block text-gray-500">
             Here's the activity overview for your contests
           </p>
         </div>

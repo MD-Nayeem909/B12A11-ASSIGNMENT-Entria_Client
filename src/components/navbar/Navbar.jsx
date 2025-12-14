@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../common/Button";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import Logo from "../common/logo";
 import { useTheme } from "../../Providers/ThemeProvider";
 import useAuth from "../../hooks/useAuth";

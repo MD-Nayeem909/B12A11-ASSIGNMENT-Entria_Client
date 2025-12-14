@@ -1,6 +1,6 @@
 export default function Transactions({ list }) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-base-100 p-6 rounded-lg shadow">
       <h3 className="text-xl font-semibold mb-4">Transactions</h3>
 
       <table className="table w-full">
