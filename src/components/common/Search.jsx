@@ -183,7 +183,7 @@ export default function Search() {
     <div className="w-full">
       <div className="relative flex items-center justify-center font-sans w-full px-4 py-8">
         {}
-        <div className="w-full max-w-2xl mx-auto p-4 space-y-6 bg-white/30 dark:bg-black/30 backdrop-blur-3xl border border-black/10 dark:border-white/5 rounded-3xl shadow-lg dark:shadow-2xl dark:shadow-purple-500/15">
+        <div className="w-full max-w-2xl mx-auto p-4 space-y-6 bg-accent text-accent-content backdrop-blur-3xl border border-black/10 dark:border-white/5 rounded-3xl shadow-lg dark:shadow-2xl dark:shadow-purple-500/15">
           {}
           <div className="relative p-px rounded-2xl ocean-animated-gradient shadow-lg shadow-purple-500/20 dark:shadow-purple-600/30 transition-shadow duration-300 hover:shadow-purple-500/40 dark:hover:shadow-purple-600/50 focus-within:shadow-purple-500/40 dark:focus-within:shadow-purple-600/50">
             <div className="flex items-center w-full px-4 py-2 bg-white/80 dark:bg-gray-900/90 rounded-[15px]">
@@ -194,7 +194,7 @@ export default function Search() {
                 placeholder="Search the app.."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-1 text-lg text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 bg-transparent focus:outline-none flex-1 min-w-0"
+                className="w-full px-3 py-1 text-lg text-gray-800  placeholder-gray-400 dark:placeholder-gray-500 bg-transparent focus:outline-none flex-1 min-w-0"
               />
             </div>
           </div>
