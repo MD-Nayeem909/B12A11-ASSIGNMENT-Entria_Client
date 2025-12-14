@@ -2,10 +2,13 @@ import React from "react";
 import { FiBell } from "react-icons/fi";
 import { GoSidebarCollapse } from "react-icons/go";
 import useAuth from "../../hooks/useAuth";
-import UserProfileDropdown from "../common/UserProfileDropdown";
+import UserProfileDropdown from "../Profile/UserProfileDropdown";
+import Theme from "../common/Theme";
+import { useTheme } from "../../Providers/ThemeProvider";
 
 const DashNav = () => {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   return (
     <nav className="navbar space-x-2 w-full bg-base-100">
       <label
@@ -29,6 +32,9 @@ const DashNav = () => {
         <div className="flex items-center gap-4">
           <button className="btn btn-ghost btn-circle">
             <FiBell size={18} />
+          </button>
+          <button className="btn btn-ghost btn-circle">
+            <Theme theme={theme} toggleTheme={toggleTheme} />
           </button>
           <div className="dropdown dropdown-end">
             <UserProfileDropdown />
