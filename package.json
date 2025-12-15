@@ -12,7 +12,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.17.8",
     "@stripe/stripe-js": "^8.5.3",
-    "@tailwindcss/vite": "^4.1.17",
+    "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.12",
     "axios": "^1.13.2",
     "firebase": "^12.6.0",
@@ -30,7 +30,7 @@
     "recharts": "^3.5.1",
     "shadcn-ui": "^0.9.5",
     "sweetalert2": "^11.26.4",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
