@@ -74,7 +74,7 @@ const LogOut = (props) => (
     <line x1="21" x2="9" y1="12" y2="12" />
   </svg>
 );
-const DropdownMenu = ({ children, trigger }) => {
+const DropdownMenu = ({ children, trigger,className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   useEffect(() => {
@@ -87,7 +87,7 @@ const DropdownMenu = ({ children, trigger }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [className]);
   const handleTriggerClick = (e) => {
     e.stopPropagation();
     setIsOpen(!isOpen);
@@ -137,13 +137,16 @@ export default function UserProfileDropdown() {
     <div className="flex items-center justify-center">
       <DropdownMenu
         trigger={
-          <button className="flex items-center space-x-3 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+          <button className="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 transition-colors">
             <div className="avatar">
               <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
                 <img src={user?.image || user?.photoURL || user?.photoUrl} />
               </div>
             </div>
           </button>
+        }
+        className={
+          "origin-top-right absolute right-0 mt-2 w-72 rounded-xl shadow-xl bg-base-100 ring-opacity-5 focus:outline-none z-50 animate-in fade-in-0 zoom-in-95 p-2"
         }
       >
         <div className="px-3 py-3 border-b border-zinc-200 dark:border-zinc-700">
@@ -170,11 +173,11 @@ export default function UserProfileDropdown() {
         </div>
 
         <div className="py-1">
-          <DropdownMenuItem url="/dashboard/my_profile">
+          <DropdownMenuItem url="my_profile">
             <User className="mr-3 h-4 w-4 text-zinc-500" />
             My Profile
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log("Profile")}>
+          <DropdownMenuItem url="/dashboard">
             <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-500" />
             Dashboard
           </DropdownMenuItem>

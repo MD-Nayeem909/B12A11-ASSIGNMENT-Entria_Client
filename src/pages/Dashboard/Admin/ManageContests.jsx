@@ -2,7 +2,7 @@ import { useState } from "react";
 import ContestTableCard from "../../../components/ui/ContestTableCard";
 
 const ManageContests = () => {
-    const [contests, setContests] = useState([
+  const [contests, setContests] = useState([
     {
       id: "c1",
       title: "Logo Design - Startup X",
@@ -28,7 +28,7 @@ const ManageContests = () => {
       prize: "$1,200",
     },
   ]);
-function handleView(contestId) {
+  function handleView(contestId) {
     alert(`View contest ${contestId} (replace with navigation)`);
   }
 

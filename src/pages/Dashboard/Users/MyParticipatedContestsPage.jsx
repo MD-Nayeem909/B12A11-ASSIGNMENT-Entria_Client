@@ -206,7 +206,7 @@ const MyParticipatedContestsPage = () => {
       {/* PAGINATION */}
       <div className="flex justify-between items-center mt-6">
         <button
-          className="btn btn-outline flex items-center gap-2"
+          className="btn flex bg-primary text-primary-content items-center shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((p) => p - 1)}
         >
@@ -220,8 +220,8 @@ const MyParticipatedContestsPage = () => {
               key={i}
               className={`w-8 h-8 rounded-full ${
                 currentPage === i + 1
-                  ? "bg-lime-300 font-bold"
-                  : "text-gray-600"
+                  ? "bg-primary text-primary-content font-medium"
+                  : "text-primary font-semibold"
               }`}
               onClick={() => setCurrentPage(i + 1)}
             >
@@ -231,7 +231,7 @@ const MyParticipatedContestsPage = () => {
         </div>
 
         <button
-          className="btn btn-outline flex items-center gap-2"
+          className="btn flex items-center bg-primary text-primary-content shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((p) => p + 1)}
         >

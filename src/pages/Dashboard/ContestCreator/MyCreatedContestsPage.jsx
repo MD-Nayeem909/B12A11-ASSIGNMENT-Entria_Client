@@ -1,42 +1,42 @@
-import React from "react";
 import { useState } from "react";
 import { Edit, Search, Trash2, Users } from "lucide-react";
 import StatusBadge from "../../../components/Dashboard/ContestCreator/MyCreatedContest/StatusBadge";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Pagination2 from "../../../components/common/Pagination2";
 const MyCreatedContestsPage = () => {
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   const [contests, setContests] = useState([
     {
-      id: 1,
-      name: "Creative Agency Rebrand/Logo",
-      type: "@frigatemediaFL",
-      winningEntry: "#989 – Rebrand Logo",
-      prize: "190 USD",
+      contest: "Creative Agency Rebrand/Logo",
+      type: "Logo Design",
       status: "Confirmed",
     },
     {
-      id: 2,
-      name: "Creative Agency Rebrand/Logo",
-      type: "@frigatemediaFL",
-      winningEntry: "#989 – Rebrand Logo",
-      prize: "190 USD",
+      contest: "Creative Agency Rebrand/Logo",
+      type: "Agency Rebrand",
       status: "Rejected",
     },
     {
-      id: 3,
-      name: "Creative Agency Rebrand/Logo",
-      type: "@frigatemediaFL",
-      winningEntry: "#989 – Rebrand Logo",
-      prize: "190 USD",
+      contest: "Agency Rebrand/Logo",
+      type: "Logo",
       status: "Pending",
     },
   ]);
 
+  const handleView = (id) => {
+    const matchingContest = contests.find((contest) => contest.id === id);
+    navigate(`/contest-creator/view/${id}`, {
+      state: { contest: matchingContest },
+    });
+  };
   const handleEdit = (id) => {
     const matchingContest = contests.find((contest) => contest.id === id);
-    navigate(`/contest-creator/edit/${id}`, { state: { contest: matchingContest } });
+    navigate(`/contest-creator/edit/${id}`, {
+      state: { contest: matchingContest },
+    });
   };
 
   const handleDelete = (id) => {
@@ -45,82 +45,194 @@ const MyCreatedContestsPage = () => {
   };
 
   const filtered = contests.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
+    c.contest.toLowerCase().includes(search.toLowerCase())
   );
+
+  const perPage = 10;
+  const totalPages = Math.ceil(filtered.length / perPage);
+
+  const paginatedData = filtered.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
+  const statusColors = {
+    Completed: "bg-success text-success-content",
+    Ongoing: "bg-info text-info-content",
+    Pending: "bg-warning text-warning-content",
+    Rejected: "bg-error text-error-content",
+  };
+
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-semibold">My Created Contests</h1>
 
       {/* SEARCH + SHOW COUNT */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative w-full">
-          <input
-            type="text"
-            placeholder="Search Contests and Users"
-            className="input input-bordered w-full px-10 rounded-full"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Search className="absolute -top-1 w-6 h-6 m-3 text-gray-400 z-10" />
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 ">
+        <Link
+          to="/dashboard/create_contest_form"
+          className="btn btn-primary w-full md:w-fit"
+        >
+          Create Contest
+        </Link>
+        <div className="flex gap-4 w-full">
+          <div className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search my Contests"
+              className="input input-bordered bg-base-200 px-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Search className="absolute -top-1 w-5 m-3 text-gray-400 z-10" />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <select className="select select-bordered border focus:outline focus:ring-2 bg-base-200 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 w-25">
+              <option>All types</option>
+              <option>Design</option>
+              <option>Writing</option>
+              <option>Ideas</option>
+            </select>
+          </div>
         </div>
-
-        <select className="select select-bordered w-24">
-          <option>10</option>
-          <option>20</option>
-          <option>50</option>
-        </select>
       </div>
-      {/* TABLE */}
-      <div className="overflow-x-auto bg-base-100 rounded-xl shadow">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Contest Name</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {filtered.map((c) => (
-              <tr key={c.id}>
-                <td>{c.name}</td>
-                <td>{c.type}</td>
-                <td>
-                  <StatusBadge status={c.status} />
-                </td>
+      <div className="">
+        {/* TABLE (Desktop only) */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>Contest Name</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Submissions</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-                <td>
-                  <div className="flex items-center gap-2">
-                    {/* CONDITIONAL: Edit/Delete ONLY for pending */}
-                    {c.status === "Pending" && (
-                      <>
-                        <button
-                          onClick={() => handleEdit(c.id)}
-                          className="btn btn-xs btn-outline flex gap-1"
-                        >
-                          <Edit size={14} /> Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(c.id)}
-                          className="btn btn-xs btn-error flex gap-1"
-                        >
-                          <Trash2 size={14} /> Delete
-                        </button>
-                      </>
-                    )}
-
+            <tbody>
+              {paginatedData.map((c) => (
+                <tr key={c.id}>
+                  <td>{c.contest}</td>
+                  <td>{c.type}</td>
+                  <td>
+                    <StatusBadge status={c.status} />
+                  </td>
+                  <td>
                     {/* ALWAYS SHOW: SEE SUBMISSIONS */}
-                    <button className="btn btn-xs btn-primary flex gap-1">
+                    <button
+                      onClick={() => handleView(c.id)}
+                      className="btn btn-xs btn-primary flex justify-center items-center"
+                    >
                       <Users size={14} /> See Submissions
                     </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      {/* CONDITIONAL: Edit/Delete ONLY for pending */}
+                      {c.status === "Pending" ? (
+                        <>
+                          <button
+                            onClick={() => handleEdit(c.id)}
+                            className="btn btn-xs btn-outline flex gap-1"
+                          >
+                            <Edit size={14} /> Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(c.id)}
+                            className="btn btn-xs btn-error flex gap-1"
+                          >
+                            <Trash2 size={14} /> Delete
+                          </button>
+                        </>
+                      ) : (
+                        <span className="mx-auto">- - - - - -</span>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* MOBILE VIEW */}
+        <div className="md:hidden grid grid-cols-1 gap-4">
+          {paginatedData.map((row, i) => (
+            <div key={i} className="bg-base-200 rounded-lg p-4 shadow-sm">
+              {/* Top row */}
+              <div className="flex flex-col justify-between gap-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold text-sm">{row.contest}</h3>
+                  <p className="font-semibold text-xs">@{row.type}</p>
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="flex justify-between items-center mt-2">
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    statusColors[row.status]
+                  }`}
+                >
+                  {row.status}
+                </span>
+              </div>
+
+              {/* Action */}
+              <div className="mt-4">
+                <div className="flex gap-1 w-full">
+                  <button
+                    onClick={() => handleView(row.id)}
+                    className="btn btn-sm btn-primary flex-1 justify-center w-full items-center rounded-r-none"
+                  >
+                    <Users size={14} /> See Submissions
+                  </button>
+
+                  {row.status === "Pending" && (
+                    <div className="dropdown dropdown-end">
+                      <label tabIndex={0} className="btn btn-sm btn-primary rounded-l-none">
+                        ▾
+                      </label>
+
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2"
+                      >
+                        <li>
+                          <button
+                            onClick={() => handleEdit(row.id)}
+                            className="btn btn-xs btn-primary flex gap-1"
+                          >
+                            <Edit size={14} /> Edit
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => handleDelete(row.id)}
+                            className="btn btn-xs btn-error flex gap-1"
+                          >
+                            <Trash2 size={14} /> Delete
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* PAGINATION */}
+        <div>
+          <Pagination2
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
       </div>
     </div>
   );

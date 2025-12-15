@@ -86,7 +86,7 @@ const MyWinningContests = () => {
   };
 
   // Status Badge Color
-  
+
   const statusColors = {
     Completed: "bg-success text-success-content",
     Ongoing: "bg-info text-info-content",
@@ -224,7 +224,7 @@ const MyWinningContests = () => {
 
             {/* Action */}
             <div className="mt-4">
-              <div className="flex w-full">
+              <div className="flex gap-1 w-full">
                 <button className="btn btn-sm w-full flex-1 bg-base-100">
                   Manage Files
                 </button>
