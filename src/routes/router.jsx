@@ -10,7 +10,6 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Error404 from "../components/ui/Error404";
 import Dashboard from "../pages/Dashboard/Common/Dashboard";
 import CreateContestForm from "../components/contest/CreateContestForm/CreateContestForm";
-import AllContests from "../pages/AllContests/AllContests";
 import ContestDetails from "../components/ui/ContestDetails";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
@@ -20,7 +19,7 @@ import Profile from "../pages/ProfilePage/ProfilePage";
 import ContestsPage from "../pages/AllContests/ContestsPage";
 import MyParticipatedContestsPage from "../pages/Dashboard/Users/MyParticipatedContestsPage";
 import MyWinningContests from "../pages/Dashboard/Users/MyWinningContests";
-import Theme from "../components/common/Theme";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +95,10 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: "payment/:id",
+        element: <Payment />,
+      },
+      {
         path: "created_contests",
         element: <MyCreatedContestsPage />,
       },
@@ -125,7 +128,7 @@ const router = createBrowserRouter([
       },
       {
         path: "submitted_tasks",
-        element: <div>Submitted Tasks Page</div>,
+        element: <div>Submitted Tasks</div>,
       },
       {
         path: "edit_contest",

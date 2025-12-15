@@ -3,7 +3,7 @@ import Search from "../common/Search";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col gap-6 text-center my-20 px-4">
+    <div className="flex flex-col justify-center min-h-[calc(100vh-72px)] gap-6 text-center my-20 m-4 sm:m-8">
       <h1 className="scroll-m-20 text-5xl font-extrabold tracking-tight text-balance">
         Unleash Your Creativity
       </h1>
