@@ -1,4 +1,4 @@
-import { Eye, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
@@ -85,15 +85,16 @@ const MyWinningContests = () => {
     }
   };
 
-  // ------------------------
-  // Status Badge Color Map
-  // ------------------------
+  // Status Badge Color
+  
   const statusColors = {
     Completed: "bg-success text-success-content",
     Ongoing: "bg-info text-info-content",
     Pending: "bg-warning text-warning-content",
     Rejected: "bg-error text-error-content",
   };
+
+
   return (
     <div className="bg-base-100 p-6 md:m-6 shadow-lg rounded-lg">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
@@ -120,17 +121,17 @@ const MyWinningContests = () => {
         <table className="table w-full">
           <thead>
             <tr className="">
-              <th onClick={() => toggleSort("id")} className="cursor-pointer">
+              <th onClick={() => toggleSort("contest")} className="cursor-pointer">
                 Contest Name
               </th>
               <th
-                onClick={() => toggleSort("creator")}
+                onClick={() => toggleSort("client")}
                 className="cursor-pointer"
               >
                 Client
               </th>
               <th
-                onClick={() => toggleSort("creator")}
+                onClick={() => toggleSort("entry")}
                 className="cursor-pointer"
               >
                 Winning Entry
@@ -139,7 +140,7 @@ const MyWinningContests = () => {
                 Date
               </th>
               <th
-                onClick={() => toggleSort("price")}
+                onClick={() => toggleSort("prize")}
                 className="cursor-pointer"
               >
                 Prize
@@ -165,7 +166,7 @@ const MyWinningContests = () => {
                     {row.status}
                   </span>
                 </td>
-                <td >
+                <td>
                   <div className="flex w-full">
                     <button className="btn">Manage Files</button>
 
@@ -218,9 +219,7 @@ const MyWinningContests = () => {
               >
                 {row.status}
               </span>
-              <p className="font-medium text-sm">
-                ${row.price.toFixed(2)} USD
-              </p>
+              <p className="font-medium text-sm">${row.price.toFixed(2)} USD</p>
             </div>
 
             {/* Action */}
@@ -259,7 +258,7 @@ const MyWinningContests = () => {
       {/* PAGINATION */}
       <div className="flex justify-between items-center mt-6">
         <button
-          className="btn btn-outline flex items-center gap-2"
+          className="btn flex bg-primary text-primary-content items-center shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((p) => p - 1)}
         >
@@ -273,8 +272,8 @@ const MyWinningContests = () => {
               key={i}
               className={`w-8 h-8 rounded-full ${
                 currentPage === i + 1
-                  ? "bg-lime-300 font-bold"
-                  : "text-gray-600"
+                  ? "bg-primary text-primary-content font-medium"
+                  : "text-primary font-semibold"
               }`}
               onClick={() => setCurrentPage(i + 1)}
             >
@@ -284,7 +283,7 @@ const MyWinningContests = () => {
         </div>
 
         <button
-          className="btn btn-outline flex items-center gap-2"
+          className="btn flex items-center bg-primary text-primary-content shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((p) => p + 1)}
         >

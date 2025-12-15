@@ -9,7 +9,7 @@ const LeaderboardPage = () => {
   const allUsersForTable = leaderboardData;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+    <div className="min-h-screen bg-gray-100p-4 sm:p-8">
 
       <div className="mx-auto">
         <h1 className="text-4xl md:text-5xl font-extrabold text-gradient mb-10 text-center">
