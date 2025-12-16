@@ -32,13 +32,13 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                   {c.status}
                 </span>
               </td>
-              <td>{c.entries}</td>
+              <td>{c.participants?.length}</td>
               <td>{c.prize}</td>
               <td>
                 <div className="flex items-center gap-2">
-                  {c.status !== "Active" && (
+                  {c.status !== "approved" && (
                     <button
-                      className="btn btn-xs"
+                      className="btn btn-xs btn-success"
                       onClick={() => handleView(c.id)}
                     >
                       Confirm
@@ -46,7 +46,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                   )}
                   {c.status !== "Closed" && (
                     <button
-                      className="btn btn-xs"
+                      className="btn btn-xs btn-warning"
                       onClick={() => handleClose(c.id)}
                     >
                       Reject
