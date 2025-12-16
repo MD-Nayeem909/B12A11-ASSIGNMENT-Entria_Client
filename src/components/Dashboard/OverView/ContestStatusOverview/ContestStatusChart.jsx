@@ -8,12 +8,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ActiveUsersPie = () => {
-  const data = [
-    { name: "Active Users", value: 420 },
-    { name: "Inactive Users", value: 180 },
-    { name: "New Users", value: 95 },
-  ];
+const ContestStatusChart = ({status}) => {
+  // Sample contest data (you can replace with real DB data)
+  const data = status.map(s => ({
+    name: s._id,
+    value: s.count,
+  }));
 
   const renderCustomLabel = ({
     cx,
@@ -42,11 +42,22 @@ const ActiveUsersPie = () => {
     );
   };
 
-  const COLORS = ["#8e2de2", "#6411e1", "#4a00e0"];
+  const COLORS = [
+    "#8e2de2",
+    "#8627e2",
+    "#7d22e2",
+    "#751ce1",
+    "#6c17e1",
+    "#6411e1",
+    "#5b0be1",
+    "#5306e0",
+    "#4a00e0",
+  ];
 
   return (
     <div className="w-full h-96 bg-base-100 shadow-lg rounded-xl p-6">
-      <h2 className="text-xl font-semibold mb-4">Active Users Overview</h2>
+      <h2 className="text-xl font-semibold mb-4">Contest Status Overview</h2>
+
       <div className="w-full h-[85%]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -80,7 +91,7 @@ const ActiveUsersPie = () => {
               ))}
             </Pie>
 
-            <Tooltip />
+            <Tooltip  />
             <Legend layout="vertical" align="right" />
           </PieChart>
         </ResponsiveContainer>
@@ -89,4 +100,4 @@ const ActiveUsersPie = () => {
   );
 };
 
-export default ActiveUsersPie;
+export default ContestStatusChart;
