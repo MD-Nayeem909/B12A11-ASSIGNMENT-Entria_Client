@@ -9,21 +9,21 @@ const ContestCard = ({ handleDetails, contest }) => {
       <figure className="h-56 overflow-hidden">
         <img
           src={contest.image}
-          alt={contest.name}
+          alt={contest.title}
           className="w-full h-full object-cover hover:scale-110 transition duration-500"
         />
       </figure>
 
       <div className="card-body">
-        <span className="badge bg-[#ede9fe] text-[#2f0d68] border-[#a684ff] dark:bg-[#2f0d68] dark:text-[#ede9fe] dark:border-[#a684ff] px-4 w-fit">{contest.contestType}</span>
-        <h2 className="card-title line-clamp-1">{contest.name}</h2>
+        <span className="badge bg-[#ede9fe] text-[#2f0d68] border-[#a684ff] dark:bg-[#2f0d68] dark:text-[#ede9fe] dark:border-[#a684ff] px-4 w-fit">{contest.type}</span>
+        <h2 className="card-title line-clamp-1">{contest.title}</h2>
         <p className="text-sm text-gray-500 line-clamp-2">
           {contest.description}
         </p>
 
         <div className="flex justify-between text-sm mt-4">
           <span>👥 {contest.participants} joined</span>
-          <span>🏆 ${contest.prizeMoney}</span>
+          <span>🏆 ${contest.prize}</span>
         </div>
 
         <div className="flex justify-between items-center mt-4">

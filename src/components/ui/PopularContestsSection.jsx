@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router";
 import ContestCard from "../contest/ContestsCards/ContestCard";
 
-
 export default function PopularContestsSection({ contests = [], user }) {
   const navigate = useNavigate();
+
+  const sortedContests = [...contests]
+    .sort((a, b) => (a.participants || 0) - (b.participants || 0))
+    .slice(0, 6);
 
   function handleDetails(id) {
     if (!user) return navigate("/auth/login");
@@ -21,17 +24,17 @@ export default function PopularContestsSection({ contests = [], user }) {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {contests.slice(0, 6).map((contest) => (
-          <ContestCard
-            key={contest._id}
-            contest={contest}
-            handleDetails={handleDetails}
-          />
-        ))}
-        {
-          // if there are no contests, show a message
-          !contests.length && <p className="text-center">No contests found.</p>
-        }
+        {sortedContests.length ? (
+          sortedContests.map((contest) => (
+            <ContestCard
+              key={contest._id}
+              contest={contest}
+              handleDetails={handleDetails}
+            />
+          ))
+        ) : (
+          <p className="text-center col-span-full">No contests found.</p>
+        )}
       </div>
     </section>
   );
