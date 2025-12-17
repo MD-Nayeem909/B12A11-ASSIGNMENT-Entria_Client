@@ -10,7 +10,7 @@ const DashNav = () => {
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   return (
-    <nav className="navbar space-x-2 w-full bg-base-100">
+    <nav className="navbar w-full bg-base-100 shadow">
       <label
         htmlFor="my-drawer-4"
         aria-label="open sidebar"
@@ -19,7 +19,7 @@ const DashNav = () => {
         {/* Sidebar toggle icon */}
         <GoSidebarCollapse size={20} />
       </label>
-      <header className="flex items-center justify-between w-full px-4">
+      <header className="flex items-center justify-between w-full px-4 ">
         <div>
           <div className="flex flex-col md:flex-row justify-center items-end gap-2">
             <h2 className="text-2xl font-bold">Welcome back,</h2>
@@ -46,5 +46,4 @@ const DashNav = () => {
     </nav>
   );
 };
-
 export default DashNav;

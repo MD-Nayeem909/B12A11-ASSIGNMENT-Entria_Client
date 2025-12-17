@@ -7,19 +7,23 @@ import Sidebar from "../components/Dashboard/Sidebar";
 const DashboardLayout = () => {
   return (
     <Container>
-      <header className="sticky top-0 z-100">
-        <DashNav />
-      </header>
-      <main className="drawer lg:drawer-open">
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          <Outlet />
+      <section>
+        <div className="drawer lg:drawer-open">
+          <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            {/* Navbar */}
+            <div className="sticky top-0 z-100">
+              <DashNav />
+            </div>
+            {/* Page content here */}
+            <div className="">
+              <Outlet />
+            </div>
+          </div>
+          <Sidebar />
         </div>
-        <Sidebar />
-      </main>
-      <footer>
         <Footer />
-      </footer>
+      </section>
     </Container>
   );
 };
