@@ -51,16 +51,34 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  const getJWT = async (firebaseUser) => {
+    const idToken = await firebaseUser.getIdToken();
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}auth/firebase-login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      }
+    );
+
+    const data = await res.json();
+    localStorage.setItem("access-token", data.token);
+  };
+
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log("CurrentUser-->", currentUser?.email);
-      setUser(currentUser);
+      if (currentUser) {
+        await getJWT(currentUser);
+        setUser(currentUser);
+      } else {
+        localStorage.removeItem("access-token");
+        setUser(null);
+      }
       setLoading(false);
     });
-    return () => {
-      return unsubscribe();
-    };
+    return unsubscribe;
   }, []);
 
   const authInfo = {

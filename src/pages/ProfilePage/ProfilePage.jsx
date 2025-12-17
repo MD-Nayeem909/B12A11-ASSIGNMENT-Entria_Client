@@ -104,7 +104,7 @@ const Profile = () => {
                     placeholder="John Doe"
                     
                   />
-                  <User size={20} className="absolute left-3 top-7 transform -translate-y-1/2 text-gray-400" />
+                  <User size={20} className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400" />
                   </div>
                   {errors.displayName && (
                     <p className="text-red-500 text-sm">Name is required</p>
@@ -129,7 +129,7 @@ const Profile = () => {
                     })}
                     className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
                   />
-                  <Link2 size={20} className="absolute left-3 top-7 transform -translate-y-1/2 text-gray-400" />
+                  <Link2 size={20} className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400" />
                   </div>
                   {errors.photoURL && (
                     <p className="text-red-500 text-sm">
@@ -185,7 +185,7 @@ const Profile = () => {
 
                 <button
                   onClick={() => setEditMode(true)}
-                  className="btn btn-outline w-full"
+                  className="btn border-2 border-indigo-500 text-primary w-full"
                 >
                   Update Profile
                 </button>

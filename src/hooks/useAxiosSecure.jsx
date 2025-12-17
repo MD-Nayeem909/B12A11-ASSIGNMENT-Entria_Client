@@ -4,7 +4,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
@@ -14,10 +14,12 @@ const useAxiosSecure = () => {
 
   useEffect(() => {
     if (!loading && user?.accessToken) {
+      const token = localStorage.getItem("access-token");
+
       // Add request interceptor
       const requestInterceptor = axiosInstance.interceptors.request.use(
         (config) => {
-          config.headers.Authorization = `Bearer ${user.accessToken}`;
+          config.headers.Authorization = `Bearer ${token}`;
           return config;
         }
       );
