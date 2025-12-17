@@ -5,11 +5,11 @@ const Pagination = ({ currentPage, totalPages, goToPage }) => {
 //   const [limit, setLimit] = useState(10);
 //   const totalPages = Math.ceil(data.length / limit);
   return (
-    <div className="flex justify-center items-center my-10">
+    <div className="flex justify-center items-center-10">
       <div className="join">
         <button
           onClick={() => goToPage(currentPage - 1)}
-          className="join-item btn"
+          className="btn join-item rounded-l-full"
           disabled={currentPage === 1}
         >
           <ArrowLeft />
@@ -28,7 +28,7 @@ const Pagination = ({ currentPage, totalPages, goToPage }) => {
 
         <button
           onClick={() => goToPage(currentPage + 1)}
-          className="join-item btn"
+          className="btn join-item rounded-r-full"
           disabled={currentPage === totalPages}
         >
           <ArrowRight />

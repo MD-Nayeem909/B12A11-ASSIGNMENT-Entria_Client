@@ -173,7 +173,7 @@ export default function UserProfileDropdown() {
         </div>
 
         <div className="py-1">
-          <DropdownMenuItem url="my_profile">
+          <DropdownMenuItem url="/dashboard/my_profile">
             <User className="mr-3 h-4 w-4 text-zinc-500" />
             My Profile
           </DropdownMenuItem>
