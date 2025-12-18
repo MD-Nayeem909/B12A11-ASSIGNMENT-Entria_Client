@@ -3,28 +3,27 @@ import { Edit, Search, Trash2, Users } from "lucide-react";
 import StatusBadge from "../../../components/Dashboard/ContestCreator/MyCreatedContest/StatusBadge";
 import { Link, useNavigate } from "react-router";
 import Pagination2 from "../../../components/common/Pagination2";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const MyCreatedContestsPage = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
-  const [contests, setContests] = useState([
-    {
-      contest: "Creative Agency Rebrand/Logo",
-      type: "Logo Design",
-      status: "Confirmed",
+  const {
+    data: contests = [],
+    isLoading,
+  } = useQuery({
+    queryKey: ["my_contests"],
+    queryFn: async () => {
+      const res = await axiosSecure(import.meta.env.VITE_BASE_URL + "creator/contests/my_contests");
+      return res.data;
     },
-    {
-      contest: "Creative Agency Rebrand/Logo",
-      type: "Agency Rebrand",
-      status: "Rejected",
-    },
-    {
-      contest: "Agency Rebrand/Logo",
-      type: "Logo",
-      status: "Pending",
-    },
-  ]);
+  });
+
+  console.log(contests);
+  
 
   const handleView = (id) => {
     const matchingContest = contests.find((contest) => contest.id === id);
@@ -34,18 +33,17 @@ const MyCreatedContestsPage = () => {
   };
   const handleEdit = (id) => {
     const matchingContest = contests.find((contest) => contest.id === id);
-    navigate(`/contest-creator/edit/${id}`, {
+    navigate(`/contest_creator/edit/${id}`, {
       state: { contest: matchingContest },
     });
   };
 
   const handleDelete = (id) => {
-    const filtered = contests.filter((c) => c.id !== id);
-    setContests(filtered);
+    const filtered = contests.filter((c) => c._id !== id);
   };
 
   const filtered = contests.filter((c) =>
-    c.contest.toLowerCase().includes(search.toLowerCase())
+    c.title.toLowerCase().includes(search.toLowerCase())
   );
 
   const perPage = 10;
@@ -114,8 +112,8 @@ const MyCreatedContestsPage = () => {
 
             <tbody>
               {paginatedData.map((c) => (
-                <tr key={c.id}>
-                  <td>{c.contest}</td>
+                <tr key={c._id}>
+                  <td>{c.title}</td>
                   <td>{c.type}</td>
                   <td>
                     <StatusBadge status={c.status} />
@@ -185,7 +183,7 @@ const MyCreatedContestsPage = () => {
               <div className="mt-4">
                 <div className="flex gap-1 w-full">
                   <button
-                    onClick={() => handleView(row.id)}
+                    onClick={() => handleView(row._id)}
                     className="btn btn-sm btn-primary flex-1 justify-center w-full items-center rounded-r-none"
                   >
                     <Users size={14} /> See Submissions
@@ -193,7 +191,10 @@ const MyCreatedContestsPage = () => {
 
                   {row.status === "Pending" && (
                     <div className="dropdown dropdown-end">
-                      <label tabIndex={0} className="btn btn-sm btn-primary rounded-l-none">
+                      <label
+                        tabIndex={0}
+                        className="btn btn-sm btn-primary rounded-l-none"
+                      >
                         ▾
                       </label>
 
@@ -203,15 +204,15 @@ const MyCreatedContestsPage = () => {
                       >
                         <li>
                           <button
-                            onClick={() => handleEdit(row.id)}
-                            className="btn btn-xs btn-primary flex gap-1"
+                            onClick={() => handleEdit(row._id)}
+                            className="btn btn-xs btn-secondary flex gap-1"
                           >
                             <Edit size={14} /> Edit
                           </button>
                         </li>
                         <li>
                           <button
-                            onClick={() => handleDelete(row.id)}
+                            onClick={() => handleDelete(row._id)}
                             className="btn btn-xs btn-error flex gap-1"
                           >
                             <Trash2 size={14} /> Delete
