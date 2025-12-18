@@ -90,7 +90,7 @@ const MyParticipatedContestsPage = () => {
     Rejected: "bg-error text-error-content",
   };
   return (
-    <div className="bg-base-100 p-6 md:m-6 shadow-lg rounded-lg">
+    <div className="bg-base-100 p-6 md:m-6 shadow rounded-lg">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
         <h2 className="text-2xl font-semibold">My Participated Contests</h2>
 

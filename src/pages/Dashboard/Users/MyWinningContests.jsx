@@ -53,25 +53,31 @@ const MyWinningContests = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10;
 
-  const filteredData = useMemo(() => {
-    return initialData.filter((item) =>
-      item.client.toLowerCase().includes(search.toLowerCase())
+  // const filteredData = useMemo(() => {
+  //   return initialData.filter((item) =>
+  //     item.client.toLowerCase().includes(search.toLowerCase())
+  //   );
+  // }, [initialData, search]);
+
+  // const sortedData = useMemo(() => {
+  //   return [...filteredData].sort((a, b) => {
+  //     const fieldA = a[sortField];
+  //     const fieldB = b[sortField];
+
+  //     if (fieldA < fieldB) return sortDirection === "asc" ? -1 : 1;
+  //     if (fieldA > fieldB) return sortDirection === "asc" ? 1 : -1;
+  //     return 0;
+  //   });
+  // }, [filteredData, sortField, sortDirection]);
+
+  const filteredContests = useMemo(() => {
+    return initialData.filter((c) =>
+      c.contest?.toLowerCase().includes(search?.toLowerCase())
     );
   }, [initialData, search]);
 
-  const sortedData = useMemo(() => {
-    return [...filteredData].sort((a, b) => {
-      const fieldA = a[sortField];
-      const fieldB = b[sortField];
-
-      if (fieldA < fieldB) return sortDirection === "asc" ? -1 : 1;
-      if (fieldA > fieldB) return sortDirection === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [filteredData, sortField, sortDirection]);
-
-  const totalPages = Math.ceil(sortedData.length / perPage);
-  const paginatedData = sortedData.slice(
+  const totalPages = Math.ceil(filteredContests.length / perPage);
+  const paginatedData = filteredContests.slice(
     (currentPage - 1) * perPage,
     currentPage * perPage
   );
@@ -93,7 +99,6 @@ const MyWinningContests = () => {
     Pending: "bg-warning text-warning-content",
     Rejected: "bg-error text-error-content",
   };
-
 
   return (
     <div className="bg-base-100 p-6 md:m-6 shadow-lg rounded-lg">
@@ -121,7 +126,10 @@ const MyWinningContests = () => {
         <table className="table w-full">
           <thead>
             <tr className="">
-              <th onClick={() => toggleSort("contest")} className="cursor-pointer">
+              <th
+                onClick={() => toggleSort("contest")}
+                className="cursor-pointer"
+              >
                 Contest Name
               </th>
               <th
