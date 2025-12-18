@@ -23,9 +23,10 @@ import MyWinningContests from "../pages/Dashboard/Users/MyWinningContests";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
-import CreatorRoute from "./CreatorRoute";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import CheckoutPage from "../pages/Payment/CheckoutPage";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import PaymentCancel from "../pages/Payment/PaymentCancel";
 
 const router = createBrowserRouter([
   {
@@ -110,13 +111,16 @@ const router = createBrowserRouter([
         element: <Payment />,
       },
       {
-        path: "checkout",
-        children: [
-          {
-            index: "stripe",
-            element: <CheckoutPage />,
-          },
-        ]
+        path: "checkout/:contestId",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "payment_success",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "payment_cancel",
+        element: <PaymentCancel />,
       },
       {
         path: "created_contests",
