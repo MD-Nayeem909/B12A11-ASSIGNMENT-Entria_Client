@@ -1,21 +1,33 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function CreateContestForm() {
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
+    control,
     formState: { errors },
   } = useForm();
 
-  const deadline = watch("deadline");
-
-  const onSubmit = (data) => {
-    console.log("Contest Created:", data);
+  const onSubmit = async (data) => {
+    const payload = {
+      ...data,
+      deadline: data.deadline.toISOString(),
+    };
+    try{
+      await axiosSecure.post("creator/contests", payload);
+      toast.success("Contest created successfully!");
+      navigate("/dashboard/created_contests");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -33,10 +45,10 @@ export default function CreateContestForm() {
             <input
               type="text"
               className="input bg-base-200 input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-              {...register("name", { required: true })}
+              {...register("title", { required: true })}
               placeholder="Contest title here"
             />
-            {errors.name && <p className="text-red-500 text-sm">Required</p>}
+            {errors.title && <p className="text-red-500 text-sm">Required</p>}
           </div>
 
           {/* Image URL */}
@@ -130,18 +142,27 @@ export default function CreateContestForm() {
           <div>
             <label className="label font-semibold mb-2">Deadline</label>
             <div>
-              <DatePicker
-                selected={deadline}
-                onChange={(date) => setValue("deadline", date)}
-                className="input input-bordered bg-base-200 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                placeholderText="Select deadline"
-                dateFormat="yyyy-MM-dd"
+              <Controller
+                name="deadline"
+                control={control}
+                rules={{ required: "Deadline is required" }}
+                render={({ field }) => (
+                  <DatePicker
+                    selected={field.value}
+                    onChange={field.onChange}
+                    minDate={new Date()}
+                    dateFormat="yyyy-MM-dd"
+                    className="input input-bordered w-full bg-base-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                    placeholder="Select deadline"
+                  />
+                )}
               />
+              {errors.deadline && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.deadline.message}
+                </p>
+              )}
             </div>
-
-            {errors.deadline && (
-              <p className="text-red-500 text-sm">Deadline required</p>
-            )}
           </div>
         </div>
 

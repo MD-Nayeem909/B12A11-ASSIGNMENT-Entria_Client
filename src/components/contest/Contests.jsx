@@ -1,6 +1,6 @@
 import React from "react";
 
-const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
+const Contests = ({ contests, handleConfirm, handleDelete, handleReject }) => {
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">
@@ -16,7 +16,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
         </thead>
         <tbody>
           {contests.map((c) => (
-            <tr key={c.id}>
+            <tr key={c._id}>
               <td>{c.title}</td>
               <td>{c.type}</td>
               <td>
@@ -39,7 +39,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                   {c.status !== "approved" && (
                     <button
                       className="btn btn-xs btn-success"
-                      onClick={() => handleView(c.id)}
+                      onClick={() => handleConfirm(c._id)}
                     >
                       Confirm
                     </button>
@@ -47,7 +47,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
                   {c.status !== "Closed" && (
                     <button
                       className="btn btn-xs btn-warning"
-                      onClick={() => handleClose(c.id)}
+                      onClick={() => handleReject(c._id)}
                     >
                       Reject
                     </button>
@@ -55,7 +55,7 @@ const Contests = ({ contests, handleClose, handleDelete, handleView }) => {
 
                   <button
                     className="btn btn-xs btn-error"
-                    onClick={() => handleDelete(c.id)}
+                    onClick={() => handleDelete(c._id)}
                   >
                     Delete
                   </button>

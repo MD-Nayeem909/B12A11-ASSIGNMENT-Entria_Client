@@ -8,18 +8,24 @@ import Home from "../pages/Home/Home";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import DashboardLayout from "../layout/DashboardLayout";
 import Error404 from "../components/ui/Error404";
-import Dashboard from "../pages/Dashboard/Common/Dashboard";
+import Dashboard from "../pages/Dashboard/Common/OverView";
 import CreateContestForm from "../components/contest/CreateContestForm/CreateContestForm";
 import ContestDetails from "../components/ui/ContestDetails";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
 import MyCreatedContestsPage from "../pages/Dashboard/ContestCreator/MyCreatedContestsPage";
+import SubmittedTasks from "../pages/Dashboard/ContestCreator/SubmittedTasks";
 import Profile from "../pages/ProfilePage/ProfilePage";
 import ContestsPage from "../pages/AllContests/ContestsPage";
 import MyParticipatedContestsPage from "../pages/Dashboard/Users/MyParticipatedContestsPage";
 import MyWinningContests from "../pages/Dashboard/Users/MyWinningContests";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import CreatorRoute from "./CreatorRoute";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import CheckoutPage from "../pages/Payment/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +46,7 @@ const router = createBrowserRouter([
         path: "/my_contests",
         element: <div>My Contests</div>,
       },
+      
 
       {
         path: "/contest-details/:id",
@@ -88,7 +95,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
       },
       {
         path: "my_profile",
@@ -97,6 +108,15 @@ const router = createBrowserRouter([
       {
         path: "payment/:id",
         element: <Payment />,
+      },
+      {
+        path: "checkout",
+        children: [
+          {
+            index: "stripe",
+            element: <CheckoutPage />,
+          },
+        ]
       },
       {
         path: "created_contests",
@@ -116,11 +136,17 @@ const router = createBrowserRouter([
       },
       {
         path: "manage_users",
-        element: <div>Manage Users</div>,
+        element: <ManageUsers />,
       },
       {
         path: "manage_contests",
-        element: <ManageContests />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageContests />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "participants",
@@ -128,11 +154,11 @@ const router = createBrowserRouter([
       },
       {
         path: "submitted_tasks",
-        element: <div>Submitted Tasks</div>,
+        element: <SubmittedTasks />,
       },
       {
         path: "edit_contest",
-        element: <div>Submitted Tasks Page</div>,
+        element: <CreateContestForm />,
       },
       {
         path: "settings",
