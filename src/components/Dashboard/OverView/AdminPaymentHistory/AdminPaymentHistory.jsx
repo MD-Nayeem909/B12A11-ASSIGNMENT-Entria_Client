@@ -1,22 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Pagination2 from "../../../common/Pagination2";
+import { useMemo, useState } from "react";
+import Searchbar from "../../../common/Searchbar";
 
 const AdminPaymentHistory = () => {
   const axiosSecure = useAxiosSecure();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const perPage = 10;
 
-  const { data: payments = [], isLoading } = useQuery({
+  const { data: payments = [] } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/payments/admin");
+      const res = await axiosSecure.get("admin/payment-history");
       return res.data;
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  const totalPages = Math.ceil(payments.length / perPage);
+  const paginatedData = payments.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
+  const filteredData = useMemo(() => {
+    return paginatedData.filter((item) =>
+      item.user?.email?.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [payments, search]);
 
   return (
     <div className="p-6 bg-base-100 rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-4">Payment History</h2>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-bold mb-4">Payment History</h2>
+        <Searchbar search={search} setSearch={setSearch} />
+      </div>
 
       <div className="overflow-x-auto">
         <table className="table">
@@ -32,7 +51,7 @@ const AdminPaymentHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {payments.map((p, i) => (
+            {filteredData.map((p, i) => (
               <tr key={p._id}>
                 <td>{i + 1}</td>
                 <td>{p.user?.name}</td>
@@ -40,12 +59,17 @@ const AdminPaymentHistory = () => {
                 <td>{p.contestId?.title}</td>
                 <td>${p.amount}</td>
                 <td className="badge badge-success">Paid</td>
-                <td>{new Date(p.paidAt).toLocaleDateString()}</td>
+                <td>{new Date(p.createdAt).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <Pagination2
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

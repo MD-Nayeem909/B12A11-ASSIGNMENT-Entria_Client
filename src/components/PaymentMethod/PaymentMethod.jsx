@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaCcStripe, FaRegCreditCard } from "react-icons/fa";
-// import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 const paymentOptions = [
   // {
@@ -58,7 +57,6 @@ const paymentOptions = [
 const PaymentMethod = ({ contest }) => {
   const [selected, setSelected] = useState(null);
   const [hoveredOption, setHoveredOption] = useState(null);
-  // const navigate = useNavigate();
   const axiosSecure  = useAxiosSecure();
 
   const { contestId, contestTitle, contestPrice } = contest;
@@ -71,20 +69,9 @@ const PaymentMethod = ({ contest }) => {
       contestTitle,
       contestPrice,
     });
-
-    console.log(res);
-    
-
     window.location.href = res.data.url;
   };
 
-  // const handleCheckout = () => {
-  //   if (selected) {
-  //     navigate(`/dashboard/checkout/${selected}`, {
-  //       state: { contestId, contestTitle, contestPrice },
-  //     });
-  //   }
-  // };
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">

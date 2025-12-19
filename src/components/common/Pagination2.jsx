@@ -6,9 +6,9 @@ const Pagination2 = ({
   setCurrentPage,
 }) => {
   return (
-    <div className="flex justify-between items-center mt-6">
+    <div className="flex justify-around items-center mt-6">
       <button
-        className="btn flex bg-primary text-primary-content items-center shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
+        className="btn btn-sm flex bg-primary text-primary-content items-center shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
         disabled={currentPage === 1}
         onClick={() => setCurrentPage(currentPage - 1)}
       >
@@ -37,7 +37,7 @@ const Pagination2 = ({
       </div>
 
       <button
-        className="btn flex items-center bg-primary text-primary-content shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
+        className="btn btn-sm flex items-center bg-primary text-primary-content shadow gap-2 disabled:bg-[#ede9fe] disabled:text-[#a684ff] dark:disabled:bg-[#2f0d68] dark:disabled:text-[#8e51ff]"
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage(currentPage + 1)}
       >

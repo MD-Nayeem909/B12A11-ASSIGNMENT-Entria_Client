@@ -1,27 +1,16 @@
-import React from "react";
+import { Search } from "lucide-react";
 
-const Searchbar = () => {
+const Searchbar = ({ search, setSearch }) => {
   return (
-    <div>
-      <label className="input rounded-xl w-lg">
-        <svg
-          className="h-[1em] opacity-50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <g
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            fill="none"
-            stroke="currentColor"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </g>
-        </svg>
-        <input type="search" required placeholder="Search" className="" />
-      </label>
+    <div className="relative">
+      <Search className="absolute left-3 top-3 z-10 text-gray-400" size={18} />
+      <input
+        type="text"
+        placeholder="Search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="input bg-base-200 input-bordered  pl-10 w-full md:w-64 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ease-in-out"
+      />
     </div>
   );
 };

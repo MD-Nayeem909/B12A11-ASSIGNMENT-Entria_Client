@@ -10,7 +10,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Error404 from "../components/ui/Error404";
 import Dashboard from "../pages/Dashboard/Common/OverView";
 import CreateContestForm from "../components/contest/CreateContestForm/CreateContestForm";
-import ContestDetails from "../components/ui/ContestDetails";
+import ContestDetails from "../components/contest/ContestDetails/ContestDetails";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import LeaderboardPage from "../pages/Leaderboard/LeaderboardPage";
 import SubmitEntryPage from "../pages/SubmitEntryPage/SubmitEntryPage";
@@ -47,7 +47,6 @@ const router = createBrowserRouter([
         path: "/my_contests",
         element: <div>My Contests</div>,
       },
-      
 
       {
         path: "/contest-details/:id",
