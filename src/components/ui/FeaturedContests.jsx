@@ -8,12 +8,12 @@ import LoadingSpinner from "../common/LoadingSpinner";
 const FeaturedContests = () => {
 
 const { data: contestData = [], isLoading } = useQuery({
-    queryKey: ["contests"],
+     queryKey: ["contests"],
     queryFn: async () => {
       const res = await axios(
-        import.meta.env.VITE_API_URL + "public/data.json"
+        import.meta.env.VITE_BASE_URL + "contests"
       );
-      return res.data;
+      return res.data.results;
     },
   });
 

@@ -4,8 +4,8 @@ import ContestCard from "../contest/ContestsCards/ContestCard";
 export default function PopularContestsSection({ contests = [], user }) {
   const navigate = useNavigate();
 
-  const sortedContests = [...contests]
-    .sort((a, b) => (a.participants || 0) - (b.participants || 0))
+  const sortedContests = contests
+    .sort((a, b) => (b.participants || 0) - (a.participants || 0))
     .slice(0, 6);
 
   function handleDetails(id) {

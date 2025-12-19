@@ -1,4 +1,3 @@
-import React from "react";
 import ContestHeader from "./ContestHeader";
 import ContestInfoCard from "./ContestInfoCard";
 import ContestTabs from "./ContestTabs";
