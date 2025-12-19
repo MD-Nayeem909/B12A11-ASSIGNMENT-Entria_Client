@@ -30,7 +30,7 @@ const ContestCard = ({ contest }) => {
         <div className="flex justify-between items-center text-sm text-gray-500">
           <div className="flex items-center gap-1">
             <FiUsers />
-            <span>{contest.participants || 0}</span>
+            <span>{contest.participants.length || 0}</span>
           </div>
           <button
             onClick={() => handleDetails(contest._id)}

@@ -7,15 +7,11 @@ import router from "./routes/router.jsx";
 import AuthProvider from "./Providers/AuthProvider.jsx";
 import ThemeProvider from "./Providers/ThemeProvider.jsx";
 import { Toaster } from "react-hot-toast";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 
 const queryClient = new QueryClient();
-const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Elements stripe={stripePromise} >
     <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <ThemeProvider>
@@ -23,7 +19,6 @@ createRoot(document.getElementById("root")).render(
       </ThemeProvider>
     </AuthProvider>
     </QueryClientProvider>
-    </Elements>
     <Toaster position="top-center" />
   </StrictMode>
 );

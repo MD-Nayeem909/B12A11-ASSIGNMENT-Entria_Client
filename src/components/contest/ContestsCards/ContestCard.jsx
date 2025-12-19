@@ -22,7 +22,7 @@ const ContestCard = ({ handleDetails, contest }) => {
         </p>
 
         <div className="flex justify-between text-sm mt-4">
-          <span>👥 {contest.participants} joined</span>
+          <span>👥 {contest.participants.length || 0} participants</span>
           <span>🏆 ${contest.prize}</span>
         </div>
 

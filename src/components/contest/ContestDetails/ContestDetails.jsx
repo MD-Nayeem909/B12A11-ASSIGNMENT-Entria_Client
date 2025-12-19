@@ -53,7 +53,7 @@ export default function ContestDetails({ user }) {
 
       {/* Participants */}
       <p className="text-lg font-semibold mb-2">
-        Participants: {contest.participants + (isRegistered ? 1 : 0)}
+        Participants: {contest.participants.length || 0}
       </p>
 
       {/* Prize Money */}
