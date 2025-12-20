@@ -28,7 +28,7 @@ const AdminPaymentHistory = () => {
     return paginatedData.filter((item) =>
       item.user?.email?.toLowerCase().includes(search.toLowerCase())
     );
-  }, [payments, search]);
+  }, [search, paginatedData]);
 
   return (
     <div className="p-6 bg-base-100 rounded-xl shadow">

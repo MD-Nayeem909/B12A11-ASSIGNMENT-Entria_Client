@@ -1,21 +1,10 @@
 import { BookOpenText } from "lucide-react";
 
-const SubmitTaskModal2 = ({
-  userInfo = {},
-  setIsCompletionOpen,
-}) => {
-
-  
+const SubmitTaskModal2 = ({ userInfo = {}, setIsCompletionOpen }) => {
   const user = userInfo?.userId;
   // const {email, name, image}= user;
-
-  
-
   return (
-    <section
-      onClose={() => setIsCompletionOpen(false)}
-      size="md"
-    >
+    <section onClose={() => setIsCompletionOpen(false)} size="md">
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <div className="bg-base-200 opacity-80 backdrop-blur-sm absolute h-screen w-full"></div>
         <div className="text-center space-y-6 bg-base-100 shadow-lg p-10 rounded-4xl z-100">
@@ -34,11 +23,7 @@ const SubmitTaskModal2 = ({
           <div className="text-left flex items-center gap-4">
             <div className="avatar">
               <div className="ring-primary ring-offset-base-100 w-20 rounded-full ring-2 ring-offset-2">
-                <img
-                  src={user?.image}
-                  alt=""
-                  className=""
-                />
+                <img src={user?.image} alt="" className="" />
               </div>
             </div>
             <div className="flex flex-col gap-2">

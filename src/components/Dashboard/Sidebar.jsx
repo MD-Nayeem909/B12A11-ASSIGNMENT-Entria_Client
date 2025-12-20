@@ -5,7 +5,6 @@ import {
   FilePlusCorner,
   LucideSettings2,
   Pickaxe,
-  SquareCheckBig,
   SquarePen,
   Users,
 } from "lucide-react";
@@ -57,11 +56,6 @@ export default function Sidebar() {
       name: "Participants",
       icon: <Users size={20} />,
       path: "participants",
-    },
-    {
-      name: "Submitted Tasks",
-      icon: <SquareCheckBig size={20} />,
-      path: "submitted_tasks",
     },
     { name: "Settings", icon: <LucideSettings2 size={20} />, path: "settings" },
   ];
