@@ -70,7 +70,7 @@ const ManageContests = () => {
 
   return (
     <div className="md:m-6 space-y-4">
-      <h1 className="text-2xl font-semibold"> Manage All Contest</h1>
+      <h1 className="text-2xl font-semibold"> Manage All Contest : <span className="font-bold">{filteredContests.length}</span> </h1>
 
       {/* SEARCH + SHOW COUNT */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 ">

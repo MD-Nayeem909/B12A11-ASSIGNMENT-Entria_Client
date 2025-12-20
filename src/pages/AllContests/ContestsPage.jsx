@@ -7,8 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
-import Pagination from "../../components/common/Pagination";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Pagination2 from "../../components/common/Pagination2";
 
 const ContestsPage = () => {
   const { user } = useAuth();
@@ -21,6 +21,7 @@ const ContestsPage = () => {
       return res.data.results;
     },
   });
+  
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,11 +30,7 @@ const ContestsPage = () => {
   const startIndex = (currentPage - 1) * limit;
   const endIndex = startIndex + limit;
   const currentContests = contestsData.slice(startIndex, endIndex);
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  
 
   // Unique contestType list
   const contestTypes = [
@@ -94,10 +91,10 @@ const ContestsPage = () => {
       </div>
 
       <div>
-        <Pagination
+        <Pagination2
           totalPages={totalPages}
           currentPage={currentPage}
-          goToPage={goToPage}
+          setCurrentPage={setCurrentPage}
         />
       </div>
     </section>
