@@ -11,7 +11,7 @@ const { data: contestData = [], isLoading } = useQuery({
      queryKey: ["contests"],
     queryFn: async () => {
       const res = await axios(
-        import.meta.env.VITE_BASE_URL + "contests"
+        import.meta.env.VITE_BASE_URL + "contests?status=approved&sortBy=participants"
       );
       return res.data.results;
     },

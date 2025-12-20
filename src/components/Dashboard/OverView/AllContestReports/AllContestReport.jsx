@@ -2,11 +2,9 @@ import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { FiEdit2, FiMoreVertical, FiSearch } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import Pagination2 from "../../../common/Pagination2";
 
 const AllContestReport = () => {
-  // ------------------------
-  // SAMPLE DATA (Replace with API data)
-  // ------------------------
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialData = [
     {
@@ -186,40 +184,7 @@ const AllContestReport = () => {
       </div>
 
       {/* PAGINATION */}
-      <div className="flex justify-between items-center mt-6">
-        <button
-          className="btn btn-outline flex items-center gap-2"
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((p) => p - 1)}
-        >
-          <HiChevronLeft /> Previous
-        </button>
-
-        {/* pages */}
-        <div className="flex gap-3">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              className={`w-8 h-8 rounded-full ${
-                currentPage === i + 1
-                  ? "bg-success text-success-content font-bold"
-                  : "text-gray-600"
-              }`}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-
-        <button
-          className="btn btn-outline flex items-center gap-2"
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((p) => p + 1)}
-        >
-          Next <HiChevronRight />
-        </button>
-      </div>
+      <Pagination2 totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>
   );
 };

@@ -4,9 +4,12 @@ import ContestCard from "../contest/ContestsCards/ContestCard";
 export default function PopularContestsSection({ contests = [], user }) {
   const navigate = useNavigate();
 
-  const sortedContests = contests
-    .sort((a, b) => (b.participants || 0) - (a.participants || 0))
-    .slice(0, 6);
+  const sortedContests =
+    contests instanceof Array
+      ? contests
+          .sort((a, b) => (b.participants || 0) - (a.participants || 0))
+          .slice(0, 6)
+      : [];
 
   function handleDetails(id) {
     if (!user) return navigate("/auth/login");
