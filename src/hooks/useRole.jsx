@@ -11,12 +11,9 @@ const useRole = () => {
     queryKey: ["role"],
     queryFn: async () => {
       const result = await axiosSecure("users/role");
-      console.log("role", result);
       return result.data.role;
     },
   });
-
-  //   return { role, isRoleLoading }
   return [role, isRoleLoading];
 };
 

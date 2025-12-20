@@ -1,9 +1,21 @@
 import { CheckCircle } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
+import { useSearchParams } from "react-router";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const PaymentSuccess = () => {
-  const location = useLocation();
-  const contestName = location.state?.contestName;
+  const [params] = useSearchParams();
+  const sessionId = params.get("session_id");
+  const axiosSecure = useAxiosSecure();
+  const [payment, setPayment] = useState(null);
+
+  useEffect(() => {
+  if (sessionId) {
+    axiosSecure.get(`/payments/confirm-payment?session_id=${sessionId}`);
+  }
+}, [sessionId, axiosSecure]);
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
@@ -13,13 +25,16 @@ const PaymentSuccess = () => {
         <h1 className="text-2xl font-bold mb-2">Payment Successful 🎉</h1>
 
         <p className="text-gray-500 mb-6">
-          {contestName
-            ? `You have successfully joined "${contestName}".`
+          {payment
+            ? `You have successfully joined "${payment.contestTitle}".`
             : "You have successfully completed your payment."}
         </p>
 
         <div className="flex flex-col gap-3">
-          <Link to="/dashboard/my_participated_contests" className="btn btn-primary">
+          <Link
+            to="/dashboard/my_participated_contests"
+            className="btn btn-primary"
+          >
             View My Contests
           </Link>
 

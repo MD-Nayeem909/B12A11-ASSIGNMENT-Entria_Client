@@ -3,28 +3,37 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function CreateContestForm() {
+  const location = useLocation();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const contest = location.state?.contest;
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: contest || {} });
 
   const onSubmit = async (data) => {
     const payload = {
       ...data,
-      deadline: data.deadline.toISOString(),
+      deadline: data.deadline ? new Date(data.deadline).toISOString() : null,
     };
-    try{
-      await axiosSecure.post("creator/contests", payload);
-      toast.success("Contest created successfully!");
-      navigate("/dashboard/created_contests");
+    try {
+      if (contest) {
+        await axiosSecure.patch(`creator/contests/${contest._id}`, payload);
+        toast.success("Contest updated successfully!");
+        navigate("/dashboard/created_contests");
+        return;
+      } else {
+        await axiosSecure.post("creator/contests", payload);
+        toast.success("Contest created successfully!");
+        navigate("/dashboard/created_contests");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +42,7 @@ export default function CreateContestForm() {
   return (
     <section className="mx-auto max-w-4xl p-10 rounded-xl bg-base-100 shadow-xl my-12">
       <h2 className="text-4xl font-bold mb-10 text-center">
-        Create New Contest
+        {contest ? "Update Contest" : "Create New Contest"}
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
@@ -168,7 +177,7 @@ export default function CreateContestForm() {
 
         {/* Submit Button */}
         <button className="btn btn-primary w-full rounded-lg shadow-md hover:shadow-xl transition-all">
-          Create Contest
+          {contest ? "Update Contest" : "Create Contest"}
         </button>
       </form>
     </section>

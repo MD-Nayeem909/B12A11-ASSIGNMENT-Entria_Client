@@ -156,7 +156,7 @@ const router = createBrowserRouter([
         element: <div>Participants</div>,
       },
       {
-        path: "submitted_tasks",
+        path: "submitted_tasks/:id",
         element: <SubmittedTasks />,
       },
       {

@@ -2,25 +2,28 @@ import Countdown from "react-countdown";
 import Button from "../../common/Button";
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
-import SubmitTaskModal2 from "../../common/SubmitTaskModal/SubmitTaskModal2";
 import PaymentMethod from "../../PaymentMethod/PaymentMethod";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-export default function ContestDetails({ user }) {
+export default function ContestDetails() {
+  const { user } = useAuth();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
   const contest = location.state.contest;
   const [isRegistered, setIsRegistered] = useState(false);
   const [isCompletionOpen, setIsCompletionOpen] = useState(false);
+  const [submission, setSubmission] = useState("");
 
-  console.log(contest);
-
-  // Mock: check registration
   useEffect(() => {
-    if (user && contest?.registeredUsers?.includes(user.email)) {
-      setIsRegistered(true);
+    if (user && contest) {
+      axiosSecure(`/users/${contest._id}`).then((res) => {
+        setIsRegistered(res.data.joinedContests);
+      })
     }
-  }, [user, contest]);
+  }, [user, contest, axiosSecure]);
 
-  if (user)
+  if (!user)
     return (
       <div className="text-center py-10 text-xl">
         Please Login to view contest details.
@@ -35,8 +38,12 @@ export default function ContestDetails({ user }) {
     setIsCompletionOpen(true);
   };
 
-  const handleSubmitTask = () => {
-    alert("Task Submitted!");
+  const handleSubmitTask = async () => {
+   const res = await axiosSecure.post (`contests/${contest._id}/submit`,{
+      submission: submission
+    });
+    console.log(res.data);
+    
     setIsCompletionOpen(false);
   };
 
@@ -140,11 +147,15 @@ export default function ContestDetails({ user }) {
       </dialog>
 
       {/* Submit Task Modal */}
-      {/* {isCompletionOpen && (
+      {isCompletionOpen && (
         <div className="fixed inset-0 bg-base-200 bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white p-6 rounded-xl max-w-md w-full shadow-lg">
             <h3 className="text-xl font-bold mb-3">Submit Your Task</h3>
             <textarea
+              type="test"
+              name="message"
+              value={submission}
+              onChange={(e) => setSubmission(e.target.value)}
               className="textarea textarea-bordered w-full mb-4"
               placeholder="Provide Google Drive/YouTube/GitHub links here"
               rows={4}
@@ -159,13 +170,13 @@ export default function ContestDetails({ user }) {
             </div>
           </div>
         </div>
-      )} */}
-      {isCompletionOpen && (
+      )}
+      {/* {isCompletionOpen && (
         <SubmitTaskModal2
           isCompletionOpen={isCompletionOpen}
           setIsCompletionOpen={setIsCompletionOpen}
         />
-      )}
+      )} */}
     </div>
   );
 }
