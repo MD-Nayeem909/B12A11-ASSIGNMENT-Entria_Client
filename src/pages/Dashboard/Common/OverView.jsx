@@ -8,14 +8,15 @@ import AllContestReport from "../../../components/Dashboard/OverView/AllContestR
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import OverallStatisticsChart from "../../../components/Dashboard/OverView/OverallStatisticsChart/OverallStatisticsChart";
+import AdminPaymentHistory from "../../../components/Dashboard/OverView/AdminPaymentHistory/AdminPaymentHistory";
+import useRole from "../../../hooks/useRole";
+import useAuth from "../../../hooks/useAuth";
 
 const Dashboard = () => {
-  // const [stats, setStats] = useState({
-  //   totalContests: 24,
-  //   activeContests: 8,
-  //   totalParticipants: 1324,
-  //   pendingSubmissions: 39,
-  // });
+  const { user } = useAuth();
+  const [role, isRoleLoading] = useRole();
+
+  console.log(role, isRoleLoading);
 
   const {
     data: stats = [],
@@ -28,7 +29,6 @@ const Dashboard = () => {
       const res = await axios(
         import.meta.env.VITE_BASE_URL + "dashboard/stats"
       );
-      console.log(res.data);
 
       return res.data;
     },
@@ -88,7 +88,8 @@ const Dashboard = () => {
                 tag="Submissions awaiting review"
               />
             </section>
-            <Transactions list={[]} />
+            {/* Transactions */}
+            {role === "admin" && <AdminPaymentHistory />}
             <OverallStatisticsChart
               data={stats.monthlyStats}
               metric="contests"
