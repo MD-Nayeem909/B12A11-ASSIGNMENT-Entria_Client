@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const deleteAccount = () => {
+    
     return deleteUser(auth.currentUser);
   };
 

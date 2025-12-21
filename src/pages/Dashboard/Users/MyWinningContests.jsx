@@ -17,8 +17,9 @@ const MyWinningContests = () => {
     queryFn: async () => {
       const res = await axiosSecure("contests/my_winned_contests");
       console.log(res.data);
-      return res.data.winnerContests;
+      return res.data?.winnerContests;
     },
+    enabled: true,
   });
 
   function readableDate(date) {
@@ -26,12 +27,13 @@ const MyWinningContests = () => {
   }
 
   const filteredContests = useMemo(() => {
-    return contestsData.filter((c) =>
+    if (!Array.isArray(contestsData)) return [];
+    return contestsData?.filter((c) =>
       c.contest?.title?.toLowerCase().includes(search?.toLowerCase())
     );
   }, [contestsData, search]);
 
-  const totalPages = Math.ceil(filteredContests.length / perPage);
+  const totalPages = Math.ceil((filteredContests.length || 0) / perPage);
   const paginatedData = filteredContests.slice(
     (currentPage - 1) * perPage,
     currentPage * perPage
@@ -67,7 +69,7 @@ const MyWinningContests = () => {
         </div>
       </div>
 
-      {/* TABLE (Desktop only) */}
+      {/* TABLE (Desktop) */}
       <div className="hidden md:block overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -93,7 +95,7 @@ const MyWinningContests = () => {
           <tbody>
             {paginatedData.map((row, i) => (
               <tr key={i} className="">
-                <td>{row.contest.title}</td>
+                <td>{row.contest?.title || "N/A"}</td>
                 <td>{readableDate(row.createdAt)}</td>
                 <td>${row.prizeMoney}</td>
                 <td>
@@ -132,7 +134,7 @@ const MyWinningContests = () => {
             {/* Top row */}
             <div className="flex flex-col justify-between gap-3">
               <div className="flex justify-between items-center">
-                <h3 className="font-semibold text-sm">{row.contest.title}</h3>
+                <h3 className="font-semibold text-sm">{row.contest?.title || "N/A"}</h3>
                 <p className="font-semibold text-xs">@{row.winner?.name}</p>
               </div>
             </div>

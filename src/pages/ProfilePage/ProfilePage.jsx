@@ -6,12 +6,16 @@ import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import DeleteModal from "../../components/common/ModalsButton/DeleteModal";
 import useRole from "../../hooks/useRole";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
   const { user, setUser, updateUserProfile, deleteAccount } = useAuth();
   const [editMode, setEditMode] = useState(false);
   const role = useRole();
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   console.log(role);
 
@@ -44,9 +48,15 @@ const Profile = () => {
     onError: (err) => toast.error(err.message),
   });
 
+  const accountDelete = async () => {
+    await axiosSecure.delete(`users/${user.uid}`);
+    await deleteAccount();
+    navigate("/");
+  };
+
   // 🔥 Delete Account Mutation
   const deleteMutation = useMutation({
-    mutationFn: deleteAccount,
+    mutationFn: accountDelete,
     onSuccess: () => {
       setUser(null);
       setDeleteOpen(false);

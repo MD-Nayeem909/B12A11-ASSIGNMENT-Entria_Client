@@ -1,15 +1,9 @@
 import ContestTableCard from "../../../components/ui/ContestTableCard";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-
-const LIMIT = 10;
-
+import Pagination2 from "../../../components/common/Pagination2";
 const ManageContests = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
@@ -19,19 +13,24 @@ const ManageContests = () => {
   /* =========================
      Fetch contests (paginated)
   ========================== */
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery({
-      queryKey: ["contests"],
-      queryFn: async ({ pageParam = 1 }) => {
-        const res = await axiosSecure(
-          `/contests?page=${pageParam}&limit=${LIMIT}`
-        );
-        return res.data;
-      },
-      getNextPageParam: (lastPage, pages) => {
-        return lastPage.hasMore ? pages.length + 1 : undefined;
-      },
-    });
+  const { data = { results: [] } } = useQuery({
+    queryKey: ["contests"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/contests`);
+      return res.data;
+    },
+    enabled: true,
+  });
+
+  const dataLength = data?.results?.length || 1;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 10;
+  const totalPages = Math.ceil(dataLength / limit);
+  const currentContests = data?.results?.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
 
   /* =========================
      Mutations
@@ -52,25 +51,24 @@ const ManageContests = () => {
   });
 
   // Unique contestType list
-  const contestsCategory = data?.pages[data?.pages.length - 1].results || [];
-  const contestTypes = [
-    "All",
-    ...new Set(contestsCategory.map((item) => item.type)),
-  ];
+  const contestTypes = useMemo(() => {
+    const all = currentContests || [];
+    return ["All", ...new Set(all.map((item) => item.type))];
+  }, [currentContests]);
 
   const filteredContests = useMemo(() => {
-    const all = data?.pages.flatMap((p) => p.results) || [];
-
-    return all
-      .filter((c) => (activeTab === "All" ? true : c.type === activeTab))
+    return currentContests
+      ?.filter((c) => (activeTab === "All" ? true : c.type === activeTab))
       .filter((c) => c.title.toLowerCase().includes(search.toLowerCase()));
-  }, [data, activeTab, search]);
-
-  if (isLoading) return <p>Loading contests...</p>;
+  }, [currentContests, activeTab, search]);
 
   return (
     <div className="md:m-6 space-y-4">
-      <h1 className="text-2xl font-semibold"> Manage All Contest : <span className="font-bold">{filteredContests.length}</span> </h1>
+      <h1 className="text-2xl font-semibold">
+        {" "}
+        Manage All Contest :{" "}
+        <span className="font-bold">{filteredContests?.length}</span>{" "}
+      </h1>
 
       {/* SEARCH + SHOW COUNT */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 ">
@@ -87,13 +85,13 @@ const ManageContests = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <select className="select select-bordered border focus:outline focus:ring-2 bg-base-200 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 w-25">
+            <select
+              className="select select-bordered border focus:outline focus:ring-2 bg-base-200 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 w-25"
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value)}
+            >
               {contestTypes.map((contestType, index) => (
-                <option
-                  key={index}
-                  value={contestType}
-                  onClick={() => setActiveTab(contestType)}
-                >
+                <option key={index} value={contestType}>
                   {contestType}
                 </option>
               ))}
@@ -106,9 +104,11 @@ const ManageContests = () => {
         handleConfirm={(id) => confirmMutation.mutate(id)}
         handleReject={(id) => rejectMutation.mutate(id)}
         handleDelete={(id) => deleteMutation.mutate(id)}
-        isFetchingNextPage={isFetchingNextPage}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
+      />
+      <Pagination2
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
       />
     </div>
   );
