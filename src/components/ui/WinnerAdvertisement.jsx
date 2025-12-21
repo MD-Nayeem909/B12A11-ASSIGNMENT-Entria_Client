@@ -3,30 +3,7 @@ import Button from "../common/Button";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../common/LoadingSpinner";
-
-const winners = [
-  {
-    id: 1,
-    name: "Aisha Rahman",
-    contest: "Creative Logo Design Challenge",
-    prize: "$500",
-    image: "https://i.ibb.co/0qX4wyX/winner1.jpg",
-  },
-  {
-    id: 2,
-    name: "Rafiul Hasan",
-    contest: "AI Article Writing Contest",
-    prize: "$300",
-    image: "https://i.ibb.co/Lp6dq0H/winner2.jpg",
-  },
-  {
-    id: 3,
-    name: "Nusrat Akter",
-    contest: "Photography Nature Contest",
-    prize: "$400",
-    image: "https://i.ibb.co/34CW0bm/winner3.jpg",
-  },
-];
+import { Trophy } from "lucide-react";
 
 export default function WinnerAdvertisement() {
   const axiosSecure = useAxiosSecure();
@@ -43,6 +20,13 @@ export default function WinnerAdvertisement() {
     },
   });
 
+  const { data: statsData = {} } = useQuery({
+    queryKey: ["leaderboard-stats"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("contests/leaderboard/stats");
+      return res.data;
+    },
+  });
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -67,26 +51,26 @@ export default function WinnerAdvertisement() {
 
       {/* Stats Section */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 text-center">
-        <div className="bg-base-200 p-6 rounded-2xl shadow">
-          <p className="text-4xl font-bold">$1,200+</p>
-          <p className="text-gray-500">Prize Money Awarded</p>
+        <div className="bg-base-100 p-6 rounded-2xl hover:shadow-xl transition duration-300 shadow-md">
+          <p className="text-4xl font-bold">${statsData.totalPrizeMoney}+</p>
+          <p className="">Prize Money Awarded</p>
         </div>
-        <div className="bg-base-200 p-6 rounded-2xl shadow">
-          <p className="text-4xl font-bold">30+</p>
-          <p className="text-gray-500">Winners Featured</p>
+        <div className="bg-base-100 p-6 rounded-2xl hover:shadow-xl transition duration-300 shadow-md">
+          <p className="text-4xl font-bold">{statsData.totalWinners}+</p>
+          <p className="">Winners Featured</p>
         </div>
-        <div className="bg-base-200 p-6 rounded-2xl shadow">
-          <p className="text-4xl font-bold">12</p>
-          <p className="text-gray-500">Active Contests</p>
+        <div className="bg-base-100 p-6 rounded-2xl hover:shadow-xl transition duration-300 shadow-md">
+          <p className="text-4xl font-bold">{statsData.activeContests}</p>
+          <p className="">Active Contests</p>
         </div>
       </div>
 
       {/* Winners List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {winners.map((winner) => (
+        {data.map((winner) => (
           <div
             key={winner.id}
-            className="card bg-base-100 shadow-xl hover:shadow-2xl transition duration-300 rounded-2xl"
+            className="card bg-base-100 shadow-md hover:shadow-xl transition duration-300 rounded-2xl"
           >
             <figure className="h-56 overflow-hidden">
               <img
@@ -95,11 +79,11 @@ export default function WinnerAdvertisement() {
                 className="w-full h-full object-cover hover:scale-110 transition duration-500"
               />
             </figure>
-            <div className="card-body">
+            <div className="card-body text-center">
               <h3 className="text-xl font-bold">{winner.name}</h3>
-              <p className="text-gray-600 text-sm">🏅 {winner.contest}</p>
-              <p className="font-semibold text-primary">
-                Prize: {winner.prize}
+              <p className="text-md">🏅 {winner.contests[0].title}</p>
+              <p className="font-semibold flex items-center justify-center gap-2 text-primary">
+                <Trophy /> Prize: {winner.totalPrize}
               </p>
             </div>
           </div>

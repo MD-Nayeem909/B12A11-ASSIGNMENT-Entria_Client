@@ -19,9 +19,11 @@ export default function ContestDetails() {
     if (user && contest) {
       axiosSecure(`/users/${contest._id}`).then((res) => {
         setIsRegistered(res.data.joinedContests);
-      })
+      });
     }
   }, [user, contest, axiosSecure]);
+
+  const winner = contest.winner.userId;
 
   if (!user)
     return (
@@ -39,23 +41,21 @@ export default function ContestDetails() {
   };
 
   const handleSubmitTask = async () => {
-   const res = await axiosSecure.post (`contests/${contest._id}/submit`,{
-      submission: submission
+    const res = await axiosSecure.post(`contests/${contest._id}/submit`, {
+      submission: submission,
     });
-    console.log(res.data);
-    
     setIsCompletionOpen(false);
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">{contest.name}</h1>
+    <div className="w-full mx-auto md:p-6">
+      <h1 className="text-3xl font-bold mb-4">{contest.title}</h1>
 
       {/* Banner */}
       <img
-        src={contest.image}
-        alt={contest.title}
-        className="w-full h-200 object-cover rounded-xl shadow mb-6"
+        src={contest?.image}
+        alt={contest?.title}
+        className="w-full h-150 object-cover rounded-xl shadow mb-6"
       />
 
       {/* Participants */}
@@ -69,17 +69,18 @@ export default function ContestDetails() {
       </p>
 
       {/* Winner */}
-      {contest.winner ? (
+      {contest?.winner && contest?.winner.userId ? (
         <div className="bg-base-200 p-4 rounded-xl mb-4">
           <p className="font-bold text-xl mb-2">Winner Announced 🎉</p>
           <div className="flex items-center gap-4">
             <img
-              src={contest.winner.photo}
-              alt={contest.winner.name}
+              src={winner?.image}
+              alt={winner?.name}
               className="w-16 h-16 rounded-full object-cover"
             />
             <div>
-              <p className="font-semibold">{contest.winner.name}</p>
+              <p className="font-semibold text-2xl">{winner?.name}</p>
+              <p className="font-semibold">{winner?.email}</p>
             </div>
           </div>
         </div>
@@ -161,7 +162,10 @@ export default function ContestDetails() {
               rows={4}
             ></textarea>
             <div className="flex justify-end gap-3">
-              <button onClick={() => setIsCompletionOpen(false)} className="btn btn-error">
+              <button
+                onClick={() => setIsCompletionOpen(false)}
+                className="btn btn-error"
+              >
                 Cancel
               </button>
               <Button onClick={handleSubmitTask} className="btn btn-primary">

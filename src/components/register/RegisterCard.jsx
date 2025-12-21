@@ -132,7 +132,6 @@ const RegisterCard = () => {
     signInWithGoogle,
     updateUserProfile,
     setLoading,
-    loading,
     createUser,
   } = useAuth();
   const navigate = useNavigate();
@@ -159,6 +158,7 @@ const RegisterCard = () => {
       setLoading(false);
     }
   };
+
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
