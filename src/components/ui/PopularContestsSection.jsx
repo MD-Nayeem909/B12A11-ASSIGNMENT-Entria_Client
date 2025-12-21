@@ -7,7 +7,10 @@ export default function PopularContestsSection({ contests = [], user }) {
   const sortedContests =
     contests instanceof Array
       ? contests
-          .sort((a, b) => (b.participants || 0) - (a.participants || 0))
+          .sort(
+            (a, b) =>
+              (b.participants.length || 0) - (a.participants.length || 0)
+          )
           .slice(0, 6)
       : [];
 

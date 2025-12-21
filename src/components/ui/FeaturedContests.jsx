@@ -6,12 +6,12 @@ import axios from "axios";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 const FeaturedContests = () => {
-
-const { data: contestData = [], isLoading } = useQuery({
-     queryKey: ["contests"],
+  const { data: contestData = [], isLoading } = useQuery({
+    queryKey: ["contests"],
     queryFn: async () => {
       const res = await axios(
-        import.meta.env.VITE_BASE_URL + "contests?status=approved&sortBy=participants"
+        import.meta.env.VITE_BASE_URL +
+          "contests?status=approved&sortBy=participants"
       );
       return res.data.results;
     },
@@ -29,10 +29,10 @@ const { data: contestData = [], isLoading } = useQuery({
         </p>
       </div>
       {isLoading && (
-          <div className="h-96 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-            <LoadingSpinner />
-          </div>
-        )}
+        <div className="h-96 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
+          <LoadingSpinner />
+        </div>
+      )}
       {contestData.length === 0 ? (
         <div className="flex justify-center">
           <NoContestFound />

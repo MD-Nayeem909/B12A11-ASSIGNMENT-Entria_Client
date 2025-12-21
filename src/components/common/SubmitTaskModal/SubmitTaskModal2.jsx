@@ -2,6 +2,7 @@ import { BookOpenText } from "lucide-react";
 
 const SubmitTaskModal2 = ({ userInfo = {}, setIsCompletionOpen }) => {
   const user = userInfo?.userId;
+  
   // const {email, name, image}= user;
   return (
     <section onClose={() => setIsCompletionOpen(false)} size="md">
@@ -35,11 +36,9 @@ const SubmitTaskModal2 = ({ userInfo = {}, setIsCompletionOpen }) => {
               </h3>
             </div>
           </div>
-          <div className="bg-info text-info-content border rounded-lg p-4">
-            <p className="text-sm mt-2">
-              You have successfully completed the onboarding process. Welcome to
-              our platform!
-            </p>
+          <div className=" ">
+            <textarea className="text-sm mt-2 textarea w-full h-full bg-info/20 text-info-content border rounded-lg border-info-content focus:outline-none" readOnly value={userInfo?.submission}>
+            </textarea>
           </div>
 
           <div className="flex justify-center space-x-3">

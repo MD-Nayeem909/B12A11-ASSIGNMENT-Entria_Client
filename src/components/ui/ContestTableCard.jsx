@@ -6,9 +6,6 @@ const ContestTableCard = ({
   handleReject,
   handleDelete,
   handleConfirm,
-  isFetchingNextPage,
-  hasNextPage,
-  fetchNextPage
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -24,20 +21,6 @@ const ContestTableCard = ({
           handleDelete={handleDelete}
           handleConfirm={handleConfirm}
         />
-        <div className="mt-4 flex justify-end">
-          {/* Load More */}
-          {hasNextPage && (
-            <div className="flex justify-center">
-              <button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                className="btn btn-outline btn-primary btn-sm"
-              >
-                {isFetchingNextPage ? "Loading..." : "View More"}
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );

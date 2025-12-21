@@ -52,11 +52,6 @@ export default function Sidebar() {
       icon: <FaUsersCog size={20} />,
       path: "manage_users",
     },
-    {
-      name: "Participants",
-      icon: <Users size={20} />,
-      path: "participants",
-    },
     { name: "Settings", icon: <LucideSettings2 size={20} />, path: "settings" },
   ];
 

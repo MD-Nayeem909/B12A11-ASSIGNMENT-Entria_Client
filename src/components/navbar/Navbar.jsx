@@ -21,7 +21,6 @@ const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "All Contests", path: "/contests" },
-    { name: "My Contests", path: "/my_contests" },
     { name: "Leaderboard", path: "/leaderboard" },
     { name: "Dashboard", path: "/dashboard" },
   ];

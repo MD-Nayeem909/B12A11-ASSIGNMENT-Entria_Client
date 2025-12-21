@@ -15,7 +15,7 @@ const Contests = ({ contests, handleConfirm, handleDelete, handleReject }) => {
           </tr>
         </thead>
         <tbody>
-          {contests.map((c) => (
+          {contests && contests.map((c) => (
             <tr key={c._id}>
               <td>{c.title}</td>
               <td>{c.type}</td>

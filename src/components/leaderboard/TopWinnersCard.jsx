@@ -4,8 +4,8 @@ import { Trophy, Users } from "lucide-react";
 const WinnerCard = ({ user, rank }) => {
   const rankStyles = {
     1: "sunset-animated-gradient border-3 border-yellow-200 shadow-xl scale-110 -translate-y-8",
-    2: "bg-gradient-to-r from-purple-600 to-purple-500 text-purple-100 border-3 border-gray-200 shadow-md",
-    3: "bg-gradient-to-r from-purple-500 to-purple-600 text-purple-100 border-3 border-gray-200 shadow-md",
+    2: "bg-linear-to-r from-purple-600 to-purple-500 text-purple-100 border-3 border-gray-200 shadow-md",
+    3: "bg-linear-to-r from-purple-500 to-purple-600 text-purple-100 border-3 border-gray-200 shadow-md",
   };
 
   const rankTextStyles = {
@@ -17,7 +17,7 @@ const WinnerCard = ({ user, rank }) => {
   return (
     <div
       className={`
-      flex relative flex-col items-center p-4 rounded-xl w-[140px] transition-all duration-300
+      flex relative flex-col items-center p-4 rounded-xl w-35 transition-all duration-300
       ${rankStyles[rank]}
       ${rank === 1 ? "z-10" : ""}
     `}
