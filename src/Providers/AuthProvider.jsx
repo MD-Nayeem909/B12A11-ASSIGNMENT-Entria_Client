@@ -42,9 +42,8 @@ const AuthProvider = ({ children }) => {
     return deleteUser(auth.currentUser);
   };
 
-  const updateUserProfile = async ({ displayName, photoURL }) => {
+  const updateUserProfile = async (displayName, photoURL) => {
     if (!auth.currentUser) return;
-
     await updateProfile(auth.currentUser, {
       displayName: displayName,
       photoURL: photoURL,

@@ -5,11 +5,15 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import DeleteModal from "../../components/common/ModalsButton/DeleteModal";
+import useRole from "../../hooks/useRole";
 
 const Profile = () => {
   const { user, setUser, updateUserProfile, deleteAccount } = useAuth();
   const [editMode, setEditMode] = useState(false);
+  const role = useRole();
   const [deleteOpen, setDeleteOpen] = useState(false);
+
+  console.log(role);
 
   // React Hook Form
   const {
@@ -61,10 +65,7 @@ const Profile = () => {
       <div className="w-full">
         {/* Header */}
         <div className="max-w-4xl mx-auto py-10">
-          <h1 className="text-3xl font-bold">
-            Hello,{" "}
-            {displayNameWatch?.split(" ")[0] || user?.displayName || "User"} 👋
-          </h1>
+          <h1 className="text-3xl font-bold">Hello, {role} 👋</h1>
           <p className="text-sm opacity-80 mt-2">
             Manage your profile and update your information below.
           </p>
@@ -98,13 +99,15 @@ const Profile = () => {
                     Display Name
                   </label>
                   <div className="relative">
-                  <input
-                    {...register("displayName", { required: true })}
-                    className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 pl-10 mt-2"
-                    placeholder="John Doe"
-                    
-                  />
-                  <User size={20} className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400" />
+                    <input
+                      {...register("displayName", { required: true })}
+                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 pl-10 mt-2"
+                      placeholder="John Doe"
+                    />
+                    <User
+                      size={20}
+                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                    />
                   </div>
                   {errors.displayName && (
                     <p className="text-red-500 text-sm">Name is required</p>
@@ -117,19 +120,22 @@ const Profile = () => {
                     PhotoURL
                   </label>
                   <div className="relative">
-                  <input
-                    type="url"
-                    placeholder="Image URL"
-                    {...register("photoURL", {
-                      required: "Image URL is required",
-                      pattern: {
-                        value: /^(https?:\/\/)/i,
-                        message: "Enter a valid image URL",
-                      },
-                    })}
-                    className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
-                  />
-                  <Link2 size={20} className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400" />
+                    <input
+                      type="url"
+                      placeholder="Image URL"
+                      {...register("photoURL", {
+                        required: "Image URL is required",
+                        pattern: {
+                          value: /^(https?:\/\/)/i,
+                          message: "Enter a valid image URL",
+                        },
+                      })}
+                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
+                    />
+                    <Link2
+                      size={20}
+                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                    />
                   </div>
                   {errors.photoURL && (
                     <p className="text-red-500 text-sm">

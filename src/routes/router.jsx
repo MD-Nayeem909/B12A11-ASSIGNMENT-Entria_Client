@@ -43,10 +43,6 @@ const router = createBrowserRouter([
         path: "/contests",
         element: <ContestsPage />,
       },
-      {
-        path: "/my_contests",
-        element: <div>My Contests</div>,
-      },
 
       {
         path: "/contest-details/:id",
