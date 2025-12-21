@@ -10,34 +10,34 @@ const RankedUsersTable = ({ users }) => {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-b-2xl shadow-xl">
+    <div className="bg-base-100 p-6 md:p-8 rounded-b-2xl shadow-xl">
       <div className="flex items-center mb-6 border-b pb-3">
         <Award className="w-6 h-6 mr-2 text-cyan-600" />
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold">
           Complete Leaderboard
         </h2>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-base-200">
+          <thead className="bg-base-200">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">
+              <th className="px-4 py-3 text-left text-xs font-medium  uppercase tracking-wider rounded-tl-lg">
                 # Rank
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">
                 <User className="w-4 h-4 inline mr-1" /> User
               </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">
+              <th className="px-4 py-3 text-right text-xs font-medium  uppercase tracking-wider rounded-tr-lg">
                 <Zap className="w-4 h-4 inline mr-1" /> Contest Wins
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-base-200 divide-y divide-base-100">
             {users.map((user) => (
               <tr
                 key={user.id}
-                className="hover:bg-cyan-50 transition-colors cursor-pointer"
+                className="hover:bg-base-100 transition-colors cursor-pointer"
               >
                 {/* Rank */}
                 <td className="px-4 py-4 whitespace-nowrap">

@@ -1,5 +1,8 @@
 import React from "react";
 import Button from "../common/Button";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const winners = [
   {
@@ -26,12 +29,39 @@ const winners = [
 ];
 
 export default function WinnerAdvertisement() {
+  const axiosSecure = useAxiosSecure();
+
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["top-winners"],
+    queryFn: async () => {
+      const res = await axiosSecure("/contests/winners/top");
+      return res.data;
+    },
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <p className="text-center text-red-500 mt-10">
+        Failed to load leaderboard
+      </p>
+    );
+  }
+
   return (
     <section className="my-16">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold">🏆 Recent Contest Winners</h2>
         <p className="text-gray-500 max-w-xl mx-auto">
-          Meet the talented contestants who took the spotlight! Get inspired and join upcoming contests to become the next winner.
+          Meet the talented contestants who took the spotlight! Get inspired and
+          join upcoming contests to become the next winner.
         </p>
       </div>
 
@@ -68,7 +98,9 @@ export default function WinnerAdvertisement() {
             <div className="card-body">
               <h3 className="text-xl font-bold">{winner.name}</h3>
               <p className="text-gray-600 text-sm">🏅 {winner.contest}</p>
-              <p className="font-semibold text-primary">Prize: {winner.prize}</p>
+              <p className="font-semibold text-primary">
+                Prize: {winner.prize}
+              </p>
             </div>
           </div>
         ))}
