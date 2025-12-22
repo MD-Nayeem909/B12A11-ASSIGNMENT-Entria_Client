@@ -3,43 +3,64 @@ import { Edit, Search, Trash2, Users } from "lucide-react";
 import StatusBadge from "../../../components/Dashboard/ContestCreator/MyCreatedContest/StatusBadge";
 import { Link, useNavigate } from "react-router";
 import Pagination2 from "../../../components/common/Pagination2";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 const MyCreatedContestsPage = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
-  const {
-    data: contests = [],
-    isLoading,
-  } = useQuery({
+  const { data: contests = [], isLoading } = useQuery({
     queryKey: ["my_contests"],
     queryFn: async () => {
-      const res = await axiosSecure(import.meta.env.VITE_BASE_URL + "creator/contests/my_contests");
+      const res = await axiosSecure(
+        import.meta.env.VITE_BASE_URL + "creator/contests/my_contests"
+      );
       return res.data;
     },
   });
 
-  console.log(contests);
-  
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
+      const res = await axiosSecure.delete(`contests/${id}`
+      );
+      toast.success(res.data.message);
+      return res.data;
+    },
+    onSuccess: () => {
+      // refetch my contests
+      queryClient.invalidateQueries(["my_contests"]);
+    },
+  });
 
   const handleView = (id) => {
-    const matchingContest = contests.find((contest) => contest.id === id);
-    navigate(`/contest-creator/view/${id}`, {
-      state: { contest: matchingContest },
-    });
+    navigate(`/dashboard/submitted_tasks/${id}`);
   };
-  const handleEdit = (id) => {
-    const matchingContest = contests.find((contest) => contest.id === id);
-    navigate(`/contest_creator/edit/${id}`, {
-      state: { contest: matchingContest },
+
+  const handleEdit = (id, state) => {
+
+    navigate(`/dashboard/create_contest_form?contestId=${id}`, {
+      state: { contest: state },
     });
   };
 
   const handleDelete = (id) => {
-    const filtered = contests.filter((c) => c._id !== id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This contest will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutation.mutate(id);
+      }
+    });
   };
 
   const filtered = contests.filter((c) =>
@@ -121,7 +142,7 @@ const MyCreatedContestsPage = () => {
                   <td>
                     {/* ALWAYS SHOW: SEE SUBMISSIONS */}
                     <button
-                      onClick={() => handleView(c.id)}
+                      onClick={() => handleView(c._id)}
                       className="btn btn-xs btn-primary flex justify-center items-center"
                     >
                       <Users size={14} /> See Submissions
@@ -130,19 +151,23 @@ const MyCreatedContestsPage = () => {
                   <td>
                     <div className="flex items-center gap-2">
                       {/* CONDITIONAL: Edit/Delete ONLY for pending */}
-                      {c.status === "Pending" ? (
+                      {c.status === "pending" ? (
                         <>
                           <button
-                            onClick={() => handleEdit(c.id)}
+                            onClick={() => handleEdit(c._id, c)}
                             className="btn btn-xs btn-outline flex gap-1"
                           >
                             <Edit size={14} /> Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(c.id)}
+                            disabled={deleteMutation.isLoading}
+                            onClick={() => handleDelete(c._id)}
                             className="btn btn-xs btn-error flex gap-1"
                           >
-                            <Trash2 size={14} /> Delete
+                            <Trash2 size={14} />
+                            {deleteMutation.isLoading
+                              ? "Deleting..."
+                              : "Delete"}
                           </button>
                         </>
                       ) : (
@@ -163,7 +188,7 @@ const MyCreatedContestsPage = () => {
               {/* Top row */}
               <div className="flex flex-col justify-between gap-3">
                 <div className="flex justify-between items-center">
-                  <h3 className="font-semibold text-sm">{row.contest}</h3>
+                  <h3 className="font-semibold text-sm">{row.title}</h3>
                   <p className="font-semibold text-xs">@{row.type}</p>
                 </div>
               </div>
