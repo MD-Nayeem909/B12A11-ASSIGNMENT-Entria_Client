@@ -118,9 +118,11 @@ const Profile = () => {
               </h2>
               <p className="text-gray-500">{user?.email}</p>
             </div>
-            <div className="w-full">
-              <WinPercentageChart />
-            </div>
+            {role[0] === "user" && (
+              <div className="w-full">
+                <WinPercentageChart />
+              </div>
+            )}
           </div>
 
           {/* Right Section — Form or Display */}
