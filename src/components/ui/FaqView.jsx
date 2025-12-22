@@ -4,21 +4,33 @@ import { FAQ } from "./FAQ";
 const sampleFaqs = [
   {
     index: 1,
-    question: "What makes this FAQ component special?",
+    question: "What is this platform about?",
     answer:
-      "This FAQ component features modern design with smooth animations, responsive layout, search functionality, and customizable color schemes. It's built with React and Tailwind CSS for optimal performance and beautiful aesthetics.",
+      "This platform allows users to participate in online contests across various categories such as Design, Writing, Business, Gaming, and Photography. Contest creators can host competitions, and participants can submit their work to win prize money.",
   },
   {
     index: 2,
-    question: "How do I customize the color scheme?",
+    question: "Is it free to join contests?",
     answer:
-      "You can customize the color scheme by passing a 'colorScheme' prop with values like 'blue', 'purple', or 'green'. The component automatically applies gradients, hover effects, and accent colors based on your choice.",
+      "Some contests are free, while others may require a small entry fee. The entry fee (if any) will be clearly shown on the contest details page before you participate.",
   },
   {
     index: 3,
-    question: "Is the component mobile-responsive?",
+    question: "How are winners selected?",
     answer:
-      "Absolutely! The component is fully responsive and works seamlessly across all device sizes. It features adaptive typography, flexible layouts, and touch-friendly interactions for mobile devices.",
+      "Winners are selected by the contest creator based on the quality and relevance of submissions. Once a winner is chosen, the contest status is marked as Completed, and the winner is announced.",
+  },
+  {
+    index: 4,
+    question: "When and how will I receive the prize money?",
+    answer:
+      "Winners are selected by the contest creator based on the quality and relevance of submissions. Once a winner is chosen, the contest status is marked as Completed, and the winner is announced.",
+  },
+  {
+    index: 5,
+    question: "Can I participate in multiple contests at the same time?",
+    answer:
+      "Yes! You can participate in multiple contests simultaneously as long as each submission meets the contest rules and deadlines.",
   },
 ];
 

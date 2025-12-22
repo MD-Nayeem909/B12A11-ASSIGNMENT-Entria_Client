@@ -17,11 +17,13 @@ const ContestsPage = () => {
   const { data: contestsData = [], isLoading } = useQuery({
     queryKey: ["contests"],
     queryFn: async () => {
-      const res = await axiosSecure(import.meta.env.VITE_BASE_URL + "contests?status=approved");
+      const res = await axiosSecure(
+        import.meta.env.VITE_BASE_URL + "contests?status=approved"
+      );
       return res.data.results;
     },
   });
-  
+
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +32,6 @@ const ContestsPage = () => {
   const startIndex = (currentPage - 1) * limit;
   const endIndex = startIndex + limit;
   const currentContests = contestsData.slice(startIndex, endIndex);
-  
 
   // Unique contestType list
   const contestTypes = [
@@ -73,7 +74,7 @@ const ContestsPage = () => {
         )}
       </div>
 
-      {filteredContests?.length === 0 && (
+      {!isLoading && filteredContests?.length === 0 && (
         <div className="">
           <EmptyState filteredContests={filteredContests} />
         </div>

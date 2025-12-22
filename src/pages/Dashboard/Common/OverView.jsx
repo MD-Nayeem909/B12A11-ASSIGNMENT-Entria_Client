@@ -85,14 +85,14 @@ const Dashboard = () => {
             </section>
             {/* Transactions */}
             {role === "admin" && <AdminPaymentHistory />}
-            <OverallStatisticsChart
-              data={stats.monthlyStats}
-              metric="contests"
-            />
+            {/* Statistics */}
+            {role === "admin" && (
+              <OverallStatisticsChart
+                data={stats.monthlyStats}
+                metric="contests"
+              />
+            )}
             {role === "admin" && <AllContestReport />}
-
-            {/* Main grid: Table + Activity */}
-            {/* <BestContests contests={[]} /> */}
             <ActiveUsersChart />
             <ContestStatusChart status={contestStatus} />
           </div>

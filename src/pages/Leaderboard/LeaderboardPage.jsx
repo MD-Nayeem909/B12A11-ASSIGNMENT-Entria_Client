@@ -10,7 +10,6 @@ const LeaderboardPage = () => {
 
   const {
     data = [],
-    isLoading,
     isError,
   } = useQuery({
     queryKey: ["top-winners"],

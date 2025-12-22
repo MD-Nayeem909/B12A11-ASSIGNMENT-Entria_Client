@@ -171,7 +171,7 @@ const FAQ = forwardRef(
               <div
                 key={index}
                 className={cn(
-                  "group border-2 rounded-2xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] hover:shadow-xl backdrop-blur-sm",
+                  "group border-2 rounded-2xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] hover:shadow-xl backdrop-blur-sm bg-",
                   colors.border,
                   colors.hover,
                   colors.bg

@@ -12,10 +12,8 @@ const RankedUsersTable = ({ users }) => {
   return (
     <div className="bg-base-100 p-6 md:p-8 rounded-b-2xl shadow-xl">
       <div className="flex items-center mb-6 border-b pb-3">
-        <Award className="w-6 h-6 mr-2 text-cyan-600" />
-        <h2 className="text-2xl font-bold">
-          Complete Leaderboard
-        </h2>
+        <Award className="w-6 h-6 mr-2" />
+        <h2 className="text-2xl font-bold">Complete Leaderboard</h2>
       </div>
 
       <div className="overflow-x-auto">
@@ -59,18 +57,14 @@ const RankedUsersTable = ({ users }) => {
                       alt={user.name}
                     />
                     <div>
-                      <div className="text-sm font-semibold text-gray-900">
-                        {user.name}
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {user.username}
-                      </div>
+                      <div className="text-sm font-semibold">{user.name}</div>
+                      <div className="text-xs">{user.username}</div>
                     </div>
                   </div>
                 </td>
 
                 {/* Wins */}
-                <td className="px-4 py-4 whitespace-nowrap text-right text-base font-extrabold text-cyan-600">
+                <td className="px-4 py-4 whitespace-nowrap text-right text-base font-extrabold">
                   {user.wins}
                 </td>
               </tr>
