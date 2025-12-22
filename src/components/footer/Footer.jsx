@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../common/logo";
+import Logo from "../common/Logo.jsx";
 import { Facebook } from "lucide-react";
 const GitHubIcon = ({ size = 24, className = "" }) => (
   <svg
