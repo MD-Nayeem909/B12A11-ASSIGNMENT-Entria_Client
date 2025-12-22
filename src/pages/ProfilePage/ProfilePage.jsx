@@ -16,9 +16,6 @@ const Profile = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-
-  console.log(role);
-
   // React Hook Form
   const {
     register,

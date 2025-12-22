@@ -29,9 +29,11 @@ const MyParticipatedContestsPage = () => {
   }
 
   const filteredData = useMemo(() => {
-    return contestsData && contestsData?.filter((item) =>
-      item.title?.toLowerCase().includes(search.toLowerCase())
-    );
+    return contestsData.length > 0
+      ? contestsData?.filter((item) =>
+          item.title?.toLowerCase().includes(search.toLowerCase())
+        )
+      : [];
   }, [contestsData, search]);
   const sortedData = useMemo(() => {
     return [...filteredData].sort((a, b) => {
