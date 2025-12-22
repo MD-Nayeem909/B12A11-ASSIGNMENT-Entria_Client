@@ -1,8 +1,7 @@
 import { AiOutlinePieChart } from "react-icons/ai";
 import StatsCard from "../../../components/Dashboard/OverView/StatsCard/StatsCard";
-import BestContests from "../../../components/Dashboard/OverView/BestPerformingContests/BestContests";
+// import BestContests from "../../../components/Dashboard/OverView/BestPerformingContests/BestContests";
 import ActiveUsersChart from "../../../components/Dashboard/OverView/ActiveUsersOverview/ActiveUsersPie";
-import Transactions from "../../../components/Dashboard/OverView/TransactionsOverView/Transactions";
 import ContestStatusChart from "../../../components/Dashboard/OverView/ContestStatusOverview/ContestStatusChart";
 import AllContestReport from "../../../components/Dashboard/OverView/AllContestReports/AllContestReport";
 import { useQuery } from "@tanstack/react-query";
@@ -10,13 +9,9 @@ import axios from "axios";
 import OverallStatisticsChart from "../../../components/Dashboard/OverView/OverallStatisticsChart/OverallStatisticsChart";
 import AdminPaymentHistory from "../../../components/Dashboard/OverView/AdminPaymentHistory/AdminPaymentHistory";
 import useRole from "../../../hooks/useRole";
-import useAuth from "../../../hooks/useAuth";
 
 const Dashboard = () => {
-  const { user } = useAuth();
-  const [role, isRoleLoading] = useRole();
-
-  console.log(role, isRoleLoading);
+  const [role] = useRole();
 
   const {
     data: stats = [],
@@ -94,9 +89,10 @@ const Dashboard = () => {
               data={stats.monthlyStats}
               metric="contests"
             />
-            <AllContestReport />
+            {role === "admin" && <AllContestReport />}
+
             {/* Main grid: Table + Activity */}
-            <BestContests contests={[]} />
+            {/* <BestContests contests={[]} /> */}
             <ActiveUsersChart />
             <ContestStatusChart status={contestStatus} />
           </div>

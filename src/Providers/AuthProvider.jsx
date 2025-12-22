@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { AuthContext } from "../context/AuthContext";
 import { auth } from "../firebase/firebase.init";
+// import axios from "axios";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -63,14 +64,20 @@ const AuthProvider = ({ children }) => {
 
     const data = await res.json();
     localStorage.setItem("access-token", data.token);
+
+    return data;
   };
 
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        await getJWT(currentUser);
-        setUser(currentUser);
+        const data = await getJWT(currentUser);
+        setUser({
+          ...currentUser,
+          bio: data.user.bio,
+          address: data.user.address,
+        });
       } else {
         localStorage.removeItem("access-token");
         setUser(null);

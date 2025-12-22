@@ -67,7 +67,7 @@ const router = createBrowserRouter([
     path: "/auth",
     element: <AuthLayout />,
     errorElement: <Error404 />,
-    hydrateFallbackElement: <div>Loading...</div>,
+    hydrateFallbackElement: <LoadingSpinner />,
     children: [
       {
         path: "login",
@@ -158,10 +158,6 @@ const router = createBrowserRouter([
       {
         path: "edit_contest",
         element: <CreateContestForm />,
-      },
-      {
-        path: "settings",
-        element: <div>Settings</div>,
       },
     ],
   },

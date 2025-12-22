@@ -1,8 +1,9 @@
 import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
-import { FiEdit2, FiMoreVertical, FiSearch } from "react-icons/fi";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { FiEdit2, FiMoreVertical } from "react-icons/fi";
 import Pagination2 from "../../../common/Pagination2";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllContestReport = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,6 +45,18 @@ const AllContestReport = () => {
     },
   ];
 
+  const axiosSecure = useAxiosSecure();
+
+  const { data: contests = [] } = useQuery({
+    queryKey: ["reports"],
+    queryFn: async () => {
+      const res = await axiosSecure("admin/reports");
+      console.log(res.data);
+
+      return res.data;
+    },
+  });
+
   // ------------------------
   // States
   // ------------------------
@@ -57,10 +70,12 @@ const AllContestReport = () => {
   // Filter + Search
   // ------------------------
   const filteredData = useMemo(() => {
-    return initialData.filter((item) =>
-      item.creator.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [initialData, search]);
+    return contests.length > 0
+      ? contests.filter((item) =>
+          item.creatorId?.name?.toLowerCase().includes(search.toLowerCase())
+        )
+      : [];
+  }, [contests, search]);
 
   // ------------------------
   // Sorting
@@ -92,6 +107,12 @@ const AllContestReport = () => {
       setSortField(field);
       setSortDirection("asc");
     }
+  };
+
+  const createdAt = (d) => {
+    const date = new Date(d);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
   };
 
   // ------------------------
@@ -156,10 +177,10 @@ const AllContestReport = () => {
           <tbody>
             {paginatedData.map((row, i) => (
               <tr key={i} className="transition hover:bg-base-200">
-                <td>{row.id}</td>
-                <td>{row.creator}</td>
-                <td>{row.date}</td>
-                <td>${row.price.toFixed(2)}</td>
+                <td>#{i + 1}</td>
+                <td>{row.creatorId.name}</td>
+                <td>{createdAt(row.createdAt)}</td>
+                <td>${row.prize.toFixed(2)}</td>
                 <td>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -184,7 +205,11 @@ const AllContestReport = () => {
       </div>
 
       {/* PAGINATION */}
-      <Pagination2 totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Pagination2
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
