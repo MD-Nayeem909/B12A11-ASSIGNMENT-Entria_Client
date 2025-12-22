@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "../common/Button";
 import { NavLink } from "react-router";
-import Logo from "../common/logo.jsx";
 import { useTheme } from "../../Providers/ThemeProvider";
 import useAuth from "../../hooks/useAuth";
 import UserProfileDropdown from "../Profile/UserProfileDropdown";
 import toast from "react-hot-toast";
+import Logo from "../common/logo";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
