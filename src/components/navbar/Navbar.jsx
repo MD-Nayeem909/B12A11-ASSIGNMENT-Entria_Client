@@ -5,7 +5,7 @@ import { useTheme } from "../../Providers/ThemeProvider";
 import useAuth from "../../hooks/useAuth";
 import UserProfileDropdown from "../Profile/UserProfileDropdown";
 import toast from "react-hot-toast";
-import Logo from "../common/logo";
+import LogoIcon from "../common/LogoIcon";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -58,7 +58,7 @@ const Navbar = () => {
             {link}
           </ul>
         </div>
-        <Logo />
+        <LogoIcon />
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{link}</ul>

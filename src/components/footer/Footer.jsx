@@ -1,6 +1,6 @@
 import React from "react";
 import { Facebook } from "lucide-react";
-import Logo from "../common/logo";
+import LogoIcon from "../common/LogoIcon";
 const GitHubIcon = ({ size = 24, className = "" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ const Footer = () => {
     <footer className="bg-accent text-accent-content p-10">
       <div className="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="flex flex-col gap-4">
-          <Logo />
+          <LogoIcon />
           <p className="text-sm leading-relaxed">
             Innovating for a better tomorrow. We are committed to delivering
             high-quality solutions that empower businesses and individuals.

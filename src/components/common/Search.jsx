@@ -48,10 +48,7 @@ export default function Search() {
                 <h2 className="text-xs font-semibold tracking-wider text-gray-500 dark:text-gray-400 uppercase">
                   Recent search
                 </h2>
-                <button
-                  onClick={"handleClear"}
-                  className="px-3 py-1 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-200 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700/50 hover:text-black dark:hover:text-white"
-                >
+                <button className="px-3 py-1 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-200 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700/50 hover:text-black dark:hover:text-white">
                   Clear all
                 </button>
               </div>
