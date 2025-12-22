@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link2, Mail, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link2, Mail, MapPinCheck, TextQuote, User } from "lucide-react";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import DeleteModal from "../../components/common/ModalsButton/DeleteModal";
 import useRole from "../../hooks/useRole";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import WinPercentageChart from "./WinPercentageChart";
 
 const Profile = () => {
   const { user, setUser, updateUserProfile, deleteAccount } = useAuth();
@@ -22,13 +23,20 @@ const Profile = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      displayName: user?.displayName,
-      email: user?.email,
-      photoURL: user?.photoURL,
-    },
-  });
+    reset,
+  } = useForm();
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        bio: user.bio || "",
+        address: user.address || "",
+      });
+    }
+  }, [user, reset]);
 
   // Watch displayName for live UI update
   const displayNameWatch = watch("displayName");
@@ -36,9 +44,23 @@ const Profile = () => {
 
   //  Update Profile Mutation
   const updateMutation = useMutation({
-    mutationFn: async (data) => updateUserProfile(data),
-    onSuccess: () => {
-      setUser({ ...user, displayNameWatch, photoURL });
+    mutationFn: async (data) => {
+      await updateUserProfile(data.displayName, data.photoURL);
+      const res = await axiosSecure.patch(`users/update/${user.uid}`, {
+        bio: data.bio,
+        address: data.address,
+      });
+      return res.data;
+    },
+
+    onSuccess: (updatedUser) => {
+      setUser((user) => ({
+        ...user,
+        displayName: displayNameWatch,
+        photoURL,
+        bio: updatedUser?.bio ?? user.bio,
+        address: updatedUser?.address ?? user.address,
+      }));
       toast.success("Profile updated successfully!");
       setEditMode(false);
     },
@@ -79,7 +101,7 @@ const Profile = () => {
         </div>
 
         {/* Profile Card */}
-        <div className="bg-base-100 rounded-2xl shadow-xl p-10 max-w-4xl mx-auto flex flex-col md:flex-row gap-10">
+        <div className="bg-base-100 rounded-2xl shadow-xl p-10 max-w-4xl mx-auto flex flex-col items-center md:flex-row gap-10">
           {/* Left - Image */}
           <div className="flex flex-col items-center md:w-1/2">
             <div className="relative">
@@ -90,10 +112,15 @@ const Profile = () => {
               />
             </div>
 
-            <h2 className="text-xl font-semibold mt-4 text-primary">
-              {displayNameWatch || user?.displayName}
-            </h2>
-            <p className="text-gray-500">{user?.email}</p>
+            <div>
+              <h2 className="text-xl font-semibold mt-4 text-primary">
+                {displayNameWatch || user?.displayName}
+              </h2>
+              <p className="text-gray-500">{user?.email}</p>
+            </div>
+            <div className="w-full">
+              <WinPercentageChart />
+            </div>
           </div>
 
           {/* Right Section — Form or Display */}
@@ -151,6 +178,42 @@ const Profile = () => {
                   )}
                 </div>
 
+                {/* Bio Filed */}
+                <div>
+                  <label className="text-sm font-semibold text-primary mb-2">
+                    Bio
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      placeholder="Tell something about yourself"
+                      {...register("bio")}
+                      className="textarea textarea-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
+                    />
+                    <TextQuote
+                      size={20}
+                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Address Filed */}
+                <div>
+                  <label className="text-sm font-semibold text-primary mb-2">
+                    Address
+                  </label>
+                  <div className="relative">
+                    <input
+                      placeholder="Add your address"
+                      {...register("address")}
+                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
+                    />
+                    <MapPinCheck
+                      size={20}
+                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                    />
+                  </div>
+                </div>
+
                 {/* Email */}
                 <div>
                   <label className="text-sm font-semibold text-primary">
@@ -194,6 +257,20 @@ const Profile = () => {
                 <div className="flex items-center gap-2">
                   <Mail className="text-indigo-600" />
                   <p className="text-primary font-medium">{user?.email}</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <TextQuote className="text-indigo-600" />
+                  <p className="text-primary font-medium">
+                    {user?.bio || "No bio added yet"}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <MapPinCheck className="text-indigo-600" />
+                  <p className="text-primary font-medium">
+                    {user?.address || "No address added yet"}
+                  </p>
                 </div>
 
                 <button

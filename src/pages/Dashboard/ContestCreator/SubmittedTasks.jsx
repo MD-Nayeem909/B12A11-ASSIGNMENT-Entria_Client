@@ -76,7 +76,7 @@ const SubmittedTasks = () => {
                   </button>
                 </td>
                 <td>
-                  {submissions.winner?.userId === sub.userId._id ? (
+                  {submissions.winner?.userId === sub?.userId?._id ? (
                     <span className="badge badge-success">Winner</span>
                   ) : (
                     <span className="badge badge-warning">Pending</span>
