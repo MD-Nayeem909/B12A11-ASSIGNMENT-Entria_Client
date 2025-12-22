@@ -27,6 +27,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import CheckoutPage from "../pages/Payment/CheckoutPage";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Payment/PaymentCancel";
+import CreatorRoute from "./CreatorRoute";
 
 const router = createBrowserRouter([
   {
@@ -49,11 +50,19 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ContestDetails />,
+            element: (
+              <PrivateRoute>
+                <ContestDetails />
+              </PrivateRoute>
+            ),
           },
           {
             path: "submit_entry",
-            element: <SubmitEntryPage />,
+            element: (
+              <PrivateRoute>
+                <SubmitEntryPage />
+              </PrivateRoute>
+            ),
           },
         ],
       },
@@ -85,7 +94,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <Error404 />,
     hydrateFallbackElement: <LoadingSpinner />,
     children: [
@@ -119,7 +132,11 @@ const router = createBrowserRouter([
       },
       {
         path: "created_contests",
-        element: <MyCreatedContestsPage />,
+        element: (
+          <CreatorRoute>
+            <MyCreatedContestsPage />
+          </CreatorRoute>
+        ),
       },
       {
         path: "create_contest_form",
@@ -135,21 +152,19 @@ const router = createBrowserRouter([
       },
       {
         path: "manage_users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "manage_contests",
         element: (
-          <PrivateRoute>
-            <AdminRoute>
-              <ManageContests />
-            </AdminRoute>
-          </PrivateRoute>
+          <AdminRoute>
+            <ManageContests />
+          </AdminRoute>
         ),
-      },
-      {
-        path: "participants",
-        element: <div>Participants</div>,
       },
       {
         path: "submitted_tasks/:id",
