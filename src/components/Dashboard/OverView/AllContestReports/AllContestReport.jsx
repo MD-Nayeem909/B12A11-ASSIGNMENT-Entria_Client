@@ -6,53 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllContestReport = () => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const initialData = [
-    {
-      id: "#C1001",
-      creator: "Rasel Ahmed",
-      date: "Jan 6, 2025",
-      price: 4500,
-      status: "Completed",
-    },
-    {
-      id: "#C1002",
-      creator: "Rakib Hossain",
-      date: "Jan 8, 2025",
-      price: 9800,
-      status: "Completed",
-    },
-    {
-      id: "#C1003",
-      creator: "Abu Sufian",
-      date: "12 Feb, 2025",
-      price: 2000,
-      status: "Ongoing",
-    },
-    {
-      id: "#C1004",
-      creator: "Jhankar Mahbub",
-      date: "22 Dec, 2024",
-      price: 8500,
-      status: "Pending",
-    },
-    {
-      id: "#C1005",
-      creator: "Mahadi Hasan",
-      date: "10 Jan, 2025",
-      price: 3000,
-      status: "Rejected",
-    },
-  ];
-
   const axiosSecure = useAxiosSecure();
 
   const { data: contests = [] } = useQuery({
     queryKey: ["reports"],
     queryFn: async () => {
       const res = await axiosSecure("admin/reports");
-      console.log(res.data);
-
       return res.data;
     },
   });

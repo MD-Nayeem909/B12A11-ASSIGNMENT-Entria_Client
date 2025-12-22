@@ -29,7 +29,7 @@ const FeaturedContests = () => {
         </p>
       </div>
       {isLoading && (
-        <div className="h-96 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
+        <div className="flex items-center justify-center rounded-lg">
           <LoadingSpinner />
         </div>
       )}
