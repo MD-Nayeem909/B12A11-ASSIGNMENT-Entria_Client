@@ -4,6 +4,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Trophy } from "lucide-react";
+import { Link } from "react-router";
 
 export default function WinnerAdvertisement() {
   const axiosSecure = useAxiosSecure();
@@ -67,9 +68,9 @@ export default function WinnerAdvertisement() {
 
       {/* Winners List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {data.map((winner) => (
+        {data.map((winner, index) => (
           <div
-            key={winner.id}
+            key={index}
             className="card bg-base-100 shadow-md hover:shadow-xl transition duration-300 rounded-2xl"
           >
             <figure className="h-56 overflow-hidden">
@@ -91,7 +92,9 @@ export default function WinnerAdvertisement() {
       </div>
 
       <div className="text-center mt-10">
-        <Button>Join a Contest Now</Button>
+        <Link to="/auth/login">
+          <Button>Join a Contest Now</Button>
+        </Link>
       </div>
     </section>
   );

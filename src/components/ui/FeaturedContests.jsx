@@ -33,7 +33,7 @@ const FeaturedContests = () => {
           <LoadingSpinner />
         </div>
       )}
-      {contestData.length === 0 ? (
+      {!isLoading && contestData.length === 0 ? (
         <div className="flex justify-center">
           <NoContestFound />
         </div>
