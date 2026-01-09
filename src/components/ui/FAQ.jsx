@@ -143,7 +143,7 @@ const FAQ = forwardRef(
         {}
         {searchable && (
           <div className="relative max-w-md mx-auto">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
               <SearchIcon />
             </div>
             <input

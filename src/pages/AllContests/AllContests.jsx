@@ -1,75 +1,88 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useState, useMemo } from "react";
+import { Link } from "react-router";
 import Button from "../../components/common/Button";
 import NoContestFound from "../../components/ui/NoContestFound";
-import axios from "axios";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
 import Pagination from "../../components/common/Pagination";
-import { useState } from "react";
 import TabsWithFilter from "../../components/common/TabsWithFilter";
-import { Link } from "react-router";
+import ContestCardSkeleton from "../../components/contest/ContestCardSkeleton";
 
 const AllContests = () => {
+  const [activeTab, setActiveTab] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 10;
+
   const { data: contests = [], isLoading } = useQuery({
     queryKey: ["contests"],
     queryFn: async () => {
-      const res = await axios(
-        import.meta.env.VITE_API_URL + "public/data.json"
+      const res = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}contests?status=approved`
       );
-      return res.data;
+      return res.data.results || res.data;
     },
   });
+  const filteredContests = useMemo(() => {
+    if (activeTab === "All") return contests;
+    return contests.filter((contest) => contest.type === activeTab);
+  }, [contests, activeTab]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 10;
-  const totalPages = Math.ceil(contests.length / limit);
-  const startIndex = (currentPage - 1) * limit;
-  const endIndex = startIndex + limit;
-  const currentContests = contests.slice(startIndex, endIndex);
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+  const totalPages = Math.ceil(filteredContests.length / limit);
+  const currentContests = filteredContests.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setCurrentPage(1);
   };
 
   return (
-    <div>
-      <header className="flex items-center justify-between py-10">
-        <div className="">
-          <h2 className="scroll-m-20 text-3xl font-bold tracking-tight first:mt-0">
+    <div className="container mx-auto px-4 min-h-screen">
+      <header className="flex flex-col md:flex-row md:items-center justify-between py-12 gap-6">
+        <div>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
             Browse All Contests
           </h2>
-          <p className="text-muted-foreground text-xl max-w-2xl">
-            Discover amazing creative contests and showcase your creativity
+          <p className="text-base-content/70 text-lg mt-2 max-w-2xl">
+            Discover amazing creative contests and showcase your talent to the
+            world.
           </p>
         </div>
         <Link to="/create-contest-form">
-          <Button>Create Contest</Button>
+          <Button className="btn-primary shadow-lg">Create Contest</Button>
         </Link>
       </header>
-      <main>
-        {/* name of each tab group should be unique */}
 
-        {isLoading && (
-          <div className="h-96 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-            <LoadingSpinner />
+      <main className="mb-20">
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, index) => (
+              <ContestCardSkeleton key={index} />
+            ))}
           </div>
-        )}
-
-        {contests.length === 0 ? (
-          <div className="h-96 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-            <NoContestFound />
-          </div>
+        ) : contests.length === 0 ? (
+          <NoContestFound />
         ) : (
-          <TabsWithFilter contests={currentContests} />
+          <>
+            <TabsWithFilter
+              contests={currentContests}
+              onTabChange={handleTabChange}
+              activeTab={activeTab}
+            />
+            {totalPages > 1 && (
+              <div className="mt-12 flex justify-center">
+                <Pagination
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  goToPage={(page) => setCurrentPage(page)}
+                />
+              </div>
+            )}
+          </>
         )}
       </main>
-      <footer>
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          goToPage={goToPage}
-        />
-      </footer>
     </div>
   );
 };

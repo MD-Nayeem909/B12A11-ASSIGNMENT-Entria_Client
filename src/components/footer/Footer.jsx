@@ -27,8 +27,8 @@ const LinkedInIcon = ({ size = 24, className = "" }) => (
 );
 const Footer = () => {
   return (
-    <footer className="bg-accent text-accent-content p-10">
-      <div className="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="bg-base-200 text-base-content p-10">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="flex flex-col gap-4">
           <LogoIcon />
           <p className="text-sm leading-relaxed">
@@ -148,12 +148,12 @@ const Footer = () => {
         </div>
         <div className="space-y-4">
           <h3 className="text-xl font-bold">Contact Us</h3>
-          <p className="">123 Tech Avenue, Innovation City, 98765</p>
-          <p className="">Email: info@yourbrand.com</p>
-          <p className="">Phone: +1 (555) 123-4567</p>
+          <p className="">Chittagong, Bangladesh</p>
+          <p className="">Email: mdnayeemuddin909@gmail.com</p>
+          <p className="">Phone: +880 1518 966 045</p>
         </div>
       </div>
-      <div className="text-center text-sm p-5 mt-10 border-t border-gray-200">
+      <div className="text-center text-sm p-5 mt-10 border-t border-base-300">
         <p>
           &copy; {new Date().getFullYear()} Your Brand. All rights reserved.
         </p>

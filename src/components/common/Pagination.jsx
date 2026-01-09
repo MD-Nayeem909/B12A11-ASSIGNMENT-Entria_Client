@@ -1,37 +1,49 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const Pagination = ({ currentPage, totalPages, goToPage }) => {
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [limit, setLimit] = useState(10);
-//   const totalPages = Math.ceil(data.length / limit);
+  const handlePageChange = (page) => {
+    goToPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  if (totalPages <= 1) return null;
+
   return (
-    <div className="flex justify-center items-center-10">
-      <div className="join">
+    <div className="flex justify-center items-center my-12">
+      <div className="join shadow-sm border border-base-300 rounded-full overflow-hidden">
+        {/* Previous Button */}
         <button
-          onClick={() => goToPage(currentPage - 1)}
-          className="btn join-item rounded-l-full"
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="btn btn-ghost join-item px-4 hover:bg-base-200"
           disabled={currentPage === 1}
         >
-          <ArrowLeft />
+          <ArrowLeft size={18} />
         </button>
-        {Array.from({ length: totalPages || 1 }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => goToPage(index + 1)}
-            className={`join-item btn ${
-              currentPage === index + 1 ? "bg-primary text-white" : ""
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
 
+        {/* Page Numbers */}
+        {Array.from({ length: totalPages }, (_, index) => {
+          const pageNumber = index + 1;
+          return (
+            <button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={`join-item btn btn-md border-none ${
+                currentPage === pageNumber
+                  ? "btn-primary text-white"
+                  : "btn-ghost hover:bg-base-200"
+              }`}
+            >
+              {pageNumber}
+            </button>
+          );
+        })}
+
+        {/* Next Button */}
         <button
-          onClick={() => goToPage(currentPage + 1)}
-          className="btn join-item rounded-r-full"
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="btn btn-ghost join-item px-4 hover:bg-base-200"
           disabled={currentPage === totalPages}
         >
-          <ArrowRight />
+          <ArrowRight size={18} />
         </button>
       </div>
     </div>

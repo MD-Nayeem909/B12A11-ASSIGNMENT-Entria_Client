@@ -7,7 +7,7 @@ import FaqView from "../../components/ui/FaqView";
 
 const Home = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <Hero />
       <FeaturedContests />
       <WinnerAdvertisement />

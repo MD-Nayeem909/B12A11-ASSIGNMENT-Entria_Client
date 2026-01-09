@@ -6,89 +6,69 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-base-100: #fafafa;
-  --color-base-200: #f5f5f5;
+  --color-base-100: #ffffff; /* Pure White Background */
+  --color-base-200: #f8fafc; /* Subtle Gray for sections */
+  --color-base-300: #f1f5f9; /* Borders/Dividers */
+  --color-base-content: #0f172a; /* Deep Navy for Text */
 
-  --color-primary: #7008e7;
-  --color-primary-content: #ede9fe;
-  --color-secondary: #8200db;
-  --color-secondary-content: #f3e8ff;
-  --color-accent: #f3f4f6;
-  --color-accent-content: oklch(0.446 0.03 256.802);
-  --color-neutral: #0a0a0a;
-  --color-neutral-content: #e5e5e5;
-  --color-info: #cefafe;
-  --color-info-content: #00d3f2;
-  --color-success: #dcfce7;
-  --color-success-content: #05df72;
-  --color-warning: #fef9c2;
-  --color-warning-content: #fdc700;
-  --color-error: #ffe2e2;
-  --color-error-content: #ff6467;
+  --color-primary: #6366f1; /* Indigo - Professional Brand Color */
+  --color-primary-content: #ffffff;
+  --color-secondary: #9333ea;
+  --color-secondary-content: #ffffff;
+  --color-accent: #f59e0b; /* Amber - Perfect for 'Winner' or 'Prize' labels */
+  --color-accent-content: #ffffff;
 
-  /* border radius */
-  --radius-selector: 1rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.5rem;
+  --color-info: #0ea5e9;
+  --color-info-content: #0c506e;
 
-  /* base sizes */
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
+  --color-success: #10b981; /* Standard Green */
+  --color-success-content: #064e36;
+  --color-warning: #facc15;
+  --color-warning-content: #715e12;
+  --color-error: #ef4444;
+  --color-error-content: #7f1d1d;
 
-  /* border size */
-  --border: 1px;
-
-  /* effects */
-  --depth: 1;
-  --noise: 0;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
 }
+
 @plugin "daisyui/theme" {
   name: "dark";
-  default: false;
+  --color-base-100: #0f172a; /* Deep Slate Blue-Black */
+  --color-base-200: #1e293b; /* Slightly Lighter Slate for Cards */
+  --color-base-300: #334155; /* Border colors */
+  --color-base-content: #f8fafc; /* Off-white text */
 
-  --color-base-100: #19191c;
-  --color-base-200: #0f0f12;
+  --color-primary: #818cf8; /* Lighter Indigo for Dark Mode visibility */
+  --color-primary-content: #0f172a;
+  --color-secondary: #a855f7;
+  --color-secondary-content: #ffffff;
+  --color-accent: #fbbf24;
+  --color-accent-content: #0f172a;
 
-  --color-primary: #7008e7;
-  --color-primary-content: #ede9fe;
-  --color-secondary: #8200db;
-  --color-secondary-content: #f3e8ff;
-  --color-accent: #0a0a0a;
-  --color-accent-content: #f3f4f6;
-  --color-neutral: #e5e5e5;
-  --color-neutral-content: #0a0a0a;
-  --color-info: #cefafe;
-  --color-info-content: #00d3f2;
-  --color-success: #b9f8cf;
-  --color-success-content: #032e15;
-  --color-warning: #ffd6a7;
-  --color-warning-content: #441306;
-  --color-error: #ffc9c9;
-  --color-error-content: #460809;
+  --color-info: #38bdf8;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
 
-  /* border radius */
-  --radius-selector: 1rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.5rem;
-
-  /* base sizes */
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-
-  /* border size */
-  --border: 1px;
-
-  /* effects */
-  --depth: 1;
-  --noise: 0;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  [data-theme="light"] body {
+    @apply text-[#0f172a] bg-base-100;
+  }
+}
+@layer base {
   [data-theme="dark"] body {
-    @apply text-[#e2e8f0] bg-base-200;
+    @apply text-[#f8fafc] bg-base-100;
   }
 }
 
@@ -98,6 +78,10 @@
 
 .text-gradient {
   @apply bg-linear-to-br from-primary to-secondary text-transparent bg-clip-text;
+}
+
+.bg-banner {
+  @apply bg-gradient-to-r from-indigo-600 to-purple-600
 }
 
 /* @keyframes gradient-animation {

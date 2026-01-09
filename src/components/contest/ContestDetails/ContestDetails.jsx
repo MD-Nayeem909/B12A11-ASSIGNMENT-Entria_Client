@@ -5,134 +5,164 @@ import { useEffect, useState } from "react";
 import PaymentMethod from "../../PaymentMethod/PaymentMethod";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Trophy, Users, Clock, Info, Link as LinkIcon } from "lucide-react";
 
 export default function ContestDetails() {
   const { user } = useAuth();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
-  const contest = location.state.contest;
+  const contest = location.state?.contest;
+
   const [isRegistered, setIsRegistered] = useState(false);
   const [isCompletionOpen, setIsCompletionOpen] = useState(false);
   const [submission, setSubmission] = useState("");
 
   useEffect(() => {
     if (user && contest) {
-      axiosSecure(`/users/${contest._id}`).then((res) => {
-        setIsRegistered(res.data.joinedContests);
+      axiosSecure.get(`/users/is-registered/${contest._id}`).then((res) => {
+        setIsRegistered(res.data.isRegistered);
       });
     }
   }, [user, contest, axiosSecure]);
 
-  const winner = contest.winner.userId;
-
   if (!user)
     return (
-      <div className="text-center py-10 text-xl">
+      <div className="text-center py-20 text-xl font-medium">
         Please Login to view contest details.
       </div>
     );
   if (!contest)
-    return <div className="text-center py-10">Contest not found.</div>;
+    return <div className="text-center py-20">Contest not found.</div>;
 
   const isEnded = new Date(contest.deadline) < new Date();
-
-  const submitTask = () => {
-    setIsCompletionOpen(true);
-  };
+  const winner = contest.winner?.userId;
 
   const handleSubmitTask = async () => {
-    const res = await axiosSecure.post(`contests/${contest._id}/submit`, {
-      submission: submission,
-    });
-    setIsCompletionOpen(false);
+    try {
+      await axiosSecure.post(`contests/${contest._id}/submit`, { submission });
+      setIsCompletionOpen(false);
+    } catch (error) {
+      console.error("Submission failed", error);
+    }
   };
 
   return (
-    <div className="w-full mx-auto md:p-6">
-      <h1 className="text-3xl font-bold mb-4">{contest.title}</h1>
-
-      {/* Banner */}
-      <img
-        src={contest?.image}
-        alt={contest?.title}
-        className="w-full h-150 object-cover rounded-xl shadow mb-6"
-      />
-
-      {/* Participants */}
-      <p className="text-lg font-semibold mb-2">
-        Participants: {contest.participants.length || 0}
-      </p>
-
-      {/* Prize Money */}
-      <p className="text-lg font-semibold mb-4 text-green-600">
-        Prize Money: ${contest.prize}
-      </p>
-
-      {/* Winner */}
-      {contest?.winner && contest?.winner.userId ? (
-        <div className="bg-base-200 p-4 rounded-xl mb-4">
-          <p className="font-bold text-xl mb-2">Winner Announced 🎉</p>
-          <div className="flex items-center gap-4">
-            <img
-              src={winner?.image}
-              alt={winner?.name}
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <p className="font-semibold text-2xl">{winner?.name}</p>
-              <p className="font-semibold">{winner?.email}</p>
+    <div className="max-w-5xl mx-auto p-4 md:p-8">
+      {/* Title Section */}
+      <div className="mb-8">
+        <h1 className="text-3xl md:text-5xl font-extrabold text-base-content mb-4">
+          {contest.title}
+        </h1>
+        <div className="flex flex-wrap gap-4 items-center text-sm md:text-base">
+          <span className="badge badge-secondary p-4 gap-2">
+            <Trophy size={16} /> Prize: ${contest.prize}
+          </span>
+          <span className="badge badge-ghost p-4 gap-2">
+            <Users size={16} /> {contest.participants?.length || 0} Participants
+          </span>
+          {isEnded ? (
+            <span className="badge badge-error p-4 uppercase font-bold text-xs">
+              Ended
+            </span>
+          ) : (
+            <div className="flex items-center gap-2 font-bold text-primary">
+              <Clock size={18} />{" "}
+              <Countdown date={new Date(contest.deadline)} />
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* Hero Banner */}
+      <div className="relative group overflow-hidden rounded-3xl shadow-2xl mb-10">
+        <img
+          src={contest?.image}
+          alt={contest?.title}
+          className="w-full h-75 md:h-125 object-cover group-hover:scale-105 transition duration-700"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* Left Side: Content */}
+        <div className="lg:col-span-2 space-y-8">
+          <section>
+            <h2 className="text-2xl font-bold flex items-center gap-2 mb-3">
+              <Info className="text-primary" /> Description
+            </h2>
+            <p className="text-base-content/80 leading-relaxed text-lg">
+              {contest.description}
+            </p>
+          </section>
+
+          <section className="bg-base-200 p-6 rounded-2xl border-l-4 border-primary">
+            <h2 className="text-2xl font-bold flex items-center gap-2 mb-3">
+              <LinkIcon className="text-primary" /> Task Instructions
+            </h2>
+            <p className="text-base-content/80 italic">{contest.instruction}</p>
+          </section>
+
+          {/* Action Buttons */}
+          <div className="pt-6">
+            {!isRegistered && !isEnded && (
+              <button
+                onClick={() =>
+                  document.getElementById("payment_modal").showModal()
+                }
+                className="btn btn-primary btn-lg px-10 rounded-full shadow-xl shadow-primary/20"
+              >
+                Register & Pay ${contest.price}
+              </button>
+            )}
+            {isRegistered && !isEnded && (
+              <button
+                onClick={() => setIsCompletionOpen(true)}
+                className="btn btn-secondary btn-lg px-10 rounded-full shadow-xl"
+              >
+                Submit Your Task
+              </button>
+            )}
+            {isEnded && (
+              <div className="alert alert-warning">
+                The registration for this contest has ended.
+              </div>
+            )}
           </div>
         </div>
-      ) : (
-        <p className="text-gray-500 italic mb-4">Winner not announced yet</p>
-      )}
 
-      {/* Description */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold mb-2">Description</h2>
-        <p className="text-gray-700">{contest.description}</p>
+        {/* Right Side: Winner Card */}
+        <div className="lg:col-span-1">
+          {contest?.winner?.userId ? (
+            <div className="card bg-gradient-to-br from-primary to-secondary text-primary-content shadow-xl sticky top-24">
+              <div className="card-body items-center text-center">
+                <Trophy
+                  size={48}
+                  className="mb-2 text-yellow-300 animate-bounce"
+                />
+                <h2 className="card-title text-2xl font-bold">Winner! 🎉</h2>
+                <div className="avatar my-4">
+                  <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <img src={winner?.image} alt={winner?.name} />
+                  </div>
+                </div>
+                <p className="font-bold text-xl">{winner?.name}</p>
+                <p className="text-sm opacity-80">{winner?.email}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="card bg-base-200 border-2 border-dashed border-base-300 p-8 text-center sticky top-24">
+              <Clock size={40} className="mx-auto mb-4 text-base-content/30" />
+              <p className="font-semibold text-base-content/50">
+                Winner will be announced after the deadline.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Task Instructions */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold mb-2">Task Instructions</h2>
-        <p className="text-gray-700">{contest.instruction}</p>
-      </div>
-
-      {/* Countdown */}
-      <div className="mb-6 text-lg font-semibold">
-        {isEnded ? (
-          <span className="text-red-500">Contest Ended</span>
-        ) : (
-          <div className="p-4 bg-base-200 rounded-xl w-fit">
-            Deadline: <Countdown date={new Date(contest.deadline)} />
-          </div>
-        )}
-      </div>
-
-      {/* Register / Submit Buttons */}
-      <div className="flex gap-4 mt-6">
-        {!isRegistered && !isEnded && (
-          <Button
-            id="my_modal_3"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
-            className="btn btn-primary"
-          >
-            Register / Pay
-          </Button>
-        )}
-        {isRegistered && !isEnded && (
-          <Button onClick={submitTask} className="btn btn-secondary">
-            Submit Task
-          </Button>
-        )}
-      </div>
-
-      <dialog id="my_modal_3" className="modal">
-        <div className="modal-box ">
+      {/* Payment Modal */}
+      <dialog id="payment_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
@@ -147,40 +177,31 @@ export default function ContestDetails() {
         </div>
       </dialog>
 
-      {/* Submit Task Modal */}
+      {/* Submit Task Modal - Using DaisyUI Modal Style for consistency */}
       {isCompletionOpen && (
-        <div className="fixed inset-0 bg-base-200 bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white p-6 rounded-xl max-w-md w-full shadow-lg">
-            <h3 className="text-xl font-bold mb-3">Submit Your Task</h3>
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-4">Submit Your Entry</h3>
             <textarea
-              type="test"
-              name="message"
               value={submission}
               onChange={(e) => setSubmission(e.target.value)}
-              className="textarea textarea-bordered w-full mb-4"
-              placeholder="Provide Google Drive/YouTube/GitHub links here"
-              rows={4}
+              className="textarea textarea-bordered w-full h-32"
+              placeholder="Paste your submission links (Google Drive, GitHub, etc.)"
             ></textarea>
-            <div className="flex justify-end gap-3">
+            <div className="modal-action">
               <button
                 onClick={() => setIsCompletionOpen(false)}
-                className="btn btn-error"
+                className="btn"
               >
                 Cancel
               </button>
-              <Button onClick={handleSubmitTask} className="btn btn-primary">
-                Submit
-              </Button>
+              <button onClick={handleSubmitTask} className="btn btn-primary">
+                Submit Entry
+              </button>
             </div>
           </div>
         </div>
       )}
-      {/* {isCompletionOpen && (
-        <SubmitTaskModal2
-          isCompletionOpen={isCompletionOpen}
-          setIsCompletionOpen={setIsCompletionOpen}
-        />
-      )} */}
     </div>
   );
 }
