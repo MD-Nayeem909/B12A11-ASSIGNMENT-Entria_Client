@@ -1,20 +1,38 @@
+import { Link } from "react-router";
 import Search from "../common/Search";
 // import Searchbar from "../common/Searchbar";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col justify-center min-h-[calc(100vh-72px)] gap-6 text-center my-20 m-4 sm:m-8">
-      <h1 className="scroll-m-20 text-5xl font-extrabold tracking-tight text-balance">
-        Unleash Your Creativity
-      </h1>
-      <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
-        Join Entria and participate in amazing contests. Design, write, and win
-        amazing prizes. Whether you're a designer, a writer, entrepreneur or
-        creator, Entria has something for everyone.
-      </p>
-      <div className="flex gap-4 justify-center items-center">
-        {/* <Searchbar/> */}
+    <div className="flex flex-col justify-center items-start gap-6">
+      <div className="text-center md:text-left">
+        <h1 className="scroll-m-20 text-4xl md:text-5xl mb-6 font-extrabold tracking-tight lg:text-left lg:leading-[1.1]">
+          Unleash Your Creativity
+        </h1>
+        <p className="text-muted-foreground text-xl lg:max-w-2xl">
+          Join Entria and participate in amazing contests. Design, write, and
+          win amazing prizes. Whether you're a designer, a writer, entrepreneur
+          or creator, Entria has something for everyone.
+        </p>
+      </div>
+
+      {/* <Searchbar/> */}
+      <div className="w-full">
         <Search />
+      </div>
+      <div className="flex gap-4">
+        <Link
+          to="/contests"
+          className="btn btn-primary btn-md md:btn-lg rounded-full md:px-8"
+        >
+          Explore Contests
+        </Link>
+        <Link
+          to="/about"
+          className="btn btn-primary btn-outline btn-md md:btn-lg rounded-full md:px-8"
+        >
+          Learn More
+        </Link>
       </div>
     </div>
   );

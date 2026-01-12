@@ -6,7 +6,6 @@ import Sidebar from "../components/Dashboard/Sidebar";
 
 const DashboardLayout = () => {
   return (
-    <Container>
       <section>
         <div className="drawer lg:drawer-open">
           <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -24,7 +23,6 @@ const DashboardLayout = () => {
         </div>
         <Footer />
       </section>
-    </Container>
   );
 };
 

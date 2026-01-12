@@ -24,7 +24,7 @@ export default function PopularContestsSection({ contests = [], user }) {
     <section className="my-10">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Popular Contests</h2>
-        <Link to="/contests" className="btn btn-outline btn-sm">
+        <Link to="/contests" className="btn btn-ghost btn-sm">
           Show All
         </Link>
       </div>

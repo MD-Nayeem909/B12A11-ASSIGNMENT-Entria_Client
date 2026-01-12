@@ -1,6 +1,6 @@
 import { AiOutlinePieChart } from "react-icons/ai";
+import { FiActivity, FiUsers, FiClock, FiLayers } from "react-icons/fi"; // আরও আইকন
 import StatsCard from "../../../components/Dashboard/OverView/StatsCard/StatsCard";
-// import BestContests from "../../../components/Dashboard/OverView/BestPerformingContests/BestContests";
 import ActiveUsersChart from "../../../components/Dashboard/OverView/ActiveUsersOverview/ActiveUsersPie";
 import ContestStatusChart from "../../../components/Dashboard/OverView/ContestStatusOverview/ContestStatusChart";
 import AllContestReport from "../../../components/Dashboard/OverView/AllContestReports/AllContestReport";
@@ -9,33 +9,41 @@ import axios from "axios";
 import OverallStatisticsChart from "../../../components/Dashboard/OverView/OverallStatisticsChart/OverallStatisticsChart";
 import AdminPaymentHistory from "../../../components/Dashboard/OverView/AdminPaymentHistory/AdminPaymentHistory";
 import useRole from "../../../hooks/useRole";
+import { ShieldCheck } from "lucide-react";
 
 const Dashboard = () => {
   const [role] = useRole();
 
   const {
-    data: stats = [],
+    data: stats = {},
     isLoading,
-    error,
     isError,
+    error,
   } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: async () => {
       const res = await axios(
         import.meta.env.VITE_BASE_URL + "dashboard/stats"
       );
-
       return res.data;
     },
   });
+
   if (isLoading) {
-    return <div className="p-10 text-center">Loading dashboard...</div>;
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+        <span className="loading loading-ring loading-lg text-primary"></span>
+        <p className="font-bold animate-pulse text-base-content/50">
+          Building your dashboard...
+        </p>
+      </div>
+    );
   }
 
   if (isError) {
     return (
-      <div className="p-10 text-red-500">
-        Failed to load dashboard: {error.message}
+      <div className="p-10 text-rose-500 bg-rose-50 rounded-2xl border border-rose-100">
+        Error: {error.message}
       </div>
     );
   }
@@ -49,55 +57,88 @@ const Dashboard = () => {
   } = stats;
 
   return (
-    <div className="drawer lg:drawer-open">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
-        {/* Page content here */}
-        <div className="px-4">
-          {/* Main content */}
-          <div className="flex flex-col gap-8 flex-1 pb-10">
-            {/* Stats + Chart */}
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-              <StatsCard
-                totalCount={totalContests}
-                icon={<AiOutlinePieChart />}
-                title="Total Contests"
-                tag="Manage all contests from one place"
-              />
+    <div className="space-y-8 pb-12 pt-6 px-6">
+      {/* 1. Header Section */}
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
+        <div>
+          <h2 className="text-2xl font-black tracking-tighter uppercase">
+            System <span className="text-primary">Overview</span>
+          </h2>
+          <p className="text-[11px] opacity-40 font-bold uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+            <ShieldCheck size={14} /> Real-time analytics and platform
+            performance
+          </p>
+        </div>
+      </header>
 
-              <StatsCard
-                totalCount={activeContests}
-                title="Active Contests"
-                tag="Currently accepting submissions"
-              />
+      {/* 2. Key Stats Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatsCard
+          totalCount={totalContests}
+          icon={<FiLayers size={24} />}
+          title="Total Contests"
+          tag="Lifetime created"
+        />
+        <StatsCard
+          totalCount={activeContests}
+          icon={<FiActivity size={24} />}
+          title="Active"
+          tag="Currently live"
+          color="text-emerald-500"
+        />
+        <StatsCard
+          totalCount={totalParticipants}
+          icon={<FiUsers size={24} />}
+          title="Participants"
+          tag="Community size"
+        />
+        <StatsCard
+          totalCount={pendingSubmissions}
+          icon={<FiClock size={24} />}
+          title="Pending"
+          tag="Needs review"
+        />
+      </section>
 
-              <StatsCard
-                totalCount={totalParticipants}
-                title="Participants"
-                tag="Total signed-up participants"
-              />
+      {/* 3. Main Analytics Grid (Two Columns) */}
+      <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Large Chart Area */}
+        <div className="xl:col-span-2 space-y-8">
+          {role === "admin" && (
+            <OverallStatisticsChart
+              data={stats.monthlyStats}
+              metric="contests"
+            />
+          )}
 
-              <StatsCard
-                totalCount={pendingSubmissions}
-                title="Pending Submissions"
-                tag="Submissions awaiting review"
-              />
-            </section>
-            {/* Transactions */}
-            {role === "admin" && <AdminPaymentHistory />}
-            {/* Statistics */}
-            {role === "admin" && (
-              <OverallStatisticsChart
-                data={stats.monthlyStats}
-                metric="contests"
-              />
-            )}
-            {role === "admin" && <AllContestReport />}
+          {/* Recent Reports Table */}
+          {role === "admin" && <AllContestReport />}
+        </div>
+
+        {/* Sidebar Charts Area */}
+        <div className="space-y-8">
+          <div className="bg-base-100 p-6 rounded-2xl border border-base-200 shadow-sm">
+            <h3 className="text-sm font-black uppercase tracking-widest mb-6 opacity-40 text-center">
+              User Distribution
+            </h3>
             <ActiveUsersChart />
+          </div>
+
+          <div className="bg-base-100 p-6 rounded-2xl border border-base-200 shadow-sm">
+            <h3 className="text-sm font-black uppercase tracking-widest mb-6 opacity-40 text-center">
+              Contest Status
+            </h3>
             <ContestStatusChart status={contestStatus} />
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 4. Full Width Transactions Section */}
+      {role === "admin" && (
+        <section className="pt-4">
+          <AdminPaymentHistory />
+        </section>
+      )}
     </div>
   );
 };

@@ -4,95 +4,117 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
-const ContestStatusChart = ({status}) => {
-  // Sample contest data (you can replace with real DB data)
-  const data = status.map(s => ({
+const ContestStatusChart = ({ status = [] }) => {
+  // ডাটা ফরম্যাটিং
+  const data = status.map((s) => ({
     name: s._id,
     value: s.count,
   }));
 
-  const renderCustomLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-  }) => {
-    const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="#fff"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={12}
-      >
-        {(percent * 100).toFixed(0)}%
-      </text>
-    );
+  // স্ট্যাটাস অনুযায়ী ডাইনামিক কালার ম্যাপ
+  const STATUS_COLORS = {
+    Approved: "#10b981", // Emerald
+    Pending: "#f59e0b", // Amber
+    Ongoing: "#3b82f6", // Blue
+    Rejected: "#ef4444", // Rose
+    Completed: "#6366f1", // Indigo
   };
 
-  const COLORS = [
-    "#8e2de2",
-    "#8627e2",
-    "#7d22e2",
-    "#751ce1",
-    "#6c17e1",
-    "#6411e1",
-    "#5b0be1",
-    "#5306e0",
-    "#4a00e0",
+  // ডিফল্ট কালার যদি কোনো স্ট্যাটাস না মেলে
+  const DEFAULT_COLORS = [
+    "#6366f1",
+    "#a855f7",
+    "#ec4899",
+    "#10b981",
+    "#f59e0b",
   ];
 
-  return (
-    <div className="w-full h-96 bg-base-100 shadow-lg rounded-xl p-6">
-      <h2 className="text-xl font-semibold mb-4">Contest Status Overview</h2>
+  const totalContests = data.reduce((acc, curr) => acc + curr.value, 0);
 
-      <div className="w-full h-[85%]">
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-base-100/90 backdrop-blur-md p-3 border border-base-content/10 shadow-2xl rounded-2xl ring-1 ring-black/5">
+          <p className="text-[10px] font-black uppercase opacity-50 tracking-[0.1em] mb-1">
+            {payload[0].name}
+          </p>
+          <p className="text-sm font-black">
+            {payload[0].value}{" "}
+            <span className="font-normal opacity-60 ml-1">Contests</span>
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="w-full h-100 bg-base-100 rounded-4xl p-6 border border-base-200 relative overflow-hidden group">
+      {/* Header */}
+      <div className="mb-2">
+        <h2 className="text-lg font-black tracking-tighter uppercase">
+          Contest <span className="text-primary">Status</span>
+        </h2>
+        <p className="text-[10px] opacity-40 font-bold uppercase tracking-tight">
+          Current approval & lifecycle stage
+        </p>
+      </div>
+
+      <div className="w-full h-full relative">
+        {/* Center Text for Donut */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+          <p className="text-[10px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">
+            Total
+          </p>
+          <p className="text-3xl font-black italic leading-none">
+            {totalContests}
+          </p>
+        </div>
+
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            {/* Smooth gradient effect */}
-            <defs>
-              <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#8e2de2" />
-                <stop offset="100%" stopColor="#4a00e0" />
-              </linearGradient>
-            </defs>
-
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius="45%"
-              outerRadius="80%"
-              paddingAngle={2}
+              innerRadius="68%"
+              outerRadius="88%"
+              paddingAngle={5}
               dataKey="value"
-              label={({ name, percent }) =>
-                `${name}: ${(percent * 100).toFixed(0)}%`
-              }
-              labelComponent={renderCustomLabel}
+              stroke="none"
+              cornerRadius={8}
+              animationDuration={1800}
             >
-              {data.map((_, index) => (
+              {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                  stroke="none"
+                  fill={
+                    STATUS_COLORS[entry.name] ||
+                    DEFAULT_COLORS[index % DEFAULT_COLORS.length]
+                  }
+                  className="hover:opacity-80 transition-opacity cursor-pointer outline-none shadow-xl"
                 />
               ))}
             </Pie>
 
-            <Tooltip  />
-            <Legend layout="vertical" align="right" />
+            <Tooltip content={<CustomTooltip />} />
+
+            <Legend
+              verticalAlign="bottom"
+              align="center"
+              iconType="circle"
+              iconSize={8}
+              wrapperStyle={{ paddingTop: "20px" }}
+              formatter={(value) => (
+                <span className="text-[10px] font-black uppercase opacity-60 tracking-tighter ml-1">
+                  {value}
+                </span>
+              )}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>

@@ -5,97 +5,129 @@ import {
   FilePlusCorner,
   Pickaxe,
   SquarePen,
+  LayoutDashboard,
 } from "lucide-react";
 import { FaUsersCog } from "react-icons/fa";
 import logo from "../../assets/logo.png";
-import { NavLink } from "react-router";
-import { FiHome } from "react-icons/fi";
+import { NavLink, Link } from "react-router";
 import useRole from "../../hooks/useRole";
 
 export default function Sidebar() {
-  const links = [
+  const [role] = useRole();
+
+  const allLinks = [
     {
-      name: "Homepage",
-      icon: <img src={logo} alt="" className="w-10" />,
-      path: "/",
+      name: "Overview",
+      icon: <LayoutDashboard size={20} />,
+      path: "/dashboard",
+      roles: ["admin", "creator", "user"],
     },
-    { name: "Overview", icon: <FiHome size={20} />, path: "/dashboard" },
-    { name: "My Profile", icon: <Contact size={20} />, path: "my_profile" },
+    {
+      name: "My Profile",
+      icon: <Contact size={20} />,
+      path: "my_profile",
+      roles: ["admin", "creator", "user"],
+    },
+
+    // Admin Links
     {
       name: "Manage Contests",
-      icon: <MdOutlineEditNote size={20} />,
+      icon: <MdOutlineEditNote size={22} />,
       path: "manage_contests",
+      roles: ["admin"],
     },
     {
       name: "Manage Users",
       icon: <FaUsersCog size={20} />,
       path: "manage_users",
+      roles: ["admin"],
     },
+
+    // Creator Links
     {
-      name: "Create New Contests",
+      name: "Create Contest",
       icon: <SquarePen size={20} />,
       path: "create_contest_form",
+      roles: ["creator"],
     },
     {
-      name: "My Created Contests",
+      name: "My Created",
       icon: <FilePlusCorner size={20} />,
       path: "created_contests",
+      roles: ["creator"],
     },
+
+    // User Links
     {
-      name: "My Winning Contests",
+      name: "Winning Contests",
       icon: <Crown size={20} />,
       path: "my_winning_contests",
+      roles: ["user"],
     },
     {
-      name: "My Participated Contests",
+      name: "Participated",
       icon: <Pickaxe size={20} />,
       path: "my_participated_contests",
+      roles: ["user"],
     },
   ];
 
-  const [role] = useRole();
-
   return (
-    <div className="drawer-side is-drawer-close:overflow-visible shadow">
+    <div className="drawer-side z-50">
       <label
         htmlFor="my-drawer-4"
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
-      <div className="flex min-h-full flex-col items-start bg-base-100 is-drawer-close:w-14 is-drawer-open:w-64 gap-4">
-        {/* Sidebar content here */}
-        {links.map((link) => {
-          if (
-            (role !== "admin" && link.path === "manage_contests") ||
-            (role !== "admin" && link.path === "manage_users") ||
-            (role !== "creator" && link.path === "create_contest_form") ||
-            (role !== "creator" && link.path === "created_contests") ||
-            (role !== "user" && link.path === "my_winning_contests") ||
-            (role !== "user" && link.path === "my_participated_contests")
-          ) {
-            return null;
-          } else {
-            return (
+
+      <div className="flex flex-col w-64 md:w-72 min-h-full bg-base-100 border-r border-base-200 p-6">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center gap-3 mb-10 px-2">
+          <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
+          <span className="text-xl font-black uppercase">Entria</span>
+        </Link>
+
+        {/* Navigation Links */}
+        <nav className="grow space-y-1">
+          <p className="text-[10px] font-bold text-base-content/40 uppercase tracking-[0.2em] mb-4 px-3">
+            Main Menu
+          </p>
+
+          {allLinks
+            .filter((link) => link.roles.includes(role))
+            .map((link) => (
               <NavLink
                 key={link.name}
                 to={link.path}
                 end
-                data-tip={link.name}
                 className={({ isActive }) =>
-                  `${
-                    link.className
-                  } flex items-center gap-3 p-3 rounded-lg transition is-drawer-close:tooltip is-drawer-close:tooltip-right 
-               ${isActive ? "bg-primary text-white" : "hover:bg-base-200"}`
+                  `flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-300 group
+                  ${
+                    isActive
+                      ? "bg-primary text-primary-content shadow-lg shadow-primary/20"
+                      : "hover:bg-base-200 text-base-content/70 hover:text-base-content"
+                  }`
                 }
               >
-                {link.icon}
-                <span className="is-drawer-close:hidden font-medium text-sm">
-                  {link.name}
+                <span className="transition-transform group-hover:scale-110">
+                  {link.icon}
                 </span>
+                <span className="text-sm">{link.name}</span>
               </NavLink>
-            );
-          }
-        })}
+            ))}
+        </nav>
+
+        {/* Sidebar Footer (Optional) */}
+        <div className="mt-auto pt-6 border-t border-base-200">
+          <div className="bg-primary/5 p-4 rounded-2xl">
+            <p className="text-[10px] font-bold text-primary uppercase">
+              Pro Account
+            </p>
+            <p className="text-xs opacity-60 mt-1">
+              Enjoy all premium contest features.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,60 +1,74 @@
 import React from "react";
-import { Trophy, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const WinnerCard = ({ user, rank }) => {
-  const rankStyles = {
-    1: "sunset-animated-gradient border-3 border-yellow-200 shadow-xl scale-110 -translate-y-8",
-    2: "bg-linear-to-r from-purple-600 to-purple-500 text-purple-100 border-3 border-gray-200 shadow-md",
-    3: "bg-linear-to-r from-purple-500 to-purple-600 text-purple-100 border-3 border-gray-200 shadow-md",
+  const rankConfigs = {
+    1: {
+      border: "border-yellow-500",
+      glow: "shadow-[0_0_30px_rgba(234,179,8,0.2)]",
+      scale: "lg:scale-125 z-10 lg:-translate-y-10 order-1 lg:order-2",
+      delay: 0.2, // চ্যাম্পিয়ন আসবে সবার আগে
+    },
+    2: {
+      border: "border-slate-400",
+      scale: "order-2 lg:order-1 lg:translate-y-2",
+      delay: 0.4,
+    },
+    3: {
+      border: "border-amber-700",
+      scale: "order-3 lg:order-3 lg:translate-y-6",
+      delay: 0.6,
+    },
   };
 
-  const rankTextStyles = {
-    1: "text-[#f5f3ff]",
-    2: "text-[#f5f3ff]",
-    3: "text-[#f5f3ff]",
-  };
+  const config = rankConfigs[rank];
 
   return (
-    <div
+    <motion.div
+      // ২. এন্ট্রান্স অ্যানিমেশন
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: config.delay, ease: "easeOut" }}
+      // ৩. হোভার অ্যানিমেশন
+      whileHover={{
+        scale: rank === 1 ? 1.3 : 1.05,
+        rotateZ: rank === 1 ? 1 : 0,
+      }}
       className={`
-      flex relative flex-col items-center p-4 rounded-xl w-35 transition-all duration-300
-      ${rankStyles[rank]}
-      ${rank === 1 ? "z-10" : ""}
-    `}
-    >
-      {/* Rank Badge */}
-      <div
-        className={`
-        absolute -top-4 w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg border-3
-        ${
-          rank === 1
-            ? "bg-yellow-600 text-white shadow-lg"
-            : rank === 2
-            ? "bg-linear-to-r from-purple-500 to-purple-600 text-white"
-            : "bg-linear-to-r from-purple-500 to-purple-600 text-white"
-        }
+        flex items-center lg:flex-col gap-4 lg:gap-0 
+        p-4 lg:p-6 rounded-2xl lg:rounded-[2.5rem] 
+        bg-slate-900/60 backdrop-blur-md border border-white/5 
+        w-full lg:max-w-[180px] transition-all duration-300
+        ${config.scale} ${config.glow || ""}
       `}
-      >
-        {rank}
+    >
+      <div className="relative shrink-0">
+        <motion.div
+          whileHover={{ rotate: 360 }}
+          transition={{ duration: 0.8 }}
+          className={`w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full p-1 border-2 ${config.border}`}
+        >
+          <img
+            src={user.profileImage}
+            alt={user.name}
+            className="w-full h-full rounded-full object-cover"
+          />
+        </motion.div>
+        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-slate-950 border border-white/10 rounded-md text-[9px] font-black text-white italic">
+          #{rank}
+        </span>
       </div>
 
-      <Trophy className={`w-10 h-10 ${rankTextStyles[rank]} mt-2`} />
-
-      {/* Profile Image (using placeholder for dynamic example) */}
-      <img
-        src={user.profileImage}
-        alt={user.name}
-        className="w-16 h-16 rounded-full border-2 border-white mt-3 object-cover"
-      />
-
-      <p className="text-sm font-semibold mt-2">{user.name}</p>
-      <p className={`text-xs font-bold mt-1 ${rankTextStyles[rank]}`}>
-        {user.username}
-      </p>
-      <p className={`text-sm font-extrabold mt-1 ${rankTextStyles[rank]}`}>
-        {user.wins} Wins
-      </p>
-    </div>
+      <div className="text-left lg:text-center mt-0 lg:mt-6 flex-1">
+        <p className="text-white font-bold text-base lg:text-lg leading-tight truncate">
+          {user.name}
+        </p>
+        <p className="text-white/40 text-[10px] uppercase tracking-widest mt-0.5">
+          {user.wins} Wins
+        </p>
+      </div>
+    </motion.div>
   );
 };
 
@@ -62,33 +76,38 @@ const TopWinnersCard = ({ topUsers }) => {
   const [first, second, third] = topUsers;
 
   return (
-    <div className="animated-gradient text-white p-6 md:p-10 rounded-t-2xl shadow-2xl h-full flex flex-col justify-between">
-      {/* Header */}
-      <div className="flex items-center justify-center mb-20">
-        <Users className="w-8 h-8 mr-2 text-yellow-300" />
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wider bg-clip-text text-transparent bg-linear-to-r from-yellow-300 to-white">
-          GIVEAWAY WINNERS
-        </h2>
+    <section className="relative overflow-hidden bg-slate-950 p-6 md:p-12 lg:p-20 rounded-3xl shadow-2xl">
+      {/* Background Animated Glow */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none"
+      />
+
+      <div className="relative z-10 text-center mb-16 lg:mb-28">
+        <motion.h2
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="text-3xl md:text-5xl lg:text-6xl font-black text-white italic tracking-tighter"
+        >
+          TOP <span className="text-yellow-500">WINNERS</span>
+        </motion.h2>
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: "64px" }}
+          className="h-1 bg-yellow-500 mx-auto mt-2 rounded-full"
+        />
       </div>
 
-      {/* Winners List */}
-      <div className="flex justify-center items-end gap-2 sm:gap-4 md:gap-6 mb-12">
-        {second && <WinnerCard user={second} rank={2} />}
+      <div className="relative z-10 flex flex-col lg:flex-row justify-center items-stretch lg:items-end gap-6 lg:gap-8 max-w-4xl mx-auto">
         {first && <WinnerCard user={first} rank={1} />}
+        {second && <WinnerCard user={second} rank={2} />}
         {third && <WinnerCard user={third} rank={3} />}
       </div>
-
-      {/* Footer / CTA */}
-      <div className="text-center mt-auto">
-        <h3 className="text-2xl font-bold mb-2">
-          Congratulations to All Winners
-        </h3>
-        <p className="text-sm opacity-90 mb-6 max-w-sm mx-auto">
-          Thank you for participating in this event. Follow our social media and
-          stay tuned for next giveaway.
-        </p>
-      </div>
-    </div>
+    </section>
   );
 };
 

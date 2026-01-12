@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Trophy, Users, Clock, Info, Link as LinkIcon } from "lucide-react";
 
 export default function ContestDetails() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
   const contest = location.state?.contest;
@@ -18,19 +18,20 @@ export default function ContestDetails() {
   const [submission, setSubmission] = useState("");
 
   useEffect(() => {
-    if (user && contest) {
+    if (contest) {
       axiosSecure.get(`/users/is-registered/${contest._id}`).then((res) => {
         setIsRegistered(res.data.isRegistered);
       });
     }
-  }, [user, contest, axiosSecure]);
+  }, [ contest, axiosSecure]);
 
-  if (!user)
-    return (
-      <div className="text-center py-20 text-xl font-medium">
-        Please Login to view contest details.
-      </div>
-    );
+  // if (!user)
+  //   return (
+  //     <div className="text-center py-20 text-xl font-medium">
+  //       Please Login to view contest details.
+  //     </div>
+  //   );
+  
   if (!contest)
     return <div className="text-center py-20">Contest not found.</div>;
 

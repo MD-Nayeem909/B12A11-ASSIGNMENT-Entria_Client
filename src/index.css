@@ -6,17 +6,22 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
+  prefersdark: false;
+  color-scheme: light;
+  default: true;
   --color-base-100: #ffffff; /* Pure White Background */
-  --color-base-200: #f8fafc; /* Subtle Gray for sections */
-  --color-base-300: #f1f5f9; /* Borders/Dividers */
+  --color-base-200: #f9fafb; /* Subtle Gray for sections */
+  --color-base-300: #e5e7eb; /* Borders/Dividers */
   --color-base-content: #0f172a; /* Deep Navy for Text */
 
   --color-primary: #6366f1; /* Indigo - Professional Brand Color */
   --color-primary-content: #ffffff;
   --color-secondary: #9333ea;
   --color-secondary-content: #ffffff;
-  --color-accent: #f59e0b; /* Amber - Perfect for 'Winner' or 'Prize' labels */
+  --color-accent: #f59e0b;
   --color-accent-content: #ffffff;
+  --color-neutral: #6b7280;
+  --color-neutral-content: #ffffff;
 
   --color-info: #0ea5e9;
   --color-info-content: #0c506e;
@@ -35,6 +40,9 @@
 
 @plugin "daisyui/theme" {
   name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
   --color-base-100: #0f172a; /* Deep Slate Blue-Black */
   --color-base-200: #1e293b; /* Slightly Lighter Slate for Cards */
   --color-base-300: #334155; /* Border colors */
@@ -46,6 +54,8 @@
   --color-secondary-content: #ffffff;
   --color-accent: #fbbf24;
   --color-accent-content: #0f172a;
+  --color-neutral: #9ca3af; /* ডেসক্রিপশনের জন্য ফিকে ধূসর */
+  --color-neutral-content: #111827;
 
   --color-info: #38bdf8;
   --color-success: #34d399;
@@ -81,7 +91,7 @@
 }
 
 .bg-banner {
-  @apply bg-gradient-to-r from-indigo-600 to-purple-600
+  @apply bg-gradient-to-r from-indigo-600 to-purple-600;
 }
 
 /* @keyframes gradient-animation {

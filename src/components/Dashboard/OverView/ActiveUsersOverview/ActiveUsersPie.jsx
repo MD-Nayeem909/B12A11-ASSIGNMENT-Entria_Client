@@ -4,8 +4,8 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 const ActiveUsersPie = () => {
@@ -15,73 +15,80 @@ const ActiveUsersPie = () => {
     { name: "New Users", value: 95 },
   ];
 
-  const renderCustomLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-  }) => {
-    const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const COLORS = ["#6366f1", "#a855f7", "#ec4899"];
+  const total = data.reduce((acc, curr) => acc + curr.value, 0);
 
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="#fff"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={12}
-      >
-        {(percent * 100).toFixed(0)}%
-      </text>
-    );
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-base-100/90 backdrop-blur-sm p-3 border border-base-content/10 shadow-xl rounded-xl">
+          <p className="text-[10px] font-black uppercase opacity-50 tracking-widest">
+            {payload[0].name}
+          </p>
+          <p className="text-sm font-bold">
+            {payload[0].value.toLocaleString()}{" "}
+            <span className="font-normal opacity-70">Users</span>
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
-  const COLORS = ["#8e2de2", "#6411e1", "#4a00e0"];
-
   return (
-    <div className="w-full h-96 bg-base-100 shadow-lg rounded-xl p-6">
-      <h2 className="text-xl font-semibold mb-4">Active Users Overview</h2>
-      <div className="w-full h-[85%]">
+    <div className="w-full h-100 bg-base-100 rounded-4xl p-6 border border-base-200 relative group">
+      <div className="flex justify-between items-start mb-2 px-2">
+        <div>
+          <h2 className="text-lg font-black tracking-tighter">
+            USER <span className="text-primary">DISTRIBUTION</span>
+          </h2>
+          <p className="text-[10px] opacity-40 font-bold uppercase tracking-tight">
+            Active session analysis
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full h-full relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10">
+          <p className="text-[10px] font-black opacity-30 uppercase tracking-[0.2em]">
+            Total
+          </p>
+          <p className="text-2xl font-black italic leading-none">{total}</p>
+        </div>
+
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            {/* Smooth gradient effect */}
-            <defs>
-              <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#8e2de2" />
-                <stop offset="100%" stopColor="#4a00e0" />
-              </linearGradient>
-            </defs>
-
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius="45%"
-              outerRadius="80%"
-              paddingAngle={2}
+              innerRadius="65%"
+              outerRadius="85%"
+              paddingAngle={8}
               dataKey="value"
-              label={({ name, percent }) =>
-                `${name}: ${(percent * 100).toFixed(0)}%`
-              }
-              labelComponent={renderCustomLabel}
+              stroke="none"
+              cornerRadius={10}
+              animationBegin={0}
+              animationDuration={1500}
             >
-              {data.map((_, index) => (
+              {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
-                  stroke="none"
+                  className="hover:opacity-80 transition-opacity cursor-pointer outline-none"
                 />
               ))}
             </Pie>
-
-            <Tooltip />
-            <Legend layout="vertical" align="right" />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend
+              verticalAlign="bottom"
+              iconType="circle"
+              formatter={(value) => (
+                <span className="text-[11px] font-bold uppercase opacity-70 px-2">
+                  {value}
+                </span>
+              )}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>

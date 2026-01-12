@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link2, Mail, MapPinCheck, TextQuote, User } from "lucide-react";
+import {
+  Mail,
+  MapPinCheck,
+  TextQuote,
+  ShieldCheck,
+  Trash2,
+  Edit3,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import DeleteModal from "../../components/common/ModalsButton/DeleteModal";
 import useRole from "../../hooks/useRole";
@@ -26,6 +33,18 @@ const Profile = () => {
     reset,
   } = useForm();
 
+  const { data: profileStats } = useQuery({
+    queryKey: ["profileStats", user?.uid],
+    enabled: !!user?.uid,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.uid}`);
+      return res.data;
+    },
+  });
+
+  console.log(profileStats);
+  
+
   useEffect(() => {
     if (user) {
       reset({
@@ -40,9 +59,8 @@ const Profile = () => {
 
   // Watch displayName for live UI update
   const displayNameWatch = watch("displayName");
-  const photoURL = watch("photoURL");
+  const photoURLWatch = watch("photoURL");
 
-  //  Update Profile Mutation
   const updateMutation = useMutation({
     mutationFn: async (data) => {
       await updateUserProfile(data.displayName, data.photoURL);
@@ -52,20 +70,22 @@ const Profile = () => {
       });
       return res.data;
     },
-
     onSuccess: (updatedUser) => {
-      setUser((user) => ({
-        ...user,
+      setUser((prev) => ({
+        ...prev,
         displayName: displayNameWatch,
-        photoURL,
-        bio: updatedUser?.bio ?? user.bio,
-        address: updatedUser?.address ?? user.address,
+        photoURL: photoURLWatch,
+        bio: updatedUser?.bio ?? prev.bio,
+        address: updatedUser?.address ?? prev.address,
       }));
-      toast.success("Profile updated successfully!");
+      toast.success("Profile updated!");
       setEditMode(false);
     },
     onError: (err) => toast.error(err.message),
   });
+
+  // Handle Profile Update
+  const onSubmit = (data) => updateMutation.mutate(data);
 
   const accountDelete = async () => {
     await axiosSecure.delete(`users/${user.uid}`);
@@ -73,7 +93,7 @@ const Profile = () => {
     navigate("/");
   };
 
-  // 🔥 Delete Account Mutation
+  //  Delete Account Mutation
   const deleteMutation = useMutation({
     mutationFn: accountDelete,
     onSuccess: () => {
@@ -84,217 +104,169 @@ const Profile = () => {
     onError: (err) => toast.error(err.message),
   });
 
-  // Handle Profile Update
-  const onSubmit = (data) => {
-    updateMutation.mutate(data);
-  };
-
   return (
-    <div className="flex justify-center p-4 md:px-8 h-full bg-base-200">
-      <div className="w-full">
-        {/* Header */}
-        <div className="max-w-4xl mx-auto py-10">
-          <h1 className="text-3xl font-bold">Hello, {role} 👋</h1>
-          <p className="text-sm opacity-80 mt-2">
-            Manage your profile and update your information below.
-          </p>
+    <div className="p-4 md:p-10 bg-base-200 min-h-screen">
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tighter uppercase">
+              Profile <span className="text-primary">Settings</span>
+            </h2>
+            <p className="text-[11px] opacity-40 font-bold uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+              <ShieldCheck size={14} /> Manage your personal information
+            </p>
+          </div>
         </div>
 
-        {/* Profile Card */}
-        <div className="bg-base-100 rounded-2xl shadow-xl p-10 max-w-4xl mx-auto flex flex-col items-center md:flex-row gap-10">
-          {/* Left - Image */}
-          <div className="flex flex-col items-center md:w-1/2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Side: Photo & Role */}
+          <div className="bg-base-100 p-8 rounded-3xl shadow-sm border border-base-content/5 flex flex-col items-center">
             <div className="relative">
               <img
-                src={photoURL || user?.photoURL}
+                src={photoURLWatch || user?.photoURL}
+                className="w-32 h-32 rounded-full object-cover border-4 border-base-200 shadow-xl"
                 alt="Profile"
-                className="w-40 h-40 rounded-full object-cover border-4 border-indigo-500 shadow-lg"
               />
+              <div className="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full shadow-lg">
+                <ShieldCheck size={16} />
+              </div>
+            </div>
+            <h2 className="text-xl font-bold mt-4 uppercase tracking-tight">
+              {displayNameWatch || user?.displayName}
+            </h2>
+            <div className="badge badge-primary badge-outline mt-1 font-bold text-[10px] uppercase tracking-widest">
+              {role}
             </div>
 
-            <div>
-              <h2 className="text-xl font-semibold mt-4 text-primary">
-                {displayNameWatch || user?.displayName}
-              </h2>
-              <p className="text-gray-500">{user?.email}</p>
+            <div className="w-full mt-8">
+              {(role === "user" || role?.[0] === "user") && (
+                <WinPercentageChart
+                  participated={profileStats?.participatedCount || 0}
+                  won={profileStats?.wonCount || 0}
+                />
+              )}
             </div>
-            {role[0] === "user" && (
-              <div className="w-full">
-                <WinPercentageChart />
-              </div>
-            )}
           </div>
 
-          {/* Right Section — Form or Display */}
-          <div className="md:w-1/2">
+          {/* Right Side: Form / Display */}
+          <div className="lg:col-span-2 bg-base-100 p-8 rounded-3xl shadow-sm border border-base-content/5">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-bold text-xs uppercase tracking-[0.2em] opacity-30">
+                Personal Details
+              </h3>
+              {!editMode && (
+                <button
+                  onClick={() => setEditMode(true)}
+                  className="btn btn-sm btn-ghost gap-2 font-bold text-[10px] uppercase"
+                >
+                  <Edit3 size={14} /> Edit
+                </button>
+              )}
+            </div>
+
             {editMode ? (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Name Field */}
-                <div>
-                  <label className="text-sm font-semibold text-primary">
-                    Display Name
-                  </label>
-                  <div className="relative">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text font-bold text-[10px] uppercase opacity-50">
+                        Name
+                      </span>
+                    </label>
                     <input
                       {...register("displayName", { required: true })}
-                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 pl-10 mt-2"
-                      placeholder="John Doe"
-                    />
-                    <User
-                      size={20}
-                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                      className="input input-bordered border placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                     />
                   </div>
-                  {errors.displayName && (
-                    <p className="text-red-500 text-sm">Name is required</p>
-                  )}
-                </div>
 
-                {/* PhotoURL Filed */}
-                <div>
-                  <label className="text-sm font-semibold text-primary mb-2">
-                    PhotoURL
-                  </label>
-                  <div className="relative">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text font-bold text-[10px] uppercase opacity-50">
+                        Photo URL
+                      </span>
+                    </label>
                     <input
-                      type="url"
-                      placeholder="Image URL"
-                      {...register("photoURL", {
-                        required: "Image URL is required",
-                        pattern: {
-                          value: /^(https?:\/\/)/i,
-                          message: "Enter a valid image URL",
-                        },
-                      })}
-                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
-                    />
-                    <Link2
-                      size={20}
-                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                      {...register("photoURL", { required: true })}
+                      className="input input-bordered border placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
                     />
                   </div>
-                  {errors.photoURL && (
-                    <p className="text-red-500 text-sm">
-                      {errors.photoURL.message}
-                    </p>
-                  )}
-                </div>
 
-                {/* Bio Filed */}
-                <div>
-                  <label className="text-sm font-semibold text-primary mb-2">
-                    Bio
-                  </label>
-                  <div className="relative">
-                    <textarea
-                      placeholder="Tell something about yourself"
-                      {...register("bio")}
-                      className="textarea textarea-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
-                    />
-                    <TextQuote
-                      size={20}
-                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
-                    />
+                  <div className="form-control md:col-span-2">
+                    <label className="label">
+                      <span className="label-text font-bold text-[10px] uppercase opacity-50">
+                        Bio
+                      </span>
+                    </label>
+                    <div>
+                      <textarea
+                        {...register("bio")}
+                        className="textarea border placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 w-full"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Address Filed */}
-                <div>
-                  <label className="text-sm font-semibold text-primary mb-2">
-                    Address
-                  </label>
-                  <div className="relative">
+                  <div className="form-control md:col-span-2">
+                    <label className="label">
+                      <span className="label-text font-bold text-[10px] uppercase opacity-50">
+                        Address
+                      </span>
+                    </label>
                     <input
-                      placeholder="Add your address"
                       {...register("address")}
-                      className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 mt-2 pl-10"
-                    />
-                    <MapPinCheck
-                      size={20}
-                      className="absolute left-3 top-7 transform -translate-y-1/2 z-10 text-gray-400"
+                      className="input input-bordered border placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 w-full"
                     />
                   </div>
                 </div>
-
-                {/* Email */}
-                <div>
-                  <label className="text-sm font-semibold text-primary">
-                    Email
-                  </label>
-                  <input
-                    {...register("email")}
-                    className="input input-bordered w-full mt-1"
-                    disabled
-                  />
-                </div>
-
-                {/* Buttons */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-4">
                   <button
                     type="submit"
-                    className="btn btn-primary"
                     disabled={updateMutation.isPending}
+                    className="btn btn-primary rounded-xl px-6 font-bold uppercase text-[10px]"
                   >
-                    {updateMutation.isPending ? "Saving..." : "Save Changes"}
+                    Save Changes
                   </button>
-
                   <button
-                    onClick={() => setEditMode(false)}
-                    className="btn bg-rose-500 text-white"
                     type="button"
+                    onClick={() => setEditMode(false)}
+                    className="btn btn-ghost rounded-xl px-6 font-bold uppercase text-[10px]"
                   >
                     Cancel
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <User className="text-indigo-600" />
-                  <p className="text-primary font-medium">
-                    {user?.displayName}
-                  </p>
+              <div className="space-y-6">
+                <DetailRow
+                  icon={<Mail size={16} />}
+                  label="Email Address"
+                  value={user?.email}
+                />
+                <DetailRow
+                  icon={<TextQuote size={16} />}
+                  label="Biography"
+                  value={user?.bio || "No bio added yet."}
+                />
+                <DetailRow
+                  icon={<MapPinCheck size={16} />}
+                  label="Address"
+                  value={user?.address || "Not specified"}
+                />
+
+                <div className="pt-8 border-t border-base-content/5 mt-10">
+                  <button
+                    onClick={() => setDeleteOpen(true)}
+                    className="btn btn-ghost text-rose-500 btn-sm font-bold text-[10px] uppercase tracking-widest hover:bg-rose-500/10 rounded-xl"
+                  >
+                    <Trash2 size={14} /> Delete Account
+                  </button>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <Mail className="text-indigo-600" />
-                  <p className="text-primary font-medium">{user?.email}</p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <TextQuote className="text-indigo-600" />
-                  <p className="text-primary font-medium">
-                    {user?.bio || "No bio added yet"}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <MapPinCheck className="text-indigo-600" />
-                  <p className="text-primary font-medium">
-                    {user?.address || "No address added yet"}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => setEditMode(true)}
-                  className="btn border-2 border-indigo-500 text-primary w-full"
-                >
-                  Update Profile
-                </button>
-
-                <button
-                  onClick={() => setDeleteOpen(true)}
-                  className="btn bg-rose-600 hover:bg-rose-700 text-white w-full"
-                >
-                  Delete Account
-                </button>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       <DeleteModal
         isOpen={deleteOpen}
         onClose={() => setDeleteOpen(false)}
@@ -304,5 +276,18 @@ const Profile = () => {
     </div>
   );
 };
+
+// Internal Helper to avoid Import Errors
+const DetailRow = ({ icon, label, value }) => (
+  <div className="flex items-start gap-4">
+    <div className="p-2 bg-primary/5 text-primary rounded-lg">{icon}</div>
+    <div>
+      <p className="text-[10px] font-bold uppercase opacity-30 tracking-widest">
+        {label}
+      </p>
+      <p className="font-semibold text-sm">{value}</p>
+    </div>
+  </div>
+);
 
 export default Profile;

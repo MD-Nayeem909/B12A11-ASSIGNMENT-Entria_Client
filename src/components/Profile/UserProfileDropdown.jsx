@@ -1,82 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
-import { LayoutDashboard } from "lucide-react";
-import { Link } from "react-router";
-const User = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
-const Settings = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 1v6m0 6v6" />
-    <path d="M1 12h6m6 0h6" />
-  </svg>
-);
-const HelpCircle = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-    <line x1="12" x2="12.01" y1="17" y2="17" />
-  </svg>
-);
-const LogOut = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    <polyline points="16 17 21 12 16 7" />
-    <line x1="21" x2="9" y1="12" y2="12" />
-  </svg>
-);
-const DropdownMenu = ({ children, trigger,className }) => {
+import {
+  LayoutDashboard,
+  User,
+  Settings,
+  HelpCircle,
+  LogOut,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router";
+
+// --- Sub-Components (আগে ডিফাইন করতে হবে) ---
+
+const DropdownMenu = ({ children, trigger }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -84,121 +23,130 @@ const DropdownMenu = ({ children, trigger,className }) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [className]);
-  const handleTriggerClick = (e) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <div onClick={handleTriggerClick} className="cursor-pointer">
+      <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
         {trigger}
       </div>
       {isOpen && (
-        <div
-          className="origin-top-right absolute right-0 mt-2 w-72 rounded-xl shadow-xl bg-white dark:bg-zinc-900 ring-1 ring-black ring-opacity-5 focus:outline-none z-50 animate-in fade-in-0 zoom-in-95 p-2"
-          role="menu"
-          aria-orientation="vertical"
-        >
-          {children}
+        <div className="origin-top-right absolute right-0 mt-3 w-72 rounded-xl shadow-2xl bg-base-100 border border-base-300 ring-1 ring-base-300 ring-opacity-5 focus:outline-none z-50 p-2 animate-in fade-in zoom-in-95">
+          {/* শিশুদের মধ্যে setIsOpen পাস করার জন্য ক্লোন করা যেতে পারে অথবা সিম্পল রাখা যায় */}
+          <div onClick={() => setIsOpen(false)}>{children}</div>
         </div>
       )}
     </div>
   );
 };
-const DropdownMenuItem = ({ children, url, handleClick }) => (
-  <Link
-    to={url}
-    onClick={handleClick}
-    className="text-zinc-700 dark:text-zinc-300 group flex items-center px-3 py-2.5 text-sm rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-150"
-    role="menuitem"
-  >
-    {children}
-  </Link>
-);
-const DropdownMenuSeparator = () => (
-  <div className="my-2 h-px bg-zinc-200 dark:bg-zinc-700" />
-);
+
+const DropdownMenuItem = ({ children, url, onClick }) => {
+  const content = (
+    <div className="group flex items-center px-3 py-2.5 text-sm rounded-lg hover:bg-base-300 transition-colors duration-150 cursor-pointer text-base-content">
+      {children}
+    </div>
+  );
+
+  if (url) {
+    return <Link to={url}>{content}</Link>;
+  }
+  return <div onClick={onClick}>{content}</div>;
+};
+
+const DropdownMenuSeparator = () => <div className="my-2 h-px bg-base-300" />;
+
+// --- Main Component ---
 
 export default function UserProfileDropdown() {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logOut();
-    localStorage.removeItem("token");
-    toast.success("Logout successful!");
-    window.location.href = "/";
+    try {
+      await logOut();
+      localStorage.removeItem("token");
+      toast.success("Logout successful!");
+      navigate("/");
+      // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      toast.error("Logout failed");
+    }
   };
 
   return (
     <div className="flex items-center justify-center">
       <DropdownMenu
         trigger={
-          <button className="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 transition-colors">
+          <button className="flex items-center space-x-3 p-1 rounded-full hover:bg-base-200 transition-all">
             <div className="avatar">
               <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
-                <img src={user?.image || user?.photoURL || user?.photoUrl} />
+                <img
+                  src={
+                    user?.image ||
+                    user?.photoURL ||
+                    "https://ui-avatars.com/api/?name=" + user?.displayName
+                  }
+                  alt="profile"
+                />
               </div>
             </div>
           </button>
         }
-        className={
-          "origin-top-right absolute right-0 mt-2 w-72 rounded-xl shadow-xl bg-base-100 ring-opacity-5 focus:outline-none z-50 animate-in fade-in-0 zoom-in-95 p-2"
-        }
       >
-        <div className="px-3 py-3 border-b border-zinc-200 dark:border-zinc-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-              <div className="avatar">
-                <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
-                  <img src={user?.image || user?.photoURL || user?.photoUrl} />
-                </div>
-              </div>
+        {/* User Info Section */}
+        <div className="flex items-center gap-4 px-4 py-3 border-b border-base-300 mb-1">
+          <div className="avatar">
+            <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
+              <img
+                src={
+                  user?.image ||
+                  user?.photoURL ||
+                  "https://ui-avatars.com/api/?name=" + user?.displayName
+                }
+                alt="profile"
+              />
             </div>
-            <div>
-              <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                {user?.displayName}
-              </div>
-              <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                {user?.email}
-              </div>
-              <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                {user?.role}
-              </div>
-            </div>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-base-content truncate uppercase">
+              {user?.displayName || "Guest User"}
+            </p>
+            <p className="text-xs text-base-content/60 truncate">
+              {user?.email}
+            </p>
+            {user?.role && (
+              <span className="inline-block mt-2 text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase">
+                {user.role}
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="py-1">
+        {/* Menu Items */}
+        <div className="space-y-0.5">
           <DropdownMenuItem url="/dashboard/my_profile">
-            <User className="mr-3 h-4 w-4 text-zinc-500" />
+            <User className="mr-3 h-4 w-4 opacity-70" />
             My Profile
           </DropdownMenuItem>
+
           <DropdownMenuItem url="/dashboard">
-            <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-500" />
+            <LayoutDashboard className="mr-3 h-4 w-4 opacity-70" />
             Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log("Settings")}>
-            <Settings className="mr-3 h-4 w-4 text-zinc-500" />
+
+          <DropdownMenuItem onClick={() => toast("Coming Soon!")}>
+            <Settings className="mr-3 h-4 w-4 opacity-70" />
             Settings
           </DropdownMenuItem>
         </div>
 
         <DropdownMenuSeparator />
 
-        <div className="py-1">
-          <DropdownMenuItem onClick={() => console.log("Help")}>
-            <HelpCircle className="mr-3 h-4 w-4 text-zinc-500" />
-            Help & Support
-          </DropdownMenuItem>
-          <DropdownMenuItem handleClick={handleLogout}>
-            <LogOut className="mr-3 h-4 w-4 text-zinc-500" />
-            Sign Out
-          </DropdownMenuItem>
-        </div>
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="mr-3 h-4 w-4 text-error" />
+          <span className="text-error font-medium">Sign Out</span>
+        </DropdownMenuItem>
       </DropdownMenu>
     </div>
   );

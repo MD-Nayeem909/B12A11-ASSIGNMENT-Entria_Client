@@ -1,50 +1,57 @@
 import React from "react";
-import { FiBell } from "react-icons/fi";
+import { FiBell, FiMenu } from "react-icons/fi"; // FiMenu যোগ করা হয়েছে মোবাইল টগলের জন্য
 import { GoSidebarCollapse } from "react-icons/go";
-import useAuth from "../../hooks/useAuth";
 import UserProfileDropdown from "../Profile/UserProfileDropdown";
 import Theme from "../common/Theme";
 import { useTheme } from "../../Providers/ThemeProvider";
 import useRole from "../../hooks/useRole";
 
 const DashNav = () => {
-  const { user } = useAuth();
-  const [role, isRoleLoading] = useRole();
+  const [role] = useRole();
   const { theme, toggleTheme } = useTheme();
+
   return (
-    <nav className="navbar w-full bg-base-100 shadow">
-      <label
-        htmlFor="my-drawer-4"
-        aria-label="open sidebar"
-        className="btn btn-square btn-ghost"
-      >
-        {/* Sidebar toggle icon */}
-        <GoSidebarCollapse size={20} />
-      </label>
-      <header className="flex items-center justify-between w-full px-4 ">
-        <div className="flex flex-col items-baseline">
-          <div className="flex flex-col md:flex-row justify-center items-end gap-2">
-            <h2 className="text-2xl font-bold">Welcome back,</h2>
-            <span className="">{role}</span>
-          </div>
-          <p className="text-sm hidden md:block">
-            Here's the activity overview for your contests
-          </p>
+    <nav className="navbar bg-base-100/80 backdrop-blur-md px-4 py-2 border-b border-base-200">
+      <div className="flex-none lg:hidden">
+        {/* মোবাইল ডিভাইসে সাইডবার খোলার জন্য বাটন */}
+        <label htmlFor="my-drawer-4" className="btn btn-square btn-ghost">
+          <FiMenu size={24} />
+        </label>
+      </div>
+
+      <div className="flex-1 flex flex-col items-start ml-2 lg:ml-0">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg md:text-2xl font-black tracking-tight leading-none">
+            Welcome,
+          </h2>
+          <span className="badge badge-primary badge-outline font-bold uppercase text-[10px]">
+            {role}
+          </span>
+        </div>
+        <p className="text-[10px] md:text-sm opacity-50 hidden sm:block">
+          Overview of your contest activities
+        </p>
+      </div>
+
+      <div className="flex-none flex items-center gap-1 md:gap-3">
+        {/* Notifications */}
+        <button className="btn btn-ghost btn-circle btn-sm md:btn-md relative">
+          <FiBell size={20} />
+          <span className="badge badge-xs badge-primary absolute top-2 right-2"></span>
+        </button>
+
+        {/* Theme Toggle */}
+        <div className="p-1">
+          <Theme theme={theme} toggleTheme={toggleTheme} />
         </div>
 
-        <div className="flex items-center gap-4">
-          <button className="btn btn-ghost btn-circle">
-            <FiBell size={18} />
-          </button>
-          <button className="btn btn-ghost btn-circle">
-            <Theme theme={theme} toggleTheme={toggleTheme} />
-          </button>
-          <div className="dropdown dropdown-end">
-            <UserProfileDropdown />
-          </div>
+        {/* User Profile */}
+        <div className="ml-2">
+          <UserProfileDropdown />
         </div>
-      </header>
+      </div>
     </nav>
   );
 };
+
 export default DashNav;

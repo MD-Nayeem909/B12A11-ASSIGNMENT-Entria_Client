@@ -1,5 +1,3 @@
-import React from "react";
-import Button from "../common/Button";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Trophy, Rocket, DollarSign } from "lucide-react";
@@ -28,6 +26,13 @@ export default function WinnerAdvertisement() {
     },
   });
 
+  if (isError)
+    return (
+      <p className="text-center text-red-500 mt-10">
+        Failed to load leaderboard
+      </p>
+    );
+
   if (isLoading)
     return (
       <div className="h-96 flex items-center justify-center">
@@ -36,21 +41,21 @@ export default function WinnerAdvertisement() {
     );
 
   return (
-    <section className="py-20 bg-base-200/50 rounded-[3rem] px-6 my-20">
-      <div className="container mx-auto">
+    <section className="rounded-[3rem]">
+      <div className="">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <h2 className="text-3xl lg:text-4xl font-extrabold mb-4 bg-base-content bg-clip-text text-transparent">
             Our Hall of Fame
           </h2>
-          <p className="text-base-content/70 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-base-content/80 max-w-2xl mx-auto text-lg leading-relaxed">
             Meet the creative minds who conquered the spotlight. Your journey to
             success starts here!
           </p>
         </div>
 
         {/* Stats Section with Glassmorphism */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20">
           <StatCard
             icon={<DollarSign className="text-success" />}
             value={`$${statsData.totalPrizeMoney || 0}+`}
@@ -69,14 +74,14 @@ export default function WinnerAdvertisement() {
         </div>
 
         {/* Winners List */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {data.slice(0, 3).map((winner, index) => (
             <div
               key={index}
-              className="group relative bg-base-100 rounded-[2rem] p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-base-300"
+              className="group relative bg-base-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-base-300 text-center"
             >
               {/* Winner Rank Badge */}
-              <div className="absolute -top-4 -right-4 bg-warning text-warning-content w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg border-4 border-base-100 z-10">
+              <div className="absolute -top-4 -right-4 bg-warning text-warning-content w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg border-4 border-base-200 z-10">
                 #{index + 1}
               </div>
 
@@ -115,9 +120,9 @@ export default function WinnerAdvertisement() {
 
 // Sub-component for Stats
 const StatCard = ({ icon, value, label }) => (
-  <div className="bg-base-100 p-8 rounded-3xl flex flex-col items-center border border-base-200 shadow-sm hover:border-primary/30 transition-colors">
-    <div className="p-4 bg-base-200 rounded-2xl mb-4">{icon}</div>
-    <p className="text-4xl font-black">{value}</p>
+  <div className="bg-base-200 p-8 rounded-3xl flex flex-col items-center border border-base-300 shadow transition-colors">
+    <div className="p-4 bg-base-100 border-2 border-base-300 rounded-2xl shadow mb-4">{icon}</div>
+    <p className="text-4xl text-base-content font-black">{value}</p>
     <p className="text-base-content/60 font-medium">{label}</p>
   </div>
 );

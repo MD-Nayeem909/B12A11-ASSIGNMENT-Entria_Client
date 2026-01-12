@@ -92,34 +92,18 @@ const FAQ = forwardRef(
     const colorSchemes = {
       blue: {
         gradient: "from-blue-600 via-purple-600 to-indigo-600",
-        accent: "text-blue-600",
-        border: "border-blue-200",
+        accent: "text-base-content",
+        border: "border-base-300",
         hover: "hover:border-blue-300",
-        bg: "bg-blue-50",
-        searchBg: "bg-blue-100",
-      },
-      purple: {
-        gradient: "from-purple-600 via-pink-600 to-rose-600",
-        accent: "text-purple-600",
-        border: "border-purple-200",
-        hover: "hover:border-purple-300",
-        bg: "bg-purple-50",
-        searchBg: "bg-purple-100",
-      },
-      green: {
-        gradient: "from-green-600 via-teal-600 to-cyan-600",
-        accent: "text-green-600",
-        border: "border-green-200",
-        hover: "hover:border-green-300",
-        bg: "bg-green-50",
-        searchBg: "bg-green-100",
+        bg: "bg-base-200",
+        searchBg: "bg-base-200/90",
       },
     };
     const colors = colorSchemes[colorScheme];
     return (
       <div
         ref={ref}
-        className={cn("w-full max-w-4xl mx-auto p-6 space-y-8", className)}
+        className={cn("w-full max-w-4xl mx-auto space-y-8", className)}
         {...props}
       >
         {}
@@ -135,7 +119,7 @@ const FAQ = forwardRef(
               {title}
             </h2>
           </div>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-base-content/80 text-lg max-w-2xl mx-auto">
             Find answers to common questions. Click on any question to expand.
           </p>
         </div>
@@ -144,7 +128,7 @@ const FAQ = forwardRef(
         {searchable && (
           <div className="relative max-w-md mx-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
-              <SearchIcon />
+              <SearchIcon className="w-6 h-6 text-base-100/60" />
             </div>
             <input
               type="text"
@@ -155,7 +139,7 @@ const FAQ = forwardRef(
                 "w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-opacity-20 transition-all duration-300 transform hover:scale-105",
                 colors.border,
                 colors.searchBg,
-                "focus:ring-blue-500"
+                "focus:ring-primary"
               )}
               aria-label="Search FAQs"
             />
@@ -179,7 +163,7 @@ const FAQ = forwardRef(
               >
                 <button
                   onClick={() => toggleItem(index)}
-                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300"
+                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-4 focus:ring-base-300 transition-all duration-300"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${index}`}
                 >
@@ -187,14 +171,14 @@ const FAQ = forwardRef(
                     <div className="flex items-center space-x-4">
                       <div
                         className={cn(
-                          "w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm transition-transform duration-300",
+                          "w-8 h-8 rounded-full flex items-center justify-center text-base-content font-bold text-sm transition-transform duration-300",
                           colors.gradient,
                           isOpen ? "rotate-12" : ""
                         )}
                       >
                         {displayIndex}
                       </div>
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                      <h3 className="text-lg md:text-xl font-semibold text-base-content/60 group-hover:text-base-content transition-colors duration-300">
                         {faq.question}
                       </h3>
                     </div>
@@ -218,8 +202,8 @@ const FAQ = forwardRef(
                 >
                   <div className="px-6 pb-6">
                     <div className="pl-12">
-                      <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-4"></div>
-                      <p className="text-gray-700 leading-relaxed text-base md:text-lg animate-fadeIn">
+                      <div className="w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent mb-4"></div>
+                      <p className="text-base-content/60 leading-relaxed text-base md:text-lg animate-fadeIn">
                         {faq.answer}
                       </p>
                     </div>

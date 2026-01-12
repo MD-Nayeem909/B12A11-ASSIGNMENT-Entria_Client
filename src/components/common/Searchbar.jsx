@@ -9,7 +9,7 @@ const Searchbar = ({ search, setSearch }) => {
         placeholder="Search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="input bg-base-200 input-bordered  pl-10 w-full md:w-64 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ease-in-out"
+        className="input bg-base-200 input-bordered  pl-10 w-full md:w-64 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ease-in-out"
       />
     </div>
   );

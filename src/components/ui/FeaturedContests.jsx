@@ -17,7 +17,7 @@ const FeaturedContests = () => {
   });
 
   return (
-    <section className="py-16 container mx-auto px-4">
+    <section className="container mx-auto">
       {/* Header Section */}
       <div className="flex flex-col gap-4 text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-base-content">

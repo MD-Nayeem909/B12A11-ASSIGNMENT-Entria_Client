@@ -36,7 +36,7 @@ const sampleFaqs = [
 
 const FaqView = () => {
   return (
-    <div className="space-y-12">
+    <div id="faqs" className="">
       {/* Accordion View */}
       <div>
         <FAQ faqs={sampleFaqs} colorScheme="blue" searchable />
