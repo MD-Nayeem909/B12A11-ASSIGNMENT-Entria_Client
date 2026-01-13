@@ -5,7 +5,6 @@ import useAuth from "../../hooks/useAuth";
 import UserProfileDropdown from "../Profile/UserProfileDropdown";
 import toast from "react-hot-toast";
 import LogoIcon from "../common/LogoIcon";
-// এখানে ArrowRight, X, এবং Menu অবশ্যই থাকতে হবে
 import { Sun, Moon, Menu, X, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -58,7 +57,7 @@ const Navbar = () => {
   const visibleLinks = navLinks.filter((link) => link.public || !!user);
 
   const linkStyles = ({ isActive }) =>
-    `text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-200 hover:text-primary ${
+    `text-[11px] font-bold hover:font-black uppercase tracking-[0.2em] transition-all duration-200 hover:text-primary ${
       isActive
         ? "text-primary border-b-2 border-primary pb-1"
         : "text-base-content/60"
@@ -149,7 +148,7 @@ const Navbar = () => {
                     to={link.path}
                     onClick={() => setIsMenuOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center justify-between p-4 rounded-2xl text-[11px] font-bold uppercase tracking-[0.15em] transition-all ${
+                      `flex items-center justify-between p-4 rounded-2xl text-[11px] font-bold hover:font-black uppercase tracking-[0.15em] transition-all ${
                         isActive
                           ? "bg-primary text-primary-content shadow-lg shadow-primary/20"
                           : "bg-base-300/30 text-base-content/70 hover:bg-base-300"
