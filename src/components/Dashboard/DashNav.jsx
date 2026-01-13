@@ -1,17 +1,42 @@
-import React from "react";
-import { FiBell, FiMenu } from "react-icons/fi"; // FiMenu যোগ করা হয়েছে মোবাইল টগলের জন্য
-import { GoSidebarCollapse } from "react-icons/go";
+import React, { useEffect, useState } from "react";
+import { FiBell, FiMenu } from "react-icons/fi";
 import UserProfileDropdown from "../Profile/UserProfileDropdown";
 import Theme from "../common/Theme";
 import { useTheme } from "../../Providers/ThemeProvider";
 import useRole from "../../hooks/useRole";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DashNav = () => {
   const [role] = useRole();
   const { theme, toggleTheme } = useTheme();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 200) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", controlNavbar);
+    return () => {
+      window.removeEventListener("scroll", controlNavbar);
+    };
+  }, [lastScrollY]);
 
   return (
-    <nav className="navbar bg-base-100/80 backdrop-blur-md px-4 py-2 border-b border-base-200">
+    <motion.nav
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : -100 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="navbar bg-base-100/80 backdrop-blur-md px-4 py-2 border-b border-base-200"
+    >
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-4" className="btn btn-square btn-ghost">
           <FiMenu size={24} />
@@ -49,7 +74,7 @@ const DashNav = () => {
           <UserProfileDropdown />
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
