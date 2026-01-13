@@ -25,13 +25,13 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-24 bg-base-200/30">
+    <section className="">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-black italic uppercase tracking-tighter">
+          <h2 className="text-4xl font-black uppercase tracking-tighter">
             Winner <span className="text-primary">Stories</span>
           </h2>
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 mt-2">
+          <p className="text-base-content/80 max-w-2xl mx-auto text-lg leading-relaxed">
             What our champions say about us
           </p>
         </div>
@@ -40,7 +40,7 @@ const Testimonials = () => {
           {reviews.map((rev, i) => (
             <div
               key={i}
-              className="bg-base-100 p-8 rounded-[2.5rem] shadow-sm border border-base-content/5 relative group hover:-translate-y-2 transition-all duration-500"
+              className="bg-base-200/40 p-8 rounded-[2.5rem] shadow-sm border border-base-300 relative group hover:-translate-y-2 transition-all duration-500"
             >
               <Quote
                 className="absolute top-8 right-8 text-primary/10 group-hover:text-primary/20 transition-colors"

@@ -5,7 +5,7 @@ const ContestCard = ({ handleDetails, contest }) => {
   return (
     <div
       key={contest._id}
-      className="group card bg-base-200 border border-base-300 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden"
+      className="group card bg-base-200/50 border border-base-300 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden"
     >
       {/* Image Container with Badge Overlay */}
       <figure className="relative h-52 overflow-hidden">

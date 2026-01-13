@@ -78,7 +78,7 @@ export default function WinnerAdvertisement() {
           {data.slice(0, 3).map((winner, index) => (
             <div
               key={index}
-              className="group relative bg-base-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-base-300 text-center"
+              className="group relative bg-base-200/40 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-base-300 text-center"
             >
               {/* Winner Rank Badge */}
               <div className="absolute -top-4 -right-4 bg-warning text-warning-content w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg border-4 border-base-200 z-10">
@@ -120,7 +120,7 @@ export default function WinnerAdvertisement() {
 
 // Sub-component for Stats
 const StatCard = ({ icon, value, label }) => (
-  <div className="bg-base-200 p-8 rounded-3xl flex flex-col items-center border border-base-300 shadow transition-colors">
+  <div className="bg-base-200/40 p-8 rounded-3xl flex flex-col items-center border border-base-300 shadow transition-colors">
     <div className="p-4 bg-base-100 border-2 border-base-300 rounded-2xl shadow mb-4">{icon}</div>
     <p className="text-4xl text-base-content font-black">{value}</p>
     <p className="text-base-content/60 font-medium">{label}</p>

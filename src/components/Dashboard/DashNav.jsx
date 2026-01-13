@@ -13,7 +13,6 @@ const DashNav = () => {
   return (
     <nav className="navbar bg-base-100/80 backdrop-blur-md px-4 py-2 border-b border-base-200">
       <div className="flex-none lg:hidden">
-        {/* মোবাইল ডিভাইসে সাইডবার খোলার জন্য বাটন */}
         <label htmlFor="my-drawer-4" className="btn btn-square btn-ghost">
           <FiMenu size={24} />
         </label>
@@ -37,7 +36,7 @@ const DashNav = () => {
         {/* Notifications */}
         <button className="btn btn-ghost btn-circle btn-sm md:btn-md relative">
           <FiBell size={20} />
-          <span className="badge badge-xs badge-primary absolute top-2 right-2"></span>
+          <span className="badge badge-xs badge-primary absolute top-1 right-1"></span>
         </button>
 
         {/* Theme Toggle */}

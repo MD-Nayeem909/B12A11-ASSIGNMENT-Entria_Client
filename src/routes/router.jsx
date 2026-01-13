@@ -28,6 +28,9 @@ import CheckoutPage from "../pages/Payment/CheckoutPage";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Payment/PaymentCancel";
 import CreatorRoute from "./CreatorRoute";
+import AboutUsPage from "../pages/AboutUs/AboutUsPage";
+import ContactUsPage from "../pages/ContactUs/ContactUsPage";
+import SupportPage from "../pages/Support/SupportPage";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +70,18 @@ const router = createBrowserRouter([
       {
         path: "/leaderboard",
         element: <LeaderboardPage />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUsPage />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUsPage />,
+      },
+      {
+        path: "/support",
+        element: <SupportPage />,
       },
     ],
   },

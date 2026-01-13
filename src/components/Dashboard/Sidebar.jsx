@@ -82,7 +82,7 @@ export default function Sidebar() {
 
       <div className="flex flex-col w-64 md:w-72 min-h-full bg-base-100 border-r border-base-200 p-6">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-3 mb-10 px-2">
+        <Link to="/" className="flex items-center gap-3 mt-15 lg:mt-0 mb-10 px-2">
           <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
           <span className="text-xl font-black uppercase">Entria</span>
         </Link>

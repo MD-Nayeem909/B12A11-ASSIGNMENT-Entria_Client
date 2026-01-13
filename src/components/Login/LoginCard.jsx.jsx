@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 const LoginCard = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const { user, loading, setLoading, signIn, signInWithGoogle } = useAuth();
 
   const navigate = useNavigate();
@@ -34,6 +34,19 @@ const LoginCard = () => {
     }
   };
 
+  const fillDemoData = (role) => {
+    if (role === "admin") {
+      setValue("email", "admin@entria.com");
+      setValue("password", "Admin@123");
+    } else {
+      setValue("email", "user@entria.com");
+      setValue("password", "User@123");
+    }
+    toast.success(
+      `${role.charAt(0).toUpperCase() + role.slice(1)} data filled!`
+    );
+  };
+
   // Google login
   const handleGoogle = async () => {
     try {
@@ -48,7 +61,7 @@ const LoginCard = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-white dark:bg-black">
+    <div className="min-h-screen flex">
       {/* Left Banner (Desktop Only) */}
       <div className="hidden lg:flex items-center justify-center lg:w-1/2 animated-gradient relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -73,16 +86,37 @@ const LoginCard = () => {
         <div className="max-w-md w-full space-y-6">
           <h2 className="text-3xl font-bold text-center">Sign in</h2>
 
+          {/* Demo Credentials Section */}
+          <div className="p-4 bg-base-200/80 border border-base-300 rounded-2xl">
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-3">
+              Quick Demo Access
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => fillDemoData("user")}
+                className="flex-1 py-2 px-4 bg-base-200 border border-base-300 rounded-xl text-xs font-bold hover:bg-base-300 transition-all"
+              >
+                User Demo
+              </button>
+              <button
+                onClick={() => fillDemoData("admin")}
+                className="flex-1 py-2 px-4 bg-primary/20 border border-primary/10 rounded-xl text-xs font-bold hover:bg-base-300 transition-all"
+              >
+                Admin Demo
+              </button>
+            </div>
+          </div>
+
           {/* Google Login */}
           <SocialLogin handleGoogle={handleGoogle} />
 
           {/* Divider */}
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+              <div className="w-full border-t border-base-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-black text-gray-500 dark:text-gray-400">
+              <span className="px-2 bg-base-300 text-neutral">
                 Or continue with email
               </span>
             </div>
@@ -92,19 +126,19 @@ const LoginCard = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm text-neutral font-bold mb-2">
                 Email
               </label>
               <div className="relative">
-                <span className="absolute left-3 inset-y-0 flex items-center text-gray-400">
+                <span className="absolute left-3 inset-y-0 flex items-center text-neutral">
                   <AtSignIcon />
                 </span>
 
                 <input
                   {...register("email", { required: true })}
                   type="email"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-black text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200"
-                  placeholder="you@example.com"
+                  className="block w-full pl-10 pr-3 py-3 border border-base-300 rounded-lg bg-base-100 text-base-content placeholder-neutral focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-transparent transition-all duration-200"
+                  placeholder="Email"
                 />
               </div>
             </div>
@@ -121,11 +155,11 @@ const LoginCard = () => {
                 <input
                   id="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-400 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900"
+                  className="h-4 w-4 text-primary focus:ring-indigo-500 border-base-300 rounded bg-base-content"
                 />{" "}
                 <label
                   htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                  className="ml-2 block text-sm text-neutral"
                 >
                   {" "}
                   Keep me signed in{" "}
@@ -133,7 +167,7 @@ const LoginCard = () => {
               </div>{" "}
               <Link
                 to="/auth/forgot-password"
-                className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
+                className="text-sm font-medium text-primary/80 hover:text-primary transition-colors"
               >
                 {" "}
                 Forgot password{" "}
@@ -141,17 +175,14 @@ const LoginCard = () => {
             </div>
 
             {/* Submit */}
-            <button className="w-full animated-gradient text-white font-semibold py-3 px-4 rounded-lg hover:from-indigo-700 hover:to-purple-700 dark:hover:from-indigo-600 dark:hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transform transition-all duration-200 hover:scale-[1.01] shadow-lg">
+            <button className="w-full animated-gradient text-white font-semibold py-3 px-4 rounded-lg hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-200 hover:scale-[1.01] shadow-lg">
               Sign in
             </button>
           </form>
 
-          <p className="text-center text-sm">
+          <p className="text-center text-base-content text-sm">
             New here?{" "}
-            <Link
-              className="text-indigo-600 hover:underline"
-              to="/auth/register"
-            >
+            <Link className="text-primary hover:underline" to="/auth/register">
               Create an account
             </Link>
           </p>

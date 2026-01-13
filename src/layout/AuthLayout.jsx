@@ -5,14 +5,14 @@ import Container from "../components/common/Container";
 
 const AuthLayout = () => {
   return (
-    <Container>
+    <div>
       <header>
         <Navbar />
       </header>
       <main className="flex items-center justify-center">
         <Outlet />
       </main>
-    </Container>
+    </div>
   );
 };
 

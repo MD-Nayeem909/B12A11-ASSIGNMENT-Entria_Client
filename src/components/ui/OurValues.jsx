@@ -32,11 +32,11 @@ const OurValues = () => {
     <section className="bg-base-100">
       <div className="container mx-auto">
         {/* Header Part */}
-        <div className="max-w-3xl mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-base-content border-l-4 border-primary pl-6 mb-6">
-            Our values
+        <div>
+          <h2 className="text-3xl md:text-4xl font-extrabold border-l-4 border-primary pl-6 mb-6">
+            Our <span className="text-primary">Values</span>
           </h2>
-          <p className="text-lg text-base-content/80 leading-relaxed">
+          <p className="text-lg text-base-content/80 mb-6 leading-relaxed mt-2">
             Our values are the foundation of our community. They guide how we
             build our platform and support the creators who make it amazing.
           </p>

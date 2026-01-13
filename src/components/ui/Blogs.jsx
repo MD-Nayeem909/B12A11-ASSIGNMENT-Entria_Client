@@ -17,14 +17,14 @@ const Blogs = () => {
   ];
 
   return (
-    <section className="py-24 bg-base-100">
+    <section id="blogs" className="py-24 bg-base-100">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl font-black italic uppercase tracking-tighter">
+            <h2 className="text-3xl font-black uppercase tracking-tighter">
               Latest <span className="text-primary">Insights</span>
             </h2>
-            <p className="text-xs font-bold opacity-40 uppercase tracking-widest mt-2">
+            <p className="text-base-content/80 max-w-2xl mx-auto text-lg leading-relaxed">
               Read and learn from the pros
             </p>
           </div>

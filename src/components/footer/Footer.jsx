@@ -1,5 +1,4 @@
 import React from "react";
-import { Facebook } from "lucide-react";
 import LogoIcon from "../common/LogoIcon";
 import { FaFacebook, FaGithub, FaLinkedinIn } from "react-icons/fa";
 const Footer = () => {
@@ -52,47 +51,10 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#about"
                 className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
               >
-                About Us
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
-              >
-                Portfolio
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
-              >
-                Blog
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold">Resources</h3>
-          <ul className="space-y-3">
-            <li>
-              <a
-                href="#"
-                className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
-              >
-                Support
+                About
               </a>
             </li>
             <li>
@@ -105,26 +67,39 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="#blogs"
                 className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
               >
-                Privacy Policy
+                Blog
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold">Resources</h3>
+          <ul className="space-y-3">
+            <li>
+              <a
+                href="support"
+                className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
+              >
+                Support
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="about-us"
                 className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
               >
-                Terms of Service
+                About Us
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="contact-us"
                 className=" hover:text-blue-600 dark:hover:text-teal-400 transition-colors duration-300"
               >
-                Careers
+                Contact Us
               </a>
             </li>
           </ul>
